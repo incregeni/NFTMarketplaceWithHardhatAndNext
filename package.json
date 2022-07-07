@@ -1,0 +1,26 @@
+{
+  "name": "nft-marketplace",
+  "version": "1.0.0",
+  "description": "NFT Marketplace",
+  "main": "index.js",
+  "repository": "git@github.com:elPoeta/nft-marketplace.git",
+  "author": "Leonardo Tosetto <leonardo.a.tosetto@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.6",
+    "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@openzeppelin/contracts": "^4.7.0",
+    "@typechain/ethers-v5": "^10.1.0",
+    "@typechain/hardhat": "^6.1.2",
+    "@types/chai": "^4.3.1",
+    "@types/mocha": "^9.1.1",
+    "chai": "^4.3.6",
+    "dotenv": "^16.0.1",
+    "ethereum-waffle": "^3.4.4",
+    "ethers": "^5.6.9",
+    "hardhat": "^2.9.9",
+    "ts-node": "^10.8.2",
+    "typechain": "^8.1.0",
+    "typescript": "^4.7.4"
+  }
+}
