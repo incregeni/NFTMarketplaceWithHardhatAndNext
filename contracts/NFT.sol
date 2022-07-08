@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.11;
+pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
@@ -20,7 +20,7 @@ contract NFT is ERC721URIStorage {
         uint256 newItemId = s_tokenIds.current();
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, tokenURI);
-        _setApprovalForAll(s_contractAddress, true);
+        setApprovalForAll(s_contractAddress, true);
         return newItemId;
     }
 }
