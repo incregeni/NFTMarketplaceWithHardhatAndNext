@@ -7,6 +7,9 @@ import type {
   BigNumberish,
   BytesLike,
   CallOverrides,
+  ContractTransaction,
+  Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -25,25 +28,129 @@ import type {
   PromiseOrValue,
 } from "../common";
 
-export interface NFTMarketInterface extends utils.Interface {
-  functions: {
-    "getOwner()": FunctionFragment;
+export declare namespace NFTMarket {
+  export type MarketItemStruct = {
+    itemId: PromiseOrValue<BigNumberish>;
+    nftContract: PromiseOrValue<string>;
+    tokenId: PromiseOrValue<BigNumberish>;
+    seller: PromiseOrValue<string>;
+    owner: PromiseOrValue<string>;
+    price: PromiseOrValue<BigNumberish>;
+    sold: PromiseOrValue<boolean>;
   };
 
-  getFunction(nameOrSignatureOrTopic: "getOwner"): FunctionFragment;
-
-  encodeFunctionData(functionFragment: "getOwner", values?: undefined): string;
-
-  decodeFunctionResult(functionFragment: "getOwner", data: BytesLike): Result;
-
-  events: {
-    "createMarketItem(uint256,address,uint256,address,address,uint256,bool)": EventFragment;
+  export type MarketItemStructOutput = [
+    BigNumber,
+    string,
+    BigNumber,
+    string,
+    string,
+    BigNumber,
+    boolean
+  ] & {
+    itemId: BigNumber;
+    nftContract: string;
+    tokenId: BigNumber;
+    seller: string;
+    owner: string;
+    price: BigNumber;
+    sold: boolean;
   };
-
-  getEvent(nameOrSignatureOrTopic: "createMarketItem"): EventFragment;
 }
 
-export interface createMarketItemEventObject {
+export interface NFTMarketInterface extends utils.Interface {
+  functions: {
+    "buyNFT(address,uint256)": FunctionFragment;
+    "createMarketItem(address,uint256,uint256)": FunctionFragment;
+    "getListingFee()": FunctionFragment;
+    "getMarketItems()": FunctionFragment;
+    "getNFTByOwner()": FunctionFragment;
+    "getNFTBySeller()": FunctionFragment;
+    "getOwner()": FunctionFragment;
+    "setListingFee(uint256)": FunctionFragment;
+  };
+
+  getFunction(
+    nameOrSignatureOrTopic:
+      | "buyNFT"
+      | "createMarketItem"
+      | "getListingFee"
+      | "getMarketItems"
+      | "getNFTByOwner"
+      | "getNFTBySeller"
+      | "getOwner"
+      | "setListingFee"
+  ): FunctionFragment;
+
+  encodeFunctionData(
+    functionFragment: "buyNFT",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createMarketItem",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getListingFee",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getMarketItems",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getNFTByOwner",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getNFTBySeller",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "getOwner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "setListingFee",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+
+  decodeFunctionResult(functionFragment: "buyNFT", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "createMarketItem",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getListingFee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getMarketItems",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getNFTByOwner",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getNFTBySeller",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "getOwner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setListingFee",
+    data: BytesLike
+  ): Result;
+
+  events: {
+    "marketItemNFT(uint256,address,uint256,address,address,uint256,bool)": EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: "marketItemNFT"): EventFragment;
+}
+
+export interface marketItemNFTEventObject {
   itemId: BigNumber;
   nftContract: string;
   tokenId: BigNumber;
@@ -52,13 +159,12 @@ export interface createMarketItemEventObject {
   price: BigNumber;
   sold: boolean;
 }
-export type createMarketItemEvent = TypedEvent<
+export type marketItemNFTEvent = TypedEvent<
   [BigNumber, string, BigNumber, string, string, BigNumber, boolean],
-  createMarketItemEventObject
+  marketItemNFTEventObject
 >;
 
-export type createMarketItemEventFilter =
-  TypedEventFilter<createMarketItemEvent>;
+export type marketItemNFTEventFilter = TypedEventFilter<marketItemNFTEvent>;
 
 export interface NFTMarket extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -87,17 +193,113 @@ export interface NFTMarket extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    buyNFT(
+      nftContract: PromiseOrValue<string>,
+      itemId: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    createMarketItem(
+      nftContract: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      price: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    getListingFee(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    getMarketItems(
+      overrides?: CallOverrides
+    ): Promise<[NFTMarket.MarketItemStructOutput[]]>;
+
+    getNFTByOwner(
+      overrides?: CallOverrides
+    ): Promise<[NFTMarket.MarketItemStructOutput[]]>;
+
+    getNFTBySeller(
+      overrides?: CallOverrides
+    ): Promise<[NFTMarket.MarketItemStructOutput[]]>;
+
     getOwner(overrides?: CallOverrides): Promise<[string]>;
+
+    setListingFee(
+      _price: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
   };
+
+  buyNFT(
+    nftContract: PromiseOrValue<string>,
+    itemId: PromiseOrValue<BigNumberish>,
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  createMarketItem(
+    nftContract: PromiseOrValue<string>,
+    tokenId: PromiseOrValue<BigNumberish>,
+    price: PromiseOrValue<BigNumberish>,
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  getListingFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getMarketItems(
+    overrides?: CallOverrides
+  ): Promise<NFTMarket.MarketItemStructOutput[]>;
+
+  getNFTByOwner(
+    overrides?: CallOverrides
+  ): Promise<NFTMarket.MarketItemStructOutput[]>;
+
+  getNFTBySeller(
+    overrides?: CallOverrides
+  ): Promise<NFTMarket.MarketItemStructOutput[]>;
 
   getOwner(overrides?: CallOverrides): Promise<string>;
 
+  setListingFee(
+    _price: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
+    buyNFT(
+      nftContract: PromiseOrValue<string>,
+      itemId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    createMarketItem(
+      nftContract: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      price: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    getListingFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getMarketItems(
+      overrides?: CallOverrides
+    ): Promise<NFTMarket.MarketItemStructOutput[]>;
+
+    getNFTByOwner(
+      overrides?: CallOverrides
+    ): Promise<NFTMarket.MarketItemStructOutput[]>;
+
+    getNFTBySeller(
+      overrides?: CallOverrides
+    ): Promise<NFTMarket.MarketItemStructOutput[]>;
+
     getOwner(overrides?: CallOverrides): Promise<string>;
+
+    setListingFee(
+      _price: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   filters: {
-    "createMarketItem(uint256,address,uint256,address,address,uint256,bool)"(
+    "marketItemNFT(uint256,address,uint256,address,address,uint256,bool)"(
       itemId?: PromiseOrValue<BigNumberish> | null,
       nftContract?: PromiseOrValue<string> | null,
       tokenId?: PromiseOrValue<BigNumberish> | null,
@@ -105,8 +307,8 @@ export interface NFTMarket extends BaseContract {
       owner?: null,
       price?: null,
       sold?: null
-    ): createMarketItemEventFilter;
-    createMarketItem(
+    ): marketItemNFTEventFilter;
+    marketItemNFT(
       itemId?: PromiseOrValue<BigNumberish> | null,
       nftContract?: PromiseOrValue<string> | null,
       tokenId?: PromiseOrValue<BigNumberish> | null,
@@ -114,14 +316,66 @@ export interface NFTMarket extends BaseContract {
       owner?: null,
       price?: null,
       sold?: null
-    ): createMarketItemEventFilter;
+    ): marketItemNFTEventFilter;
   };
 
   estimateGas: {
+    buyNFT(
+      nftContract: PromiseOrValue<string>,
+      itemId: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    createMarketItem(
+      nftContract: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      price: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    getListingFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getMarketItems(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getNFTByOwner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getNFTBySeller(overrides?: CallOverrides): Promise<BigNumber>;
+
     getOwner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    setListingFee(
+      _price: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    buyNFT(
+      nftContract: PromiseOrValue<string>,
+      itemId: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    createMarketItem(
+      nftContract: PromiseOrValue<string>,
+      tokenId: PromiseOrValue<BigNumberish>,
+      price: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    getListingFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getMarketItems(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getNFTByOwner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getNFTBySeller(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getOwner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    setListingFee(
+      _price: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
   };
 }
