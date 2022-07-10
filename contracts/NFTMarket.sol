@@ -197,10 +197,9 @@ contract NFTMarket is ReentrancyGuard {
         return s_listingFee;
     }
 
-    function setListingFee(uint256 _price) public returns (uint256) {
+    function setListingFee(uint256 _price) public {
         if (msg.sender != s_owner)
             revert NFTMarket__SetListingFee({message: "Premission denied"});
         s_listingFee = _price;
-        return s_listingFee;
     }
 }
