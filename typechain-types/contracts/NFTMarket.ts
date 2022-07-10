@@ -295,7 +295,7 @@ export interface NFTMarket extends BaseContract {
     setListingFee(
       _price: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<void>;
   };
 
   filters: {

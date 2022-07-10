@@ -41,5 +41,20 @@ describe("NFTMarket", function () {
       const fee = ethers.utils.formatEther(listingFee);
       assert.equal(fee, "0.0025");
     });
+
+    it("set valid listing fee", async () => {
+      const price = ethers.utils.parseUnits("0.005", "ether");
+      await market.setListingFee(price);
+      const listingFee = (await market.getListingFee()).toString();
+      const fee = ethers.utils.formatEther(listingFee);
+      assert.equal(fee, "0.005");
+    });
+
+    it("denied listing fee", async () => {
+      const price = ethers.utils.parseUnits("0.005", "ether");
+      await expect(
+        market.connect(buyer).setListingFee(price)
+      ).to.be.revertedWith("NFTMarket__SetListingFee");
+    });
   });
 });
