@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 error NFTMarket__Price(string message);
 error NFTMarket__ListingFee(uint256 requiered, string message);
+error NFTMarket__SetListingFee(string message);
 
 contract NFTMarket is ReentrancyGuard {
     event marketItemNFT(
@@ -197,9 +198,9 @@ contract NFTMarket is ReentrancyGuard {
     }
 
     function setListingFee(uint256 _price) public returns (uint256) {
-        if (msg.sender == address(this)) {
-            s_listingFee = _price;
-        }
+        if (msg.sender != s_owner)
+            revert NFTMarket__SetListingFee({message: "Premission denied"});
+        s_listingFee = _price;
         return s_listingFee;
     }
 }
