@@ -3,6 +3,13 @@
   "version": "1.0.0",
   "description": "NFT Marketplace",
   "main": "index.js",
+  "scripts": {
+    "deploy:local": "hardhat run --network localhost scripts/deploy.ts",
+    "test": "yarn hardhat test",
+    "compile": "yarn hardhat compile",
+    "start:localNode": "yarn hardhat node",
+    "clean": "yarn hardhat clean"
+  },
   "repository": "git@github.com:elPoeta/nft-marketplace.git",
   "author": "Leonardo Tosetto <leonardo.a.tosetto@gmail.com>",
   "license": "MIT",
