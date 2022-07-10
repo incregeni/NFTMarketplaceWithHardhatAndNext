@@ -13,6 +13,7 @@ describe("NFTMarket", function () {
   let buyer: SignerWithAddress;
   let accounts: SignerWithAddress[];
   let marketDeployedAddress: string;
+  let nftContractAddress: string;
 
   beforeEach(async () => {
     accounts = await ethers.getSigners();
@@ -26,6 +27,7 @@ describe("NFTMarket", function () {
     NFT = await ethers.getContractFactory("NFT");
     nft = await NFT.deploy(marketDeployedAddress);
     await nft.deployed();
+    nftContractAddress = nft.address;
   });
 
   describe("constructor", function () {
@@ -55,6 +57,21 @@ describe("NFTMarket", function () {
       await expect(
         market.connect(buyer).setListingFee(price)
       ).to.be.revertedWith("NFTMarket__SetListingFee");
+    });
+  });
+
+  describe("create Market Item", function () {
+    it("nft should be created", async () => {
+      const listingFee = (await market.getListingFee()).toString();
+      const auctionPrice = ethers.utils.parseUnits("2", "ether");
+
+      await nft.createToken("https://www.mytokenlocation.com");
+
+      await expect(
+        market.createMarketItem(nftContractAddress, 1, auctionPrice, {
+          value: listingFee,
+        })
+      ).to.emit(market, "marketItemNFT");
     });
   });
 });
