@@ -128,4 +128,42 @@ describe("NFTMarket", function () {
       assert(items.length, "2");
     });
   });
+
+  describe("get NFT By Owner", function () {
+    it("should be list owner items", async () => {
+      const listingFee = (await market.getListingFee()).toString();
+      const auctionPrice = ethers.utils.parseUnits("2", "ether");
+
+      await nft.createToken("https://www.mytokenlocation.com");
+      await nft.createToken("https://www.mytokenlocation.com");
+      await market.createMarketItem(nftContractAddress, 1, auctionPrice, {
+        value: listingFee,
+      });
+      await market.createMarketItem(nftContractAddress, 2, auctionPrice, {
+        value: listingFee,
+      });
+
+      const tx = await market
+        .connect(buyer)
+        .buyNFT(nftContractAddress, 1, { value: auctionPrice });
+      await tx.wait();
+
+      let items = await market.connect(buyer).getNFTByOwner();
+
+      items = await Promise.all(
+        items.map(async (item: any) => {
+          const tokenUri = await nft.tokenURI(item.tokenId);
+
+          return {
+            price: item.price.toString(),
+            tokenId: item.tokenId.toString(),
+            seller: item.seller,
+            owner: item.owner,
+            tokenUri,
+          };
+        })
+      );
+      assert(items[0].owner, buyer.address);
+    });
+  });
 });
