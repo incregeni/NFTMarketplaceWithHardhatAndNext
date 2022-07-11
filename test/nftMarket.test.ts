@@ -1,8 +1,7 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { assert, expect } from "chai";
 import { Contract, ContractFactory } from "ethers";
-import { ethers, network } from "hardhat";
-import { NFT, NFTMarket } from "../typechain-types";
+import { ethers } from "hardhat";
 
 describe("NFTMarket", function () {
   let Market: ContractFactory;
@@ -164,6 +163,44 @@ describe("NFTMarket", function () {
         })
       );
       assert(items[0].owner, buyer.address);
+    });
+  });
+
+  describe("get NFT By Seller", function () {
+    it("should be list seller items", async () => {
+      const listingFee = (await market.getListingFee()).toString();
+      const auctionPrice = ethers.utils.parseUnits("2", "ether");
+
+      await nft.createToken("https://www.mytokenlocation.com");
+      await nft.createToken("https://www.mytokenlocation.com");
+      await market.createMarketItem(nftContractAddress, 1, auctionPrice, {
+        value: listingFee,
+      });
+      await market.createMarketItem(nftContractAddress, 2, auctionPrice, {
+        value: listingFee,
+      });
+
+      const tx = await market
+        .connect(buyer)
+        .buyNFT(nftContractAddress, 1, { value: auctionPrice });
+      await tx.wait();
+
+      let items = await market.getNFTBySeller();
+
+      items = await Promise.all(
+        items.map(async (item: any) => {
+          const tokenUri = await nft.tokenURI(item.tokenId);
+
+          return {
+            price: item.price.toString(),
+            tokenId: item.tokenId.toString(),
+            seller: item.seller,
+            owner: item.owner,
+            tokenUri,
+          };
+        })
+      );
+      assert(items.length, "1");
     });
   });
 });
