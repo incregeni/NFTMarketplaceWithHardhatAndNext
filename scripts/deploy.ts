@@ -1,4 +1,6 @@
 import { ethers } from "hardhat";
+import { writeFileSync } from "fs";
+import * as path from "path";
 
 async function main() {
   const NFTMarket = await ethers.getContractFactory("NFTMarket");
@@ -12,6 +14,26 @@ async function main() {
   await nft.deployed();
 
   console.log("NFT deployed to:", nft.address);
+
+  const marketAbi = {
+    address: market.address,
+    abi: JSON.parse(market.interface.format("json") as string),
+  };
+
+  writeFileSync(
+    path.resolve(__dirname, "../client", "constants", "Marketplace-local.json"),
+    JSON.stringify(marketAbi, null, 2)
+  );
+
+  const nftAbi = {
+    address: nft.address,
+    abi: JSON.parse(nft.interface.format("json") as string),
+  };
+
+  writeFileSync(
+    path.resolve(__dirname, "../client", "constants", "NFT-local.json"),
+    JSON.stringify(nftAbi, null, 2)
+  );
 }
 
 // We recommend this pattern to be able to use async/await everywhere
