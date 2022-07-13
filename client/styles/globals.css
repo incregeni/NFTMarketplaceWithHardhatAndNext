@@ -33,3 +33,20 @@ body,
   z-index: 999;
   opacity: 0.6;
 }
+
+.fadeout {
+  animation: fade 4s infinite;
+}
+
+@keyframes fade {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1;
+  }
+}

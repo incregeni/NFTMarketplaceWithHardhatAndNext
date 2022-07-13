@@ -28,7 +28,7 @@ export const Carousel:NextPage = () => {
       <div className={styles.gradient}></div>
       <div className={styles.imageContainer}>
       <div className='slider'></div>
-        <Image src={images[currentImage]}  layout="fill" objectFit="none" alt="image" />
+        <Image src={images[currentImage]}  layout="fill" objectFit="none" alt="image" className='fadeout' />
       </div>
     </div>
 
