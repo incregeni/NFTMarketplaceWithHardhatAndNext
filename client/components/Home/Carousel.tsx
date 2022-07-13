@@ -8,7 +8,7 @@ import imageFour from '../../assets/carousel-4.jpeg'
 import imageFive from '../../assets/carousel-5.jpeg'
 
 const styles = {
-  container: 'relative w-[100%]',
+  container: 'relative w-[100%] mb-[100px]',
   gradient: 'w-[75%] my-0 mx-auto h-[55vh] bg-gradient-crousel',
   imageContainer: 'box-border block overflow-hidden w-[75%] h-[initial] bg-none opacity-1 p-0 my-0 mx-auto absolute top-0 left-0 bottom-0 right-0 rounded-[20px]',
 }
