@@ -10,7 +10,7 @@ import imageFive from '../../assets/carousel-5.jpeg'
 const styles = {
   container: 'relative w-[100%]',
   gradient: 'w-[75%] my-0 mx-auto h-[55vh] bg-gradient-crousel',
-  imageContainer: 'box-border block overflow-hidden w-[75%] h-[initial] bg-none opacity-1 p-0 my-0 mx-auto absolute top-0 left-0 bottom-0 right-0 rounded-[20px]'
+  imageContainer: 'box-border block overflow-hidden w-[75%] h-[initial] bg-none opacity-1 p-0 my-0 mx-auto absolute top-0 left-0 bottom-0 right-0 rounded-[20px]',
 }
 
 export const Carousel:NextPage = () => {
@@ -22,11 +22,13 @@ export const Carousel:NextPage = () => {
       }, 4000);
       return () => clearInterval(timer);
   }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.gradient}></div>
       <div className={styles.imageContainer}>
-        <Image src={images[currentImage]}  width="82%" height="100%" layout="fill" objectFit="none" alt="image"  />
+      <div className='slider'></div>
+        <Image src={images[currentImage]}  layout="fill" objectFit="none" alt="image" />
       </div>
     </div>
 
