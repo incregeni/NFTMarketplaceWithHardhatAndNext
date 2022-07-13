@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.6",
     "axios": "^0.27.2",
     "ethers": "^5.6.9",
     "ipfs-http-client": "^57.0.3",
