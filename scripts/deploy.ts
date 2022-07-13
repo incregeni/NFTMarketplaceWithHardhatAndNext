@@ -21,7 +21,7 @@ async function main() {
   };
 
   writeFileSync(
-    path.resolve(__dirname, "../client", "constants", "Marketplace-local.json"),
+    path.resolve(__dirname, "../client", "lib", "Marketplace-local.json"),
     JSON.stringify(marketAbi, null, 2)
   );
 
@@ -31,7 +31,7 @@ async function main() {
   };
 
   writeFileSync(
-    path.resolve(__dirname, "../client", "constants", "NFT-local.json"),
+    path.resolve(__dirname, "../client", "lib", "NFT-local.json"),
     JSON.stringify(nftAbi, null, 2)
   );
 }
