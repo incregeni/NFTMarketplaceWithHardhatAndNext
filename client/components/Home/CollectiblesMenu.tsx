@@ -2,6 +2,15 @@ import { NextPage } from 'next'
 import React, { useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 
+const styles = {
+  container: 'flex flex-row items-center justify-between text-white',
+  sort: 'flex flex-row items-center justify-evenly bold',
+  sortButton: 'border-2 border-blue-500 rounded-3xl',
+  icon: 'w-6 h-6 absolute top-2 right-1',
+  dayItems: 'flex items-center justify-center',
+  dayItem : 'p-2 rounded-3xl cursor-pointer bg-[#0f1c39] w-[130px] mx-[10px]',
+  dayItemActive: 'bg-gradient-to-r from-[#1199fa] to-[#11d0fa]',
+}
 export const CollectiblesMenu:NextPage = () => {
   const [dayItems, setDayItems] = useState([
     { id: 'day-item-1', title: 'Today', active: false },
@@ -17,18 +26,30 @@ export const CollectiblesMenu:NextPage = () => {
 
   const [currentSortItem, setCurrentSortIem] = useState(0);
 
+  const handleDayItems = (item:any) => (ev:React.MouseEvent) => {
+    const items = dayItems.map(i => {
+      if(item.id === i.id) {
+        i.active = true;
+      } else {
+        i.active = false;
+      }
+      return i;
+    });
+    setDayItems(items);
+  }
+
   return (
-    <div className='flex flex-row items-center justify-between text-white'>
-      <div className='flex flex-row items-center justify-evenly bold'>
+    <div className={styles.container}>
+      <div className={styles.sort}>
         <div>Sort By</div>
         <div className='ml-3 relative'>
-          <button style={{padding: '5px 25px 5px 8px'}} className=' border-2 border-blue-500 rounded-3xl'>{sortItems[currentSortItem].title}</button>
-          <ChevronDownIcon className='w-6 h-6 absolute top-2 right-1' />
+          <button style={{padding: '5px 25px 5px 8px'}} className={styles.sortButton}>{sortItems[currentSortItem].title}</button>
+          <ChevronDownIcon className={styles.icon} />
         </div>
       </div>
-      <div className=''>
+      <div className={styles.dayItems}>
         {dayItems.map(item =>(
-          <button key={item.id}>{item.title}</button>
+          <button key={item.id} className={`${styles.dayItem} ${item.active ? styles.dayItemActive : '' }`} onClick={handleDayItems(item)}>{item.title}</button>
         ))}
       </div>
     </div>
