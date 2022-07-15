@@ -1,8 +1,5 @@
 import { createContext } from "react";
-
-export type MarketContextType = {
-  isLoading: boolean;
-};
+import { MarketContextType } from "../@types";
 
 export const contextDefaultValues: MarketContextType = {
   isLoading: false,
