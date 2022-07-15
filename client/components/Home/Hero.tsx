@@ -1,9 +1,6 @@
 import { NextPage } from 'next'
 import React from 'react'
-import { Carousel } from './Carousel'
-import { HeroTitle } from './HeroTitle'
-import { NewsLetter } from './NewsLetter'
-import { TopCollectibles } from './TopCollectibles'
+import { Carousel, HeroTitle, NewsLetter, TopCollectibles } from '../../components'
 
 const styles = {
   container: 'bg-gradient'

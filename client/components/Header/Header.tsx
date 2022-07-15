@@ -1,6 +1,6 @@
 
 import { NextPage } from 'next'
-import { NavBar } from './NavBar'
+import { NavBar } from '../../components'
 
 const styles = {
   headerContainer: 'py-[15px] px-[15px] bg-[#0b1426] text-white',

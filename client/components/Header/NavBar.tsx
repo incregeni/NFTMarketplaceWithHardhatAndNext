@@ -1,8 +1,6 @@
 import { NextPage } from 'next'
 import React from 'react'
-import { Brand } from './Brand'
-import { NavMenu } from './NavMenu'
-import { NavSearch } from './NavSearch'
+import { Brand, NavMenu, NavSearch } from '../../components'
 
 const styles = {
   navContainer: 'grid grid-cols-4 items-center justify-center',

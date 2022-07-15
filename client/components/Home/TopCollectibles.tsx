@@ -1,5 +1,5 @@
 import React from 'react'
-import { CollectiblesMenu } from './CollectiblesMenu'
+import { CollectiblesMenu } from '../../components'
 
 export const TopCollectibles = () => {
   return (
