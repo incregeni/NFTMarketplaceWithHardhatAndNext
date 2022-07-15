@@ -1,4 +1,4 @@
-import { Header } from "./Header/Header";
+import { Header } from "../../components";
 
 export const Layout = (props: { children: any }) => {
   return (
