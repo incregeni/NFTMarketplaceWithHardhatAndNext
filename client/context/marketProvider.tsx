@@ -1,12 +1,13 @@
 import { Contract } from 'ethers';
 import { useEffect, useState } from 'react' 
 import { MarketContext, MarketContextType, getMarketContract, getNFTContract } from './index'
+import { EtherumType } from '../@types'
 interface Props {
   children: JSX.Element | JSX.Element[];
 }
 
 export const MarketProvider = ({ children }: Props) => {
-  const [ethereum, setEthereum] = useState(null);
+  const [ethereum, setEthereum] = useState<EtherumType | null>(null);
   const [marketContract, setMarketContract] = useState<Contract | null>(null);
   const [nftContract, setNftContract] = useState<Contract | null>(null);
   const [isLoading, setIsLoading] = useState(false);
