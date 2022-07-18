@@ -1,6 +1,6 @@
 import { Contract } from 'ethers';
 import { useEffect, useState } from 'react' 
-import { MarketContext, MarketContextType, getMarketContract, getNFTContract } from './index'
+import { MarketContext, IMarketContext, getMarketContract, getNFTContract } from './index'
 interface Props {
   children: JSX.Element | JSX.Element[];
 }
@@ -24,12 +24,14 @@ export const MarketProvider = ({ children }: Props) => {
       const accounts = await ethereum.request({ method: 'eth_accounts' });
       if (accounts.length) {
         setSigner(accounts[0]);
-
+        setIsConnected(true);
+        
       } else {
         console.log('No accounts found')
       }
     } catch (error) {
       console.log(error);
+      setIsConnected(false);
       throw new Error('No ethereum object');
     }
   }
@@ -38,9 +40,11 @@ export const MarketProvider = ({ children }: Props) => {
       try {
         const { ethereum } = window;
         const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+        setIsConnected(true);
         setSigner(accounts[0]);
     } catch (error) {
       console.log(error);
+      setIsConnected(false);
       throw new Error('No ethereum object');
     }
   }
@@ -69,6 +73,9 @@ export const MarketProvider = ({ children }: Props) => {
     <MarketContext.Provider
       value={{
         isLoading,
+        isConnected,
+        signer,
+        connectWallet,
       }}
     >
       {children}
