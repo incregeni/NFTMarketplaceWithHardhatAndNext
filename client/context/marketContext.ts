@@ -1,9 +1,12 @@
 import { createContext } from "react";
-import { MarketContextType } from "../@types";
+import { IMarketContext } from "./index";
 
-export const contextDefaultValues: MarketContextType = {
+export const contextDefaultValues: IMarketContext = {
   isLoading: false,
+  isConnected: false,
+  signer: undefined,
+  connectWallet() {},
 };
 
 export const MarketContext =
-  createContext<MarketContextType>(contextDefaultValues);
+  createContext<IMarketContext>(contextDefaultValues);
