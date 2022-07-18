@@ -1,6 +1,6 @@
 import { Contract } from 'ethers';
 import { useEffect, useState } from 'react' 
-import { MarketContext, IMarketContext, getMarketContract, getNFTContract } from './index'
+import { MarketContext, IMarketContext, getMarketContract, getNFTContract, isWalletConnectedHandler, connectWalletHandler } from './index'
 interface Props {
   children: JSX.Element | JSX.Element[];
 }
@@ -15,46 +15,19 @@ export const MarketProvider = ({ children }: Props) => {
   const [nftContract, setNftContract] = useState<Contract | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [hasMetamask, setHasMetamask] = useState(false);
-  const [signer, setSigner] = useState(undefined);
+  const [signer, setSigner] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   
   const isWalletConnected = async () => {
-    try {
-      const { ethereum } = window;
-      const accounts = await ethereum.request({ method: 'eth_accounts' });
-      if (accounts.length) {
-        setSigner(accounts[0]);
-        setIsConnected(true);
-        
-      } else {
-        console.log('No accounts found')
-      }
-    } catch (error) {
-      console.log(error);
-      setIsConnected(false);
-      throw new Error('No ethereum object');
-    }
+    const signer = await isWalletConnectedHandler();
+    setIsConnected( signer ? true : false);
+    setSigner(signer); 
   }
 
   const connectWallet = async () => {
-      try {
-        const { ethereum } = window;
-        const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-        setIsConnected(true);
-        setSigner(accounts[0]);
-    } catch (error) {
-      console.log(error);
-      await window.ethereum.request({
-        method: "wallet_requestPermissions",
-          params: [
-            {
-                eth_accounts: {}
-            }
-        ]
-      });
-      setIsConnected(false);
-      throw new Error('No ethereum object');
-    }
+    const signer = await connectWalletHandler();
+    setIsConnected( signer ? true : false);
+    setSigner(signer); 
   }
 
   useEffect(() => {
