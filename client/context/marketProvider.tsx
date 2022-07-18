@@ -44,6 +44,14 @@ export const MarketProvider = ({ children }: Props) => {
         setSigner(accounts[0]);
     } catch (error) {
       console.log(error);
+      await window.ethereum.request({
+        method: "wallet_requestPermissions",
+          params: [
+            {
+                eth_accounts: {}
+            }
+        ]
+      });
       setIsConnected(false);
       throw new Error('No ethereum object');
     }
