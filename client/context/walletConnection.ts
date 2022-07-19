@@ -1,36 +1,20 @@
-export const isWalletConnectedHandler = async (): Promise<
-  string | undefined
-> => {
-  try {
-    const { ethereum } = window;
-    const accounts = await ethereum.request({ method: "eth_accounts" });
-    if (accounts.length) {
-      return accounts[0];
-    } else {
-      console.log("No accounts found");
-      return undefined;
-    }
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
-};
+import { providers } from "ethers";
+import { MutableRefObject } from "react";
+import Web3Modal from "web3modal";
 
-export const connectWalletHandler = async (): Promise<string | undefined> => {
-  try {
-    const { ethereum } = window;
-    const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-    return accounts[0];
-  } catch (error) {
-    console.log(error);
-    await window.ethereum.request({
-      method: "wallet_requestPermissions",
-      params: [
-        {
-          eth_accounts: {},
-        },
-      ],
-    });
-    return undefined;
+export const getSignerAndProvider = async (
+  web3ModalRef: MutableRefObject<Web3Modal | null>
+): Promise<any> => {
+  if (web3ModalRef.current) {
+    const provider = await web3ModalRef.current.connect();
+    const web3Provider = new providers.Web3Provider(provider);
+    const { chainId } = await web3Provider.getNetwork();
+    console.log("Chain-ID ", chainId);
+    const signer = web3Provider.getSigner();
+    console.log("SIGNER ", signer);
+    console.log("Provider ", provider);
+    return { provider, signer };
+  } else {
+    return null;
   }
 };
