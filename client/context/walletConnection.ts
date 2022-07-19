@@ -8,11 +8,7 @@ export const getSignerAndProvider = async (
   if (web3ModalRef.current) {
     const provider = await web3ModalRef.current.connect();
     const web3Provider = new providers.Web3Provider(provider);
-    const { chainId } = await web3Provider.getNetwork();
-    console.log("Chain-ID ", chainId);
     const signer = web3Provider.getSigner();
-    console.log("SIGNER ", signer);
-    console.log("Provider ", provider);
     return { provider, signer };
   } else {
     return null;
