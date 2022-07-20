@@ -1,4 +1,5 @@
 import { NextPage } from 'next'
+import Link from 'next/link'
 import React, { useContext } from 'react'
 import { MarketContext } from '../../context'
 import { shortenAddress } from '../../utils'
@@ -13,7 +14,7 @@ export const NavMenu:NextPage = () => {
   return (
     <ul className={styles.menu}>
       <li><a className='cursor-pointer'>Marketplace</a></li>
-      <li><a className={styles.menuItem}>Create</a></li>
+      <li><Link href='/create'><a className={styles.menuItem}>Create</a></Link></li>
       <li><a className='cursor-pointer'>|</a></li>
       <li>
         { !isConnected ? <a className={styles.menuItem} onClick={connectWallet}>Connect</a> :
