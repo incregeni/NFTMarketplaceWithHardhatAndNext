@@ -2,8 +2,11 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import React, { useContext, useState } from 'react'
+import { ethers } from 'ethers'
 import { MarketContext } from '../context'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
+import { nftAddress } from '../utils'
+import { useRouter } from 'next/router'
 
 const options = {
   url: 'https://ipfs.infura.io:5001/api/v0'
@@ -25,9 +28,10 @@ const WalletConnect:NextPage = () => {
 }
 
 const Create: NextPage = () => {
-  const { signer, isConnected } = useContext(MarketContext);
+  const { signer, isConnected, nftContract, marketContract } = useContext(MarketContext);
   const [fileUrl, setFileUrl] = useState<string>('')
   const [form, setForm] = useState<NFTForm>({price: '', name: '', description:''})
+  const router = useRouter();
 
   async function onChange(e:React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return; 
@@ -48,7 +52,49 @@ const Create: NextPage = () => {
 }
 
 const createItem = async () => { 
-   console.log('create item')
+  const {name, description, price} = form;
+  if(!name || !description || !price || !fileUrl) {
+      return;
+  }
+  const data = JSON.stringify({
+      name, description, image: fileUrl
+  });
+
+  try{
+      const added = await client.add(data)
+      const url = `https://ipfs.infura.io/ipfs/${added.path}`
+      createSale(url)
+  }catch(error){
+      console.log(`Error uploading file: `, error)
+  }
+}
+
+const createSale = async (url:string) => {
+  if(!nftContract || !marketContract) return;
+  let transaction = await nftContract.createToken(url);
+  let tx = await transaction.wait()
+
+  console.log('Transaction: ',tx)
+  console.log('Transaction events: ',tx.events[0])
+  let event = tx.events[0]
+  let value = event.args[2]
+  let tokenId = value.toNumber()
+
+  const price = ethers.utils.parseUnits(form.price, 'ether')
+
+
+  let listingFee = await marketContract.getListingFee()
+  listingFee = listingFee.toString()
+
+  transaction = await marketContract.createMarketItem(
+      nftAddress, tokenId, price, { value: listingFee }
+  )
+
+  await transaction.wait()
+
+  router.push('/')
+
+
 }
 
   return (
@@ -95,10 +141,13 @@ const createItem = async () => {
                         fileUrl ? ( 
                         <div className='w-[300px] h-[300px]'>
                         <Image
-                            src={fileUrl}
+                             src={fileUrl}
+                            unoptimized
                             alt="Picture of the author"
                             className="rounded mt-4"
                             layout='responsive'
+                            width={300}
+                            height={300}
                           />
                         </div>
                          

@@ -108,6 +108,8 @@ export const MarketProvider = ({ children }: Props) => {
         isLoading,
         isConnected,
         signer,
+        nftContract,
+        marketContract,
         connectWallet,
       }}
     >
