@@ -1,7 +1,7 @@
 import { Contract, ethers } from 'ethers';
 import { useEffect, useRef, useState } from 'react' 
 import Web3Modal from 'web3modal';
-import { MarketContext, IMarketContext, getMarketContract, getNFTContract } from './index'
+import { MarketContext, IMarketContext, getMarketContract, getNFTContract, getListingFee } from './index'
 import { getSignerAndProvider } from './walletConnection';
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -110,6 +110,7 @@ export const MarketProvider = ({ children }: Props) => {
         signer,
         nftContract,
         marketContract,
+        getListingFee,
         connectWallet,
       }}
     >

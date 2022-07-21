@@ -8,6 +8,9 @@ export const contextDefaultValues: IMarketContext = {
   signer: undefined,
   nftContract: null,
   marketContract: null,
+  getListingFee(marketContract: Contract): Promise<string> {
+    return new Promise(() => "");
+  },
   connectWallet() {},
 };
 
