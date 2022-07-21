@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { MarketContext } from '../context'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 const options = {
   url: 'https://ipfs.infura.io:5001/api/v0'
 }
+
 const client = ipfsHttpClient(options);
 
 interface NFTForm  {
@@ -28,24 +29,26 @@ const WalletConnect:NextPage = () => {
 }
 
 const Create: NextPage = () => {
-  const { signer, isConnected, nftContract, marketContract } = useContext(MarketContext);
+  const { signer, isConnected, nftContract, marketContract, getListingFee } = useContext(MarketContext);
   const [fileUrl, setFileUrl] = useState<string>('')
-  const [form, setForm] = useState<NFTForm>({price: '', name: '', description:''})
+  const [form, setForm] = useState<NFTForm>({price: '', name: '', description:''});
+  const [listingFee, setListingFee] = useState('0');
   const router = useRouter();
-
+ 
   async function onChange(e:React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return; 
     const file = e.target.files[0]
     try{ 
-        const added = await client.add(
-            file,
+        const added= await client.add(
+           file,
             {
+                
                 progress: (prog) => console.log(`received: ${prog}`)
             }
         )
-        const url = `https://ipfs.infura.io/ipfs/${added.path}`
-        console.log('URL ',url)
-        setFileUrl(url)
+      const url = `https://ipfs.infura.io/ipfs/${added.path}`
+      console.log('URL ',added)
+      setFileUrl(url)
     }catch(e){
         console.log('Error uploading file: ', e)
     }
@@ -62,8 +65,8 @@ const createItem = async () => {
 
   try{
       const added = await client.add(data)
-      const url = `https://ipfs.infura.io/ipfs/${added.path}`
-      createSale(url)
+    const url = `https://ipfs.infura.io/ipfs/${added.path}`
+    createSale(url)
   }catch(error){
       console.log(`Error uploading file: `, error)
   }
@@ -83,9 +86,7 @@ const createSale = async (url:string) => {
   const price = ethers.utils.parseUnits(form.price, 'ether')
 
 
-  let listingFee = await marketContract.getListingFee()
-  listingFee = listingFee.toString()
-
+  
   transaction = await marketContract.createMarketItem(
       nftAddress, tokenId, price, { value: listingFee }
   )
@@ -96,6 +97,14 @@ const createSale = async (url:string) => {
 
 
 }
+
+useEffect(() => {
+  if(!marketContract) return;
+  (async () => {
+    const fee = await getListingFee(marketContract);
+    setListingFee(fee);
+  })();
+},[]);
 
   return (
     <div className='bg-[#0b1426] text-white'>
@@ -136,6 +145,7 @@ const createSale = async (url:string) => {
                     <button onClick={createItem}
                      className="font-bold mt-4 bg-gradient-to-r from-[#1199fa] to-[#11d0fa]  rounded-md text-white  p-4 shadow-lg"
                      >Create NFT</button>
+                     <h5 className='text-white mt-4'>* Listing Price: {ethers.utils.formatEther(listingFee)} eth</h5>
               </div>
               {
                         fileUrl ? ( 
