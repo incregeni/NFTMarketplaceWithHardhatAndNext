@@ -5,6 +5,7 @@ import { IMarketContext } from "./index";
 export const contextDefaultValues: IMarketContext = {
   isLoading: false,
   isConnected: false,
+  web3Provider: undefined,
   signer: undefined,
   nftContract: null,
   marketContract: null,

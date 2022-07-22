@@ -1,8 +1,12 @@
 import { NextPage } from 'next'
-import React from 'react'
+import { NFTCard } from './NFTCard'
 
 export const NFTCardItems:NextPage = () => {
+
   return (
-    <div>NFTCardItems</div>
+    <div className='bg-gradient grid grid-cols-3 gap-12 py-8'>
+      <NFTCard />
+
+    </div>
   )
 }

@@ -1,4 +1,4 @@
-import { Contract, ethers } from 'ethers';
+import { Contract, ethers, providers } from 'ethers';
 import { useEffect, useRef, useState } from 'react' 
 import Web3Modal from 'web3modal';
 import { MarketContext, IMarketContext, getMarketContract, getNFTContract, getListingFee } from './index'
@@ -17,7 +17,7 @@ export const MarketProvider = ({ children }: Props) => {
   const [marketContract, setMarketContract] = useState<Contract | null>(null);
   const [nftContract, setNftContract] = useState<Contract | null>(null);
   const [isConnected, setIsConnected] = useState(false);
-  const [hasMetamask, setHasMetamask] = useState(false);
+  const [web3Provider, setWeb3Provider] = useState<providers.Web3Provider | undefined>(undefined);
   const [signer, setSigner] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const web3ModalRef = useRef<Web3Modal | null>(null);
@@ -58,15 +58,17 @@ export const MarketProvider = ({ children }: Props) => {
     const accounts =  await provider.listAccounts();
     setIsConnected(true); 
     setSigner(accounts[0]);
+    setWeb3Provider(provider);
     providerEvents(web3ModalRef, proxy)
   }
 
   const connectWallet = async () => {
     try {
-      const { signer, provider } = await getSignerAndProvider(web3ModalRef);
+      const { signer, provider, Web3Provider } = await getSignerAndProvider(web3ModalRef);
       const accounts = await signer.provider.listAccounts();
       setIsConnected(true)
       setSigner(accounts[0]);
+      setWeb3Provider(web3Provider);
       providerEvents(web3ModalRef, provider);
     } catch (error) {
       console.log(" error", error);
@@ -84,14 +86,14 @@ export const MarketProvider = ({ children }: Props) => {
 
   useEffect(() => {
     if(typeof window != 'undefined' && typeof window.ethereum != 'undefined') {
-      setHasMetamask(true);
+     // setHasMetamask(true);
       const { ethereum } = window;
       const marketContract = getMarketContract(ethereum);
       const nftContract = getNFTContract(ethereum);
       setInitialState({ marketContract, nftContract });
     } else {
         alert('Please install Metamask!');
-        setHasMetamask(false);
+       // setHasMetamask(false);
     }
      
   },[]);
@@ -107,6 +109,7 @@ export const MarketProvider = ({ children }: Props) => {
       value={{
         isLoading,
         isConnected,
+        web3Provider,
         signer,
         nftContract,
         marketContract,
