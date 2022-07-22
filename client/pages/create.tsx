@@ -77,21 +77,22 @@ const createSale = async (url:string) => {
   let transaction = await nftContract.createToken(url);
   let tx = await transaction.wait()
 
-  console.log('Transaction: ',tx)
-  console.log('Transaction events: ',tx.events[0])
+  console.log('NFT Transaction: ',tx)
+  console.log('NFT Transaction events: ',tx.events[0])
   let event = tx.events[0]
   let value = event.args[2]
   let tokenId = value.toNumber()
 
   const price = ethers.utils.parseUnits(form.price, 'ether')
-
-
   
   transaction = await marketContract.createMarketItem(
       nftAddress, tokenId, price, { value: listingFee }
   )
 
   await transaction.wait()
+
+  console.log('MARKET Transaction: ',tx)
+  console.log('MARKET Transaction events: ',tx.events[0])
 
   router.push('/')
 
@@ -110,7 +111,7 @@ useEffect(() => {
     <div className='bg-[#0b1426] text-white'>
       <Head>
         <title>Create NFt</title>
-        <meta name="description" content="NFT Marketplace" />
+        <meta name="description" content="NFT Create" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {
@@ -151,7 +152,7 @@ useEffect(() => {
                         fileUrl ? ( 
                         <div className='w-[300px] h-[300px]'>
                         <Image
-                             src={fileUrl}
+                            src={fileUrl}
                             unoptimized
                             alt="Picture of the author"
                             className="rounded mt-4"

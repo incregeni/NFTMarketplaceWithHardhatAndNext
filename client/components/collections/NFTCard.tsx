@@ -1,8 +1,9 @@
-import { NextPage } from 'next'
-import React from 'react'
 
-export const NFTCard:NextPage = () => {
+export const NFTCard = () => {
+
   return (
-    <div>NFTCard</div>
+    <div className='bg-white h-[600px] w-[350px] flex flex-col rounded-2xl'>
+      NFT - Card
+    </div>
   )
 }

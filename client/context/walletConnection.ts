@@ -9,7 +9,7 @@ export const getSignerAndProvider = async (
     const provider = await web3ModalRef.current.connect();
     const web3Provider = new providers.Web3Provider(provider);
     const signer = web3Provider.getSigner();
-    return { provider, signer };
+    return { provider, signer, web3Provider };
   } else {
     return null;
   }
