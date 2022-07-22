@@ -17,6 +17,14 @@ const Dashboard:NextPage = () => {
    })()
   },[balance]);
 
+  const myNFT = () => {
+
+  }
+
+  const NFTSold = () => {
+
+  }
+
   return(
     <div className='bg-gradient py-5'>
       <Head>
@@ -24,18 +32,19 @@ const Dashboard:NextPage = () => {
         <meta name="description" content="NFT Dashboard" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className='text-white'>
-        <div className='flex items-center justify-evenly text-2xl'>
-          <h3>Address: {shortenAddress(signer!)}</h3>
-          <h3>Balance: {balance} eth</h3>
+      <section className='text-white grid grid-cols-[30%_70%] w-[80vw] items-center justify-center my-0 mx-auto'>
+        <div className='flex flex-col items-center justify-evenly text-xl'>
+          <h3 className='py-2'>Address: {shortenAddress(signer!)}</h3>
+          <h3 className='py-2'>Balance: {balance} eth</h3>
         </div>
-        <div>
-          <div>
-            <h2>NFT's</h2>  
+        <div className='flex flex-col items-center justify-center'>
+          <div className='py-4'>
+            <h2 className='text-3xl text-pink-600 text-center py-3'>NFT's</h2>  
+            <hr className='bg-pink-400' />
           </div>
-          <div>
-           <button>My NFT</button>
-           <button>Sold</button> 
+          <div className='flex items-center justify-evenly'>
+           <button className='p-1 w-[120px] border-2 border-blue-600 rounded-3xl hover:bg-gradient-to-r from-[#1199fa] to-[#11D2FA]' onClick={myNFT}>My NFT</button>
+           <button className='p-1 w-[120px] border-2 border-blue-600 rounded-3xl hover:bg-gradient-to-r from-[#1199fa] to-[#11D2FA]' onClick={NFTSold}>Sold</button> 
           </div>
         </div>
       </section>
