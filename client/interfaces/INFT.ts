@@ -1,4 +1,5 @@
 export interface IItem {
+  itemId: string;
   price: string;
   tokenId: string;
   seller: string;
