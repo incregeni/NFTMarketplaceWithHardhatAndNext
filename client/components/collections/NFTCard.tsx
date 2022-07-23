@@ -2,7 +2,7 @@ import { FC } from "react"
 import Image from "next/image"
 import { IItem } from "../../interfaces"
 import {shortenAddress} from '../../utils'
-import { BigNumber, ethers } from "ethers"
+import { ethers } from "ethers"
 
 export const NFTCard:FC<IItem> = (item) => {
   const {image, price, name, seller, tokenId} = item
@@ -59,8 +59,5 @@ export const NFTCard:FC<IItem> = (item) => {
       </div>
     </div>
   )
-}
-function shortAddres(seller: string): import("react").ReactNode {
-  throw new Error("Function not implemented.")
 }
 
