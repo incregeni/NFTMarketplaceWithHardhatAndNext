@@ -19,11 +19,11 @@ const Dashboard:NextPage = () => {
       if(bal)
         setBalance(parseFloat(ethers.utils.formatEther(bal)).toFixed(2))
    })()
-  },[balance]);
+  },[balance, signer]);
 
   useEffect(()=> {
    getNFTs(); 
-  },[]);
+  },[signer]);
   
   const getNFTs = async () => {
     await getNFTItemsBySeller();
