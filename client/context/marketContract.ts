@@ -27,6 +27,7 @@ export const getItems = async (
       const price = ethers.utils.formatUnits(i.price.toString(), "ether");
       const { name, description, image }: IMetaData = meta.data;
       return {
+        itemId: i.itemId,
         price,
         tokenId: i.tokenId,
         seller: i.seller,
