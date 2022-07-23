@@ -9,7 +9,7 @@ import loaderSVG from '../assets/rings.svg';
 import { NFTCardItems } from '../components'
 
 const Dashboard:NextPage = () => {
-  const {signer, web3Provider, getNFTItemsBySeller, NFTItems, soldNFTItems, isLoading, marketContract } = useContext(MarketContext);
+  const {signer, web3Provider, getNFTItemsBySeller, NFTItems, soldNFTItems, isLoading } = useContext(MarketContext);
   const [balance, setBalance] = useState<string>('0');
   const [showNFT, setShowNFT] = useState(true);
   
@@ -61,13 +61,13 @@ const Dashboard:NextPage = () => {
   const NFTS = () => (
      showNFT ? (
        <div>
-        <h4 className='text-xl'>My NFT's</h4>
+        <h4 className='text-xl text-blue-500'>My NFT's</h4>
         {<NFTCardItems items={NFTItems ? NFTItems : []}/>}
        </div>
        ) : 
       (
         <div>
-          <h4 className='text-xl'>Sold NFT's</h4>
+          <h4 className='text-xl text-blue-500'>Sold NFT's</h4>
           {<NFTCardItems items={soldNFTItems ? soldNFTItems : []}/>}
         </div>)
       )
