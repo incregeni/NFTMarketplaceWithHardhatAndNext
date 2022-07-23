@@ -106,6 +106,7 @@ export const MarketProvider = ({ children }: Props) => {
   } 
 
   const getNFTItemsBySeller = async () => {
+    if(!marketContract) return;
      setIsLoading(true);
      const itemsBySeller = await getNFTBySeller(marketContract!);
      const items = await getItems(nftContract!, itemsBySeller);

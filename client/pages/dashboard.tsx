@@ -3,16 +3,15 @@ import type { NextPage } from 'next'
 import  Image from 'next/image'
 import Head from 'next/head'
 import { useContext, useEffect, useState } from 'react'
-import { getNFTBySeller, IItem, MarketContext } from '../context'
+import { IItem, MarketContext } from '../context'
 import { shortenAddress } from '../utils'
 import loaderSVG from '../assets/rings.svg';
+import { NFTCardItems } from '../components'
 
 const Dashboard:NextPage = () => {
-  const {signer, web3Provider, getNFTItemsBySeller, NFTItems, soldNFTItems, isLoading } = useContext(MarketContext);
+  const {signer, web3Provider, getNFTItemsBySeller, NFTItems, soldNFTItems, isLoading, marketContract } = useContext(MarketContext);
   const [balance, setBalance] = useState<string>('0');
-  const [nftItems, setNFTItems] = useState<IItem[] | null>(null);
   const [showNFT, setShowNFT] = useState(true);
-  const [soldNftItems, setSoldNFTItems] = useState<IItem[] | null>(null);
   
   useEffect(() =>{
    (async () => {
@@ -26,14 +25,12 @@ const Dashboard:NextPage = () => {
    getNFTs(); 
   },[]);
   
-  const getNFTs = () => {
-    getNFTItemsBySeller();
-    setNFTItems(NFTItems);
-    setSoldNFTItems(soldNFTItems);
+  const getNFTs = async () => {
+    await getNFTItemsBySeller();
   }
 
   const myNFT = () => {
-     if(!nftItems){
+     if(!NFTItems){
        getNFTs();       
      } else {
         setShowNFT(true);
@@ -41,7 +38,7 @@ const Dashboard:NextPage = () => {
   }
 
   const NFTSold = () => {
-    if(!nftItems){
+    if(!NFTItems){
       getNFTs();       
     } else {
       setShowNFT(false);
@@ -64,14 +61,14 @@ const Dashboard:NextPage = () => {
   const NFTS = () => (
      showNFT ? (
        <div>
-        <h4>My NFT's</h4>
-        {JSON.stringify(nftItems,null,2)}
+        <h4 className='text-xl'>My NFT's</h4>
+        {<NFTCardItems items={NFTItems ? NFTItems : []}/>}
        </div>
        ) : 
       (
         <div>
-          <h4>Sold NFT's</h4>
-         {JSON.stringify(soldNFTItems,null,2)}
+          <h4 className='text-xl'>Sold NFT's</h4>
+          {<NFTCardItems items={soldNFTItems ? soldNFTItems : []}/>}
         </div>)
       )
   
@@ -84,7 +81,7 @@ const Dashboard:NextPage = () => {
       </Head>
       <section className='text-white grid grid-cols-[30%_70%] w-[80vw] items-center justify-center my-0 mx-auto'>
         <div className='flex flex-col items-center justify-evenly text-xl'>
-          <h3 className='py-2'>Address: {shortenAddress(signer!)}</h3>
+          <h3 className='py-2'>Address: {signer && shortenAddress(signer!)}</h3>
           <h3 className='py-2'>Balance: {balance} eth</h3>
         </div>
         <div className='flex flex-col items-center justify-center'>
@@ -99,7 +96,7 @@ const Dashboard:NextPage = () => {
         </div>
       </section>
       <div className='text-white flex items-center justify-center py-5'>
-      { isLoading ? <Loader />  :  <NFTS />    }
+      { isLoading ? <Loader />  : <NFTS />  }
       </div>
     </div>
   )
