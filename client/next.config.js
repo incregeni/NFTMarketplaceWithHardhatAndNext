@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  domains: ["ipfs.infura.io", "ipfs.io", "localhost:5001"],
+  domains: ["ipfs.infura.io", "ipfs.io", "xsgames.co", "joeschmoe.io"],
 };
 
 module.exports = nextConfig;
