@@ -3,17 +3,15 @@ import Image from "next/image"
 import { IItem } from "../../interfaces"
 import {shortenAddress} from '../../utils'
 import { ethers } from "ethers"
+import Link from "next/link"
 
-export const NFTCard:FC<IItem> = (item) => {
+export const NFTCard:FC<IItem> =  (item) => {
   const {image, price, name, seller, itemId} = item
   console.log('item',item)
- const viewNFT = async (event: React.MouseEvent<HTMLDivElement>) => {
-   event.preventDefault();
-   const id = await ethers.BigNumber.from(itemId).toNumber();
-   console.log('ID', id)
- }
+  const id = ethers.BigNumber.from(itemId).toNumber();
   return (
-    <div className='bg-white h-[600px] w-[350px] flex flex-col rounded-2xl cursor-pointer hover:opacity-[0.9]' onClick={viewNFT}>
+    <Link href={`/nft/${id}`}>
+    <div className='bg-white h-[600px] w-[350px] flex flex-col rounded-2xl cursor-pointer hover:opacity-[0.9]'>
       <div className='w-[350px] h-[350px]'>
         <Image
           unoptimized
@@ -58,6 +56,7 @@ export const NFTCard:FC<IItem> = (item) => {
      </i>
       </div>
     </div>
+    </Link> 
   )
 }
 

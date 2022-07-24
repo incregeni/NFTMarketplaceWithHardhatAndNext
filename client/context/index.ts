@@ -8,4 +8,5 @@ export {
   getItems,
   getNFTBySeller,
   getSoldNFT,
+  generateItem,
 } from "./marketContract";

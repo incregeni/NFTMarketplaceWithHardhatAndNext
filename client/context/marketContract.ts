@@ -19,27 +19,34 @@ export const getItems = async (
 ): Promise<IItem[]> => {
   const items: IItem[] = await Promise.all(
     data.map(async (i: IItem) => {
-      console.log("ITEM:: ", i);
-      const tokenUri = await nftContract.tokenURI(i.tokenId);
-      console.log("token ", tokenUri);
-      const meta = await axios.get(tokenUri);
-      console.log(meta);
-      const price = ethers.utils.formatUnits(i.price.toString(), "ether");
-      const { name, description, image }: IMetaData = meta.data;
-      return {
-        itemId: i.itemId,
-        price,
-        tokenId: i.tokenId,
-        seller: i.seller,
-        owner: i.owner,
-        sold: i.sold,
-        image,
-        description,
-        name,
-      };
+      //console.log("ITEM:: ", i);
+      return await generateItem(i, nftContract);
     })
   );
   return items;
+};
+
+export const generateItem = async (
+  item: IItem,
+  nftContract: Contract
+): Promise<IItem> => {
+  const tokenUri = await nftContract.tokenURI(item.tokenId);
+  console.log("token ", tokenUri);
+  const meta = await axios.get(tokenUri);
+  console.log(meta);
+  const price = ethers.utils.formatUnits(item.price.toString(), "ether");
+  const { name, description, image }: IMetaData = meta.data;
+  return {
+    itemId: item.itemId,
+    price,
+    tokenId: item.tokenId,
+    seller: item.seller,
+    owner: item.owner,
+    sold: item.sold,
+    image,
+    description,
+    name,
+  };
 };
 
 export const getSoldNFT = (items: IItem[]): IItem[] => {
