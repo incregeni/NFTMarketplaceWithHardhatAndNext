@@ -203,4 +203,17 @@ describe("NFTMarket", function () {
       assert(items.length, "1");
     });
   });
+
+  describe("get item by ID", function () {
+    it("should be return item with id 1", async () => {
+      const listingFee = (await market.getListingFee()).toString();
+      const auctionPrice = ethers.utils.parseUnits("2", "ether");
+      await nft.createToken("https://www.mytokenlocation.com");
+      await market.createMarketItem(nftContractAddress, 1, auctionPrice, {
+        value: listingFee,
+      });
+      const item = await market.getItemById(1);
+      assert(ethers.BigNumber.from(item.itemId), "1");
+    });
+  });
 });

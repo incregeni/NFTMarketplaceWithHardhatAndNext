@@ -8,6 +8,16 @@
     },
     {
       "type": "error",
+      "name": "NFTMarket__ItemId",
+      "inputs": [
+        {
+          "type": "string",
+          "name": "message"
+        }
+      ]
+    },
+    {
+      "type": "error",
       "name": "NFTMarket__ListingFee",
       "inputs": [
         {
@@ -121,6 +131,54 @@
         }
       ],
       "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "getItemById",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "_id"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "tuple",
+          "components": [
+            {
+              "type": "uint256",
+              "name": "itemId"
+            },
+            {
+              "type": "address",
+              "name": "nftContract"
+            },
+            {
+              "type": "uint256",
+              "name": "tokenId"
+            },
+            {
+              "type": "address",
+              "name": "seller"
+            },
+            {
+              "type": "address",
+              "name": "owner"
+            },
+            {
+              "type": "uint256",
+              "name": "price"
+            },
+            {
+              "type": "bool",
+              "name": "sold"
+            }
+          ]
+        }
+      ]
     },
     {
       "type": "function",
