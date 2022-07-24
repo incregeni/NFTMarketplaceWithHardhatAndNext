@@ -7,6 +7,7 @@ import { IItem, MarketContext } from '../context'
 import { shortenAddress } from '../utils'
 import loaderSVG from '../assets/rings.svg';
 import { NFTCardItems } from '../components'
+import { Loader } from '../components/common'
 
 const Dashboard:NextPage = () => {
   const {signer, web3Provider, getNFTItemsBySeller, NFTItems, soldNFTItems, isLoading } = useContext(MarketContext);
@@ -46,18 +47,6 @@ const Dashboard:NextPage = () => {
     }
   }
 
-  const Loader = () => (    
-    <div className='w-[200px] h-[200px]'>
-      <Image
-       unoptimized
-       src={loaderSVG}
-       alt="Loading..."
-       layout='responsive'
-       width={300}
-       height={300}
-      />
-   </div>); 
-
   const NFTS = () => (
      showNFT ? (
        <div>
@@ -96,7 +85,7 @@ const Dashboard:NextPage = () => {
         </div>
       </section>
       <div className='text-white flex items-center justify-center py-5'>
-      { isLoading ? <Loader />  : <NFTS />  }
+      { isLoading ? <Loader className='w-[200px] h-[200px]' size={300} />  : <NFTS />  }
       </div>
     </div>
   )
