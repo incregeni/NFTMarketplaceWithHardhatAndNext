@@ -1,26 +1,23 @@
-import axios from "axios";
-import { ethers } from "ethers";
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import { Loader } from "../../components/common";
-import { IItem, MarketContext, generateItem } from "../../context";
-import { shortenAddress } from "../../utils";
+import { Loader } from "../../../components/common";
+import { IItem, MarketContext, generateItem } from "../../../context";
 
 const NFTItem:NextPage = () => {
   const {marketContract, nftContract, signer} = useContext(MarketContext);
   const [nft, setNft] = useState<IItem | undefined>(undefined);
   const [active, seActive] = useState(1);
   const router = useRouter();
-  const { itemSlug } = router.query;
+  const { id } = router.query;
 
   useEffect(() => {
     if(!marketContract) return;
     if(!nftContract) return;
     (async () => {    
-      const item = await marketContract.getItemById(parseInt(itemSlug as string))
+      const item = await marketContract.getItemById(parseInt(id as string))
       const newItem = await generateItem(item, nftContract);
       console.log('NEW - ITEM :: ',newItem)
       setNft(newItem);
@@ -103,7 +100,7 @@ const NFTItem:NextPage = () => {
                 )}
         </div>
         <div className="py-3 flex flex-col gap-4">
-          <Link href='/'>
+          <Link href={`/nft/${id}/details`}>
             <div className="border-2 border-white rounded-md w-[400px] p-4 cursor-pointer">
               <h4 className="text-center text-xl">Details</h4>
             </div>
