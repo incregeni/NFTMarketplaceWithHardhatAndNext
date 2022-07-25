@@ -108,7 +108,7 @@ useEffect(() => {
 },[]);
 
   return (
-    <div className='bg-[#0b1426] text-white'>
+    <div className='bg-gradient text-white'>
       <Head>
         <title>Create NFt</title>
         <meta name="description" content="NFT Create" />
@@ -164,7 +164,7 @@ useEffect(() => {
                          
                          ) : (
                           <div className='flex items-center justify-center w-[300px] h-[300px] rounded-md border-2 border-blue-500'>
-                                <h4 className='text-2xl'>Image</h4>
+                                <h4 className='text-2xl'>Not Image</h4>
                           </div>
                          )
                     }
