@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import { NextPage } from "next";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -26,6 +27,11 @@ const NFTDetails:NextPage = () => {
   
   return (
     <div className="bg-gradient text-white p-5">
+      <Head>
+        <title>NFT Details {id}</title>
+        <meta name="description" content="NFT Details" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
     {
       !nft ? (<Loader className='w-[500px] h-[500px] mx-auto my-0 py-5' size={500} />)  :
       (<section className="w-[80%] mx-auto my-0">
