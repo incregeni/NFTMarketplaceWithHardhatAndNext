@@ -68,7 +68,7 @@ const Dashboard:NextPage = () => {
         <meta name="description" content="NFT Dashboard" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className='text-white grid grid-cols-[30%_70%] w-[80vw] items-center justify-center my-0 mx-auto'>
+      <section className='bg-gradient text-white grid grid-cols-[30%_70%] w-[80vw] items-center justify-center my-0 mx-auto'>
         <div className='flex flex-col items-center justify-evenly text-xl'>
           <h3 className='py-2'>Address: {signer && shortenAddress(signer!)}</h3>
           <h3 className='py-2'>Balance: {balance} eth</h3>
@@ -84,7 +84,7 @@ const Dashboard:NextPage = () => {
           </div>
         </div>
       </section>
-      <div className='text-white flex items-center justify-center py-5'>
+      <div className='bg-gradient text-white flex items-center justify-center pt-5'>
       { isLoading ? <Loader className='w-[200px] h-[200px]' size={300} />  : <NFTS />  }
       </div>
     </div>
