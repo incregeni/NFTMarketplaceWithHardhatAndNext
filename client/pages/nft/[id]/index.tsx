@@ -29,7 +29,7 @@ const NFTItem:NextPage = () => {
       {
         !nft ? (<Loader className='w-[500px] h-[500px] mx-auto my-0 py-5' size={500} />)  :
         (
-        <section className="w-[80%] mx-auto my-0 grid grid-cols-2 items-center justify-center">
+        <section className="w-[70%] mx-auto my-0 grid grid-cols-[400px_1fr] items-center justify-center">
            <div className="w-[400px] h-[400px]">
           <Image
             unoptimized
@@ -41,7 +41,7 @@ const NFTItem:NextPage = () => {
             height={400}
           />
         </div>
-        <div className="self-start pt-[40px]">
+        <div className="self-start justify-center pt-[40px] pl-[50px]">
           <div className="flex flex-row">
             <div className="w-[50px] h-[50px] border-2 rounded-full border-blue-500">
               <Image 
