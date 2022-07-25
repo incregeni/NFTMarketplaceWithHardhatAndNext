@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -26,6 +27,11 @@ const NFTItem:NextPage = () => {
 
   return (
     <div className="bg-gradient text-white p-5">
+      <Head>
+        <title>NFT {id}</title>
+        <meta name="description" content="NFT" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       {
         !nft ? (<Loader className='w-[500px] h-[500px] mx-auto my-0 py-5' size={500} />)  :
         (

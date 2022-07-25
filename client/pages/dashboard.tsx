@@ -64,7 +64,7 @@ const Dashboard:NextPage = () => {
   return(
     <div className='bg-gradient py-5'>
       <Head>
-        <title>Create NFt</title>
+        <title>Dashboard</title>
         <meta name="description" content="NFT Dashboard" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
