@@ -13,7 +13,7 @@ export const NavMenu:NextPage = () => {
   const { isConnected, connectWallet } = useContext(MarketContext);
   return (
     <ul className={styles.menu}>
-      <li><a className='cursor-pointer'>Marketplace</a></li>
+      <li><Link href='/marketplace'><a className='cursor-pointer'>Marketplace</a></Link></li>
       <li><Link href='/create'><a className={styles.menuItem}>Create</a></Link></li>
       <li><a className='cursor-pointer'>|</a></li>
       <li>

@@ -62,6 +62,7 @@ export interface NFTMarketInterface extends utils.Interface {
   functions: {
     "buyNFT(address,uint256)": FunctionFragment;
     "createMarketItem(address,uint256,uint256)": FunctionFragment;
+    "fetchMarketItems(uint256,uint256)": FunctionFragment;
     "getItemById(uint256)": FunctionFragment;
     "getListingFee()": FunctionFragment;
     "getMarketItems()": FunctionFragment;
@@ -75,6 +76,7 @@ export interface NFTMarketInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "buyNFT"
       | "createMarketItem"
+      | "fetchMarketItems"
       | "getItemById"
       | "getListingFee"
       | "getMarketItems"
@@ -95,6 +97,10 @@ export interface NFTMarketInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "fetchMarketItems",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "getItemById",
@@ -125,6 +131,10 @@ export interface NFTMarketInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "buyNFT", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "createMarketItem",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "fetchMarketItems",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -216,6 +226,17 @@ export interface NFTMarket extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    fetchMarketItems(
+      offset: PromiseOrValue<BigNumberish>,
+      limit: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [NFTMarket.MarketItemStructOutput[], BigNumber, BigNumber] & {
+        nextOffset: BigNumber;
+        total: BigNumber;
+      }
+    >;
+
     getItemById(
       _id: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -256,6 +277,17 @@ export interface NFTMarket extends BaseContract {
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  fetchMarketItems(
+    offset: PromiseOrValue<BigNumberish>,
+    limit: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [NFTMarket.MarketItemStructOutput[], BigNumber, BigNumber] & {
+      nextOffset: BigNumber;
+      total: BigNumber;
+    }
+  >;
+
   getItemById(
     _id: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -295,6 +327,17 @@ export interface NFTMarket extends BaseContract {
       price: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    fetchMarketItems(
+      offset: PromiseOrValue<BigNumberish>,
+      limit: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [NFTMarket.MarketItemStructOutput[], BigNumber, BigNumber] & {
+        nextOffset: BigNumber;
+        total: BigNumber;
+      }
+    >;
 
     getItemById(
       _id: PromiseOrValue<BigNumberish>,
@@ -358,6 +401,12 @@ export interface NFTMarket extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    fetchMarketItems(
+      offset: PromiseOrValue<BigNumberish>,
+      limit: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getItemById(
       _id: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -391,6 +440,12 @@ export interface NFTMarket extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       price: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    fetchMarketItems(
+      offset: PromiseOrValue<BigNumberish>,
+      limit: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getItemById(
