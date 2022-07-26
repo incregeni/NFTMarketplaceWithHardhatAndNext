@@ -134,6 +134,66 @@
     },
     {
       "type": "function",
+      "name": "fetchMarketItems",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "offset"
+        },
+        {
+          "type": "uint256",
+          "name": "limit"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "tuple[]",
+          "components": [
+            {
+              "type": "uint256",
+              "name": "itemId"
+            },
+            {
+              "type": "address",
+              "name": "nftContract"
+            },
+            {
+              "type": "uint256",
+              "name": "tokenId"
+            },
+            {
+              "type": "address",
+              "name": "seller"
+            },
+            {
+              "type": "address",
+              "name": "owner"
+            },
+            {
+              "type": "uint256",
+              "name": "price"
+            },
+            {
+              "type": "bool",
+              "name": "sold"
+            }
+          ]
+        },
+        {
+          "type": "uint256",
+          "name": "nextOffset"
+        },
+        {
+          "type": "uint256",
+          "name": "total"
+        }
+      ]
+    },
+    {
+      "type": "function",
       "name": "getItemById",
       "constant": true,
       "stateMutability": "view",

@@ -209,4 +209,38 @@ contract NFTMarket is ReentrancyGuard {
             revert NFTMarket__ItemId({message: "Premission denied"});
         return s_MarketItems[_id];
     }
+
+    function fetchMarketItems(uint256 offset, uint256 limit)
+        public
+        view
+        returns (
+            MarketItem[] memory,
+            uint256 nextOffset,
+            uint256 total
+        )
+    {
+        uint256 itemsCount = s_itemIds.current();
+        uint256 unsoldItemsCount = itemsCount - s_itemsSold.current();
+
+        if (limit == 0) {
+            limit = 1;
+        }
+
+        if (limit > unsoldItemsCount - offset) {
+            limit = unsoldItemsCount - offset;
+        }
+
+        MarketItem[] memory items = new MarketItem[](limit);
+
+        uint256 currentIndex = 0;
+        for (uint256 i = 0; i < itemsCount || currentIndex < limit; i++) {
+            if (!s_MarketItems[offset + i + 1].sold) {
+                uint256 currentItemId = s_MarketItems[offset + i + 1].itemId;
+                MarketItem storage marketItem = s_MarketItems[currentItemId];
+                items[currentIndex] = marketItem;
+                currentIndex++;
+            }
+        }
+        return (items, offset + limit, unsoldItemsCount);
+    }
 }
