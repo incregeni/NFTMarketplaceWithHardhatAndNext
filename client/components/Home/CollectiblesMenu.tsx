@@ -15,9 +15,9 @@ const styles = {
 const itemsState = {
   dayItems : [
     { id: 'day-item-1', title: 'Today', active: false },
-    { id: 'day-item-2', title: 'Last 7 Days', active: true },
+    { id: 'day-item-2', title: 'Last 7 Days', active: false },
     { id: 'day-item-3', title: 'Last 30 Days', active: false },
-    { id: 'day-item-4', title: 'All Time', active: false },
+    { id: 'day-item-4', title: 'All Time', active: true },
   ],
   sortItems: [
     { id: 'sort-item-1', title: 'Sales Volume', pos: 0 },
