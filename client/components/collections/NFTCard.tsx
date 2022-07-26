@@ -7,7 +7,6 @@ import Link from "next/link"
 
 export const NFTCard:FC<IItem> =  (item) => {
   const {image, price, name, seller, itemId} = item
-  console.log('item',item)
   const id = ethers.BigNumber.from(itemId).toNumber();
   return (
     <Link href={`/nft/${id}`}>

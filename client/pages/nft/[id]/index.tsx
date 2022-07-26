@@ -20,7 +20,6 @@ const NFTItem:NextPage = () => {
     (async () => {    
       const item = await marketContract.getItemById(parseInt(id as string))
       const newItem = await generateItem(item, nftContract);
-      console.log('NEW - ITEM :: ',newItem)
       setNft(newItem);
     })();
   },[signer]);

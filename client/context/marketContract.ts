@@ -31,7 +31,6 @@ export const getItems = async (
 ): Promise<IItem[]> => {
   const items: IItem[] = await Promise.all(
     data.map(async (i: IItem) => {
-      //console.log("ITEM:: ", i);
       return await generateItem(i, nftContract);
     })
   );
@@ -43,9 +42,7 @@ export const generateItem = async (
   nftContract: Contract
 ): Promise<IItem> => {
   const tokenUri = await nftContract.tokenURI(item.tokenId);
-  console.log("token ", tokenUri);
   const meta = await axios.get(tokenUri);
-  console.log(meta);
   const price = ethers.utils.formatUnits(item.price.toString(), "ether");
   const { name, description, image }: IMetaData = meta.data;
   return {

@@ -233,7 +233,7 @@ contract NFTMarket is ReentrancyGuard {
         MarketItem[] memory items = new MarketItem[](limit);
 
         uint256 currentIndex = 0;
-        for (uint256 i = 0; i < itemsCount || currentIndex < limit; i++) {
+        for (uint256 i = 0; i < itemsCount && currentIndex < limit; i++) {
             if (!s_MarketItems[offset + i + 1].sold) {
                 uint256 currentItemId = s_MarketItems[offset + i + 1].itemId;
                 MarketItem storage marketItem = s_MarketItems[currentItemId];
