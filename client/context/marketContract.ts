@@ -13,6 +13,18 @@ export const getNFTBySeller = async (marketContract: Contract) => {
   return await marketContract.getNFTBySeller();
 };
 
+export const fetchMarketItems = async ({
+  marketContract,
+  offSet,
+  limit,
+}: {
+  marketContract: Contract;
+  offSet: number;
+  limit: number;
+}) => {
+  return await marketContract.fetchMarketItems(offSet, limit);
+};
+
 export const getItems = async (
   nftContract: Contract,
   data: any[]
