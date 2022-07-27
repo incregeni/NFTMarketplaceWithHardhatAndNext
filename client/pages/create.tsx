@@ -82,7 +82,7 @@ const createSale = async (url:string) => {
   let event = tx.events[0]
   let value = event.args[2]
   let tokenId = value.toNumber()
-
+console.log('EV ',event)
   const price = ethers.utils.parseUnits(form.price, 'ether')
   
   transaction = await marketContract.createMarketItem(

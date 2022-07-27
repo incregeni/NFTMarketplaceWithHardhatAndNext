@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -23,6 +24,11 @@ const NFTItem:NextPage = () => {
       setNft(newItem);
     })();
   },[signer]);
+
+  const buyNft = async () => {
+    const price = ethers.utils.parseUnits(nft!.price, "ether")
+    console.log(price)
+  }
 
   return (
     <div className="bg-gradient text-white p-5">
@@ -110,9 +116,9 @@ const NFTItem:NextPage = () => {
               <h4 className="text-center text-xl">Details</h4>
             </div>
           </Link>
-          { !nft.sold && (
+          { (!nft.sold && nft.seller !== signer) && (
             <div className="bg-gradient-to-r from-[#1199fa] to-[#11d0fa] rounded-md w-[400px] p-4 cursor-pointer flex justify-center">
-              <button className="bold text-xl">Buy</button>
+              <button className="bold text-xl" onClick={buyNft}>Buy</button>
             </div>) 
           }
         </div>

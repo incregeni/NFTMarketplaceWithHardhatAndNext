@@ -1,15 +1,13 @@
 import { NextPage } from 'next'
 import React, { useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
+import { ButtonGroup, ButtonGroupItemType } from '../common/buttonGroup'
 
 const styles = {
   container: 'flex flex-row items-center justify-between text-white',
   sort: 'flex flex-row items-center justify-evenly bold',
   sortButton: 'border-2 border-blue-500 rounded-3xl',
   icon: 'w-6 h-6 absolute top-2 right-1 cursor-pointer',
-  dayItems: 'flex items-center justify-center',
-  dayItem : 'p-2 rounded-3xl cursor-pointer bg-[#0f1c39] w-[130px] mx-[10px]',
-  dayItemActive: 'bg-gradient-to-r from-[#1199fa] to-[#11d0fa]',
 }
 
 const itemsState = {
@@ -26,12 +24,6 @@ const itemsState = {
   ]
 }
 
-type DayItemType = {
-  id: string;
-  title: string;
-  active: boolean;
-} 
-
 type SortItemType = {
   id: string;
   title: string;
@@ -44,7 +36,7 @@ export const CollectiblesMenu:NextPage = () => {
 
   const [currentSortItem, setCurrentSortIem] = useState(0);
 
-  const handleDayItems = (item:DayItemType) => (ev:React.MouseEvent) => {
+  const handleButtonGroup = (item:ButtonGroupItemType) => (ev:React.MouseEvent) => {
     const items = dayItems.map(i => {
       if(item.id === i.id) {
         i.active = true;
@@ -69,11 +61,7 @@ export const CollectiblesMenu:NextPage = () => {
           <ChevronDownIcon className={styles.icon} />
         </div>
       </div>
-      <div className={styles.dayItems}>
-        {dayItems.map((item:DayItemType) =>(
-          <button key={item.id} className={`${styles.dayItem} ${item.active ? styles.dayItemActive : '' }`} onClick={handleDayItems(item)}>{item.title}</button>
-        ))}
-      </div>
+      <ButtonGroup items={dayItems} handleButtonGroup={handleButtonGroup} />
     </div>
   )
 }
