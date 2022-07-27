@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Contract, ethers } from "ethers";
+import { BigNumber, Contract, ethers } from "ethers";
 import { IItem, IMetaData } from "../interfaces";
 
 export const getListingFee = async (
