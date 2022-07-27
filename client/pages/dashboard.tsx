@@ -1,18 +1,39 @@
 import { ethers } from 'ethers'
 import type { NextPage } from 'next'
-import  Image from 'next/image'
 import Head from 'next/head'
-import { useContext, useEffect, useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import { IItem, MarketContext } from '../context'
 import { shortenAddress } from '../utils'
-import loaderSVG from '../assets/rings.svg';
 import { NFTCardItems } from '../components'
 import { Loader } from '../components/common'
+import { ButtonGroup, ButtonGroupItemType } from '../components/common/buttonGroup'
+
+const NFTButtonGroup:ButtonGroupItemType[] = [
+  { id: 'creation-button-1', title: 'Creations', active: true },
+  { id: 'sale-button-2', title: 'Sales', active: false },
+  { id: 'shopping-button-3', title: 'Shopping', active: false },
+]
+interface INFTComponent {
+  NFTs: IItem[],
+  title: string
+}
+
+const NFTS:FC<INFTComponent> = ({ NFTs, title }) => {
+  return (
+    <div>
+      <h4 className='text-xl text-blue-500'>{title}</h4>
+       { <NFTCardItems items={NFTs ? NFTs : []}/> }
+    </div>  
+  )
+
+}
 
 const Dashboard:NextPage = () => {
   const {signer, web3Provider, getNFTItemsBySeller, NFTItems, soldNFTItems, isLoading } = useContext(MarketContext);
+  const [nftButtons, setNftButtons] = useState<ButtonGroupItemType[]>(NFTButtonGroup);
   const [balance, setBalance] = useState<string>('0');
-  const [showNFT, setShowNFT] = useState(true);
+  const [currentNFTItems, setCurrentNFTItems] = useState<IItem[]>([]);
+  const [title, setTitle] = useState('My Creations');
   
   useEffect(() =>{
    (async () => {
@@ -30,36 +51,35 @@ const Dashboard:NextPage = () => {
     await getNFTItemsBySeller();
   }
 
-  const myNFT = () => {
-     if(!NFTItems){
-       getNFTs();       
-     } else {
-        setShowNFT(true);
-     }
+  const handleButtonGroup = (item:ButtonGroupItemType) => (ev:React.MouseEvent) => {
+    const items = nftButtons.map(i => {
+      if(item.id === i.id) {
+        i.active = true;
+      } else {
+        i.active = false;
+      }
+      return i;
+    });
+    setNftButtons(items);
+    showNFT();
   }
 
-  const NFTSold = () => {
-    if(!NFTItems){
-      getNFTs();       
-    } else {
-      setShowNFT(false);
-
+  const showNFT = () => {
+    const item = nftButtons.filter(i => i.active)[0];
+    switch(item.id) {
+      case 'creation-button-1':
+        setCurrentNFTItems(NFTItems);
+        setTitle('My Creations');
+        break;
+      case 'sale-button-2':
+        setCurrentNFTItems(soldNFTItems);
+        setTitle('My Sales');
+        break;
+      default:
+        setCurrentNFTItems([]);
+        setTitle('My Shopping')    
     }
   }
-
-  const NFTS = () => (
-     showNFT ? (
-       <div>
-        <h4 className='text-xl text-blue-500'>My NFT's</h4>
-        {<NFTCardItems items={NFTItems ? NFTItems : []}/>}
-       </div>
-       ) : 
-      (
-        <div>
-          <h4 className='text-xl text-blue-500'>Sold NFT's</h4>
-          {<NFTCardItems items={soldNFTItems ? soldNFTItems : []}/>}
-        </div>)
-      )
   
   return(
     <div className='bg-gradient py-5'>
@@ -79,13 +99,12 @@ const Dashboard:NextPage = () => {
             <hr className='bg-pink-400' />
           </div>
           <div className='flex items-center justify-center'>
-           <button className='mr-2 p-1 w-[120px] border-2 border-blue-600 rounded-3xl hover:bg-gradient-to-r from-[#1199fa] to-[#11D2FA]' onClick={myNFT}>My NFT</button>
-           <button className='ml-2 p-1 w-[120px] border-2 border-blue-600 rounded-3xl hover:bg-gradient-to-r from-[#1199fa] to-[#11D2FA]' onClick={NFTSold}>Sold</button> 
+            <ButtonGroup items={nftButtons} handleButtonGroup={handleButtonGroup} />
           </div>
         </div>
       </section>
       <div className='bg-gradient text-white flex items-center justify-center pt-5'>
-      { isLoading ? <Loader className='w-[200px] h-[200px]' size={300} />  : <NFTS />  }
+      { isLoading ? <Loader className='w-[200px] h-[200px]' size={300} />  : <NFTS NFTs={currentNFTItems} title={title}/>  }
       </div>
     </div>
   )
