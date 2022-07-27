@@ -65,3 +65,35 @@ export const generateItem = async (
 export const getSoldNFT = (items: IItem[]): IItem[] => {
   return items.filter((item: IItem) => item.sold);
 };
+
+export const buyNFT = async ({
+  marketContract,
+  nftContract,
+  itemId,
+  price,
+}: {
+  marketContract: Contract;
+  nftContract: Contract;
+  itemId: string;
+  price: BigNumber;
+}): Promise<boolean | null> => {
+  try {
+    const transaction = await marketContract.buyNFT(
+      nftContract.address,
+      itemId,
+      {
+        value: price,
+      }
+    );
+    const tx = await transaction.wait();
+    console.log("TX >>> ", tx);
+    const event = tx.events[2];
+    console.log("EV ", event.args);
+    const value = event.args[6];
+    return value;
+    //return true;
+  } catch (error) {
+    console.log("err tx ", error);
+    return null;
+  }
+};
