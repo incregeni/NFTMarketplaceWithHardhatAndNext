@@ -7,6 +7,7 @@ import { shortenAddress } from '../utils'
 import { NFTCardItems } from '../components'
 import { Loader } from '../components/common'
 import { ButtonGroup, ButtonGroupItemType } from '../components/common/buttonGroup'
+import { getNFTByOwner } from '../context/marketContract'
 
 const NFTButtonGroup:ButtonGroupItemType[] = [
   { id: 'creation-button-1', title: 'Creations', active: true },
@@ -35,7 +36,7 @@ const Dashboard:NextPage = () => {
   const [balance, setBalance] = useState<string>('0');
   const [currentNFTItems, setCurrentNFTItems] = useState<IItem[]>([]);
   const [NFTItems, setNFTItems] = useState<IItem[]>([]);
-  const [shoppingNFTItems, setShoppingNFTItems] = useState<IItem[]>([]);
+  const [shoppingNFTItems, setShoppingNFTItems] = useState<IItem[] | null>(null);
   const [title, setTitle] = useState('My Creations');
   
   useEffect(() =>{
@@ -59,6 +60,20 @@ const Dashboard:NextPage = () => {
      setIsLoading(false);
      setCurrentNFTItems(items);
   }
+
+  const getOwnerNFTs = async () => {
+    if(!marketContract) return;
+    if(!shoppingNFTItems) {
+      setIsLoading(true);
+      const itemsByOwner = await getNFTByOwner(marketContract!);
+      const items = await getItems(nftContract!, itemsByOwner);
+      setShoppingNFTItems(items);
+      setIsLoading(false);
+      setCurrentNFTItems(items);
+    } else {
+        setCurrentNFTItems(shoppingNFTItems);
+    }
+ }
 
   const getMySales = () => {
     return getSoldNFT(NFTItems);
@@ -89,7 +104,7 @@ const Dashboard:NextPage = () => {
         setTitle('My Sales');
         break;
       default:
-        setCurrentNFTItems([]);
+        getOwnerNFTs();
         setTitle('My Shopping')    
     }
   }

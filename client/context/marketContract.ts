@@ -13,6 +13,10 @@ export const getNFTBySeller = async (marketContract: Contract) => {
   return await marketContract.getNFTBySeller();
 };
 
+export const getNFTByOwner = async (marketContract: Contract) => {
+  return await marketContract.getNFTByOwner();
+};
+
 export const fetchMarketItems = async ({
   marketContract,
   offSet,
