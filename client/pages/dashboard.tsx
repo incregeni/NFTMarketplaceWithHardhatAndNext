@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { FC, useContext, useEffect, useState } from 'react'
-import { IItem, MarketContext } from '../context'
+import { getItems, getNFTBySeller, getSoldNFT, IItem, MarketContext } from '../context'
 import { shortenAddress } from '../utils'
 import { NFTCardItems } from '../components'
 import { Loader } from '../components/common'
@@ -29,10 +29,13 @@ const NFTS:FC<INFTComponent> = ({ NFTs, title }) => {
 }
 
 const Dashboard:NextPage = () => {
-  const {signer, web3Provider, getNFTItemsBySeller, NFTItems, soldNFTItems, isLoading } = useContext(MarketContext);
+  const {signer, marketContract, nftContract, web3Provider } = useContext(MarketContext);
+  const [isLoading, setIsLoading] = useState(false);
   const [nftButtons, setNftButtons] = useState<ButtonGroupItemType[]>(NFTButtonGroup);
   const [balance, setBalance] = useState<string>('0');
   const [currentNFTItems, setCurrentNFTItems] = useState<IItem[]>([]);
+  const [NFTItems, setNFTItems] = useState<IItem[]>([]);
+  const [shoppingNFTItems, setShoppingNFTItems] = useState<IItem[]>([]);
   const [title, setTitle] = useState('My Creations');
   
   useEffect(() =>{
@@ -44,11 +47,21 @@ const Dashboard:NextPage = () => {
   },[balance, signer]);
 
   useEffect(()=> {
-   getNFTs(); 
-  },[signer]);
+     getNFTs() 
+  },[signer, marketContract, nftContract]);
   
   const getNFTs = async () => {
-    await getNFTItemsBySeller();
+     if(!marketContract) return;
+     setIsLoading(true);
+     const itemsBySeller = await getNFTBySeller(marketContract!);
+     const items = await getItems(nftContract!, itemsBySeller);
+     setNFTItems(items);
+     setIsLoading(false);
+     setCurrentNFTItems(items);
+  }
+
+  const getMySales = () => {
+    return getSoldNFT(NFTItems);
   }
 
   const handleButtonGroup = (item:ButtonGroupItemType) => (ev:React.MouseEvent) => {
@@ -72,7 +85,7 @@ const Dashboard:NextPage = () => {
         setTitle('My Creations');
         break;
       case 'sale-button-2':
-        setCurrentNFTItems(soldNFTItems);
+        setCurrentNFTItems(getMySales());
         setTitle('My Sales');
         break;
       default:

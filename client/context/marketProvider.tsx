@@ -1,8 +1,7 @@
 import { Contract, ethers, providers } from 'ethers';
 import { useEffect, useRef, useState } from 'react' 
 import Web3Modal from 'web3modal';
-import { MarketContext, getMarketContract, getNFTContract, getListingFee, getItems, getNFTBySeller, getSoldNFT } from './index'
-import { IItem } from '../interfaces'
+import { MarketContext, getMarketContract, getNFTContract, getListingFee } from './index'
 import { getSignerAndProvider } from './walletConnection';
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -17,12 +16,9 @@ type InitialStateType = {
 export const MarketProvider = ({ children }: Props) => {
   const [marketContract, setMarketContract] = useState<Contract | null>(null);
   const [nftContract, setNftContract] = useState<Contract | null>(null);
-  const [NFTItems, setNFTItems] = useState<IItem []>([])
-  const [soldNFTItems, setSoldNFTItems] = useState<IItem []>([])
   const [isConnected, setIsConnected] = useState(false);
   const [web3Provider, setWeb3Provider] = useState<providers.Web3Provider | undefined>(undefined);
   const [signer, setSigner] = useState<string | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(false);
   const web3ModalRef = useRef<Web3Modal | null>(null);
   
   const providerEvents = (
@@ -105,31 +101,16 @@ export const MarketProvider = ({ children }: Props) => {
     await isWalletConnected();   
   } 
 
-  const getNFTItemsBySeller = async () => {
-    if(!marketContract) return;
-     setIsLoading(true);
-     const itemsBySeller = await getNFTBySeller(marketContract!);
-     const items = await getItems(nftContract!, itemsBySeller);
-     const soldNFT = getSoldNFT(items);
-     setNFTItems(items);
-     setSoldNFTItems(soldNFT);
-     setIsLoading(false);
-  }
-
   return (
     <MarketContext.Provider
       value={{
-        isLoading,
         isConnected,
         web3Provider,
         signer,
         nftContract,
         marketContract,
-        NFTItems,
-        soldNFTItems,
         getListingFee,
         connectWallet,
-        getNFTItemsBySeller,
       }}
     >
       {children}
