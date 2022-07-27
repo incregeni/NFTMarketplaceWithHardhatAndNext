@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { Loader } from "../../../components/common";
 import { IItem, MarketContext, generateItem } from "../../../context";
+import { buyNFT } from "../../../context/marketContract";
 
 const NFTItem:NextPage = () => {
   const {marketContract, nftContract, signer} = useContext(MarketContext);
@@ -27,7 +28,11 @@ const NFTItem:NextPage = () => {
 
   const buyNft = async () => {
     const price = ethers.utils.parseUnits(nft!.price, "ether")
-    console.log(price)
+    const res = await buyNFT({ marketContract: marketContract!, nftContract: nftContract!, itemId: nft!.tokenId, price });
+    console.log('RES ',res);
+    if(res) {
+      router.push('/dashboard');
+    }
   }
 
   return (

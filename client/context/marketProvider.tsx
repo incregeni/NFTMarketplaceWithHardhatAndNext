@@ -1,4 +1,5 @@
 import { Contract, ethers, providers } from 'ethers';
+import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react' 
 import Web3Modal from 'web3modal';
 import { MarketContext, getMarketContract, getNFTContract, getListingFee } from './index'
@@ -20,7 +21,7 @@ export const MarketProvider = ({ children }: Props) => {
   const [web3Provider, setWeb3Provider] = useState<providers.Web3Provider | undefined>(undefined);
   const [signer, setSigner] = useState<string | undefined>(undefined);
   const web3ModalRef = useRef<Web3Modal | null>(null);
-  
+  const  router = useRouter();
   const providerEvents = (
     web3ModalRef: React.MutableRefObject<Web3Modal | null>,
     provider: any

@@ -30,7 +30,7 @@ const NFTS:FC<INFTComponent> = ({ NFTs, title }) => {
 }
 
 const Dashboard:NextPage = () => {
-  const {signer, marketContract, nftContract, web3Provider } = useContext(MarketContext);
+  const {signer, marketContract, nftContract, web3Provider, isConnected } = useContext(MarketContext);
   const [isLoading, setIsLoading] = useState(false);
   const [nftButtons, setNftButtons] = useState<ButtonGroupItemType[]>(NFTButtonGroup);
   const [balance, setBalance] = useState<string>('0');
@@ -40,6 +40,7 @@ const Dashboard:NextPage = () => {
   const [title, setTitle] = useState('My Creations');
   
   useEffect(() =>{
+    if(!web3Provider || !signer) return;
    (async () => {
       const bal = await web3Provider?.getBalance(signer!); 
       if(bal)
@@ -52,7 +53,7 @@ const Dashboard:NextPage = () => {
   },[signer, marketContract, nftContract]);
   
   const getNFTs = async () => {
-     if(!marketContract) return;
+     if(!marketContract || !nftContract || !signer) return;
      setIsLoading(true);
      const itemsBySeller = await getNFTBySeller(marketContract!);
      const items = await getItems(nftContract!, itemsBySeller);
@@ -110,12 +111,14 @@ const Dashboard:NextPage = () => {
   }
   
   return(
+    
     <div className='bg-gradient py-5'>
       <Head>
         <title>Dashboard</title>
         <meta name="description" content="NFT Dashboard" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {!isConnected ? (<h2 className='bg-gradient text-white p-10'>Please connect your wallet</h2>) : (<div>
       <section className='bg-gradient text-white grid grid-cols-[30%_70%] w-[80vw] items-center justify-center my-0 mx-auto'>
         <div className='flex flex-col items-center justify-evenly text-xl'>
           <h3 className='py-2'>Address: {signer && shortenAddress(signer!)}</h3>
@@ -134,6 +137,8 @@ const Dashboard:NextPage = () => {
       <div className='bg-gradient text-white flex items-center justify-center pt-5'>
       { isLoading ? <Loader className='w-[200px] h-[200px]' size={300} />  : <NFTS NFTs={currentNFTItems} title={title}/>  }
       </div>
+      </div>
+      )}
     </div>
   )
 }
