@@ -1,2 +1,2 @@
 export { shortenAddress } from "./shortenAddress";
-export { marketAddress, nftAddress, marketAbi, nftAbi } from "./smartContract";
+export { MARKET_CONTRACT, NFT_CONTRACT } from "./smartContract";

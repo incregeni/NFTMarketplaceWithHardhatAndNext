@@ -1,8 +1,10 @@
-import { ethers } from "hardhat";
-import { writeFileSync } from "fs";
+import { ethers, network } from "hardhat";
+import { writeFileSync, readFileSync } from "fs";
 import * as path from "path";
 
 async function main() {
+  const chainId = network.config.chainId;
+  console.log("chain", chainId);
   const NFTMarket = await ethers.getContractFactory("NFTMarket");
   const market = await NFTMarket.deploy();
   await market.deployed();
@@ -14,15 +16,30 @@ async function main() {
   await nft.deployed();
 
   console.log("NFT deployed to:", nft.address);
+  const marketJson = JSON.parse(
+    readFileSync(
+      path.resolve(__dirname, "../client", "lib", "Marketplace.json"),
+      "utf8"
+    )
+  );
 
   const marketAbi = {
     address: market.address,
     abi: JSON.parse(market.interface.format("json") as string),
   };
 
+  marketJson[chainId!.toString()] = marketAbi;
+
   writeFileSync(
-    path.resolve(__dirname, "../client", "lib", "Marketplace-local.json"),
-    JSON.stringify(marketAbi, null, 2)
+    path.resolve(__dirname, "../client", "lib", "Marketplace.json"),
+    JSON.stringify(marketJson, null, 2)
+  );
+
+  const nftJson = JSON.parse(
+    readFileSync(
+      path.resolve(__dirname, "../client", "lib", "NFT.json"),
+      "utf8"
+    )
   );
 
   const nftAbi = {
@@ -30,9 +47,11 @@ async function main() {
     abi: JSON.parse(nft.interface.format("json") as string),
   };
 
+  nftJson[chainId!.toString()] = nftAbi;
+
   writeFileSync(
-    path.resolve(__dirname, "../client", "lib", "NFT-local.json"),
-    JSON.stringify(nftAbi, null, 2)
+    path.resolve(__dirname, "../client", "lib", "NFT.json"),
+    JSON.stringify(nftJson, null, 2)
   );
 }
 

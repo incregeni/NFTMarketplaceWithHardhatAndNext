@@ -1,7 +1,5 @@
-import nft from "../lib/NFT-local.json";
-import market from "../lib/Marketplace-local.json";
+import nft from "../lib/NFT.json";
+import market from "../lib/Marketplace.json";
 
-export const marketAddress = market.address;
-export const nftAddress = nft.address;
-export const marketAbi = market.abi;
-export const nftAbi = nft.abi;
+export const MARKET_CONTRACT = market as Record<string | number, any>;
+export const NFT_CONTRACT = nft as Record<string | number, any>;

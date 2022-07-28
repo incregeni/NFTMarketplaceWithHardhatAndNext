@@ -42,11 +42,11 @@ const Dashboard:NextPage = () => {
   useEffect(() =>{
     if(!web3Provider || !signer) return;
    (async () => {
-      const bal = await web3Provider?.getBalance(signer!); 
+      const bal = await web3Provider?.getBalance(signer); 
       if(bal)
         setBalance(parseFloat(ethers.utils.formatEther(bal)).toFixed(2))
    })()
-  },[balance, signer]);
+  },[balance, signer, web3Provider]);
 
   useEffect(()=> {
      getNFTs() 

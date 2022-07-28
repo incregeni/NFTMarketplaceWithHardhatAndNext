@@ -1,5 +1,4 @@
 import { Contract, ethers, providers } from 'ethers';
-import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react' 
 import Web3Modal from 'web3modal';
 import { MarketContext, getMarketContract, getNFTContract, getListingFee } from './index'
@@ -21,7 +20,7 @@ export const MarketProvider = ({ children }: Props) => {
   const [web3Provider, setWeb3Provider] = useState<providers.Web3Provider | undefined>(undefined);
   const [signer, setSigner] = useState<string | undefined>(undefined);
   const web3ModalRef = useRef<Web3Modal | null>(null);
-  const  router = useRouter();
+
   const providerEvents = (
     web3ModalRef: React.MutableRefObject<Web3Modal | null>,
     provider: any
@@ -77,7 +76,6 @@ export const MarketProvider = ({ children }: Props) => {
 
   useEffect(() => {
     web3ModalRef.current =  new Web3Modal({
-      network: "hadrhatLocal",
       cacheProvider: true,
       providerOptions: {},
       theme: "dark"
@@ -85,14 +83,16 @@ export const MarketProvider = ({ children }: Props) => {
   }, []);
 
   useEffect(() => {
-    if(typeof window != 'undefined' && typeof window.ethereum != 'undefined') {
-      const { ethereum } = window;
-      const marketContract = getMarketContract(ethereum);
-      const nftContract = getNFTContract(ethereum);
-      setInitialState({ marketContract, nftContract });
-    } else {
-        alert('Please install Metamask!');
-    }
+    (async () => {
+      if(typeof window != 'undefined' && typeof window.ethereum != 'undefined') {
+        const { ethereum } = window;
+        const marketContract = await getMarketContract(ethereum);
+        const nftContract = await getNFTContract(ethereum);
+        setInitialState({ marketContract, nftContract });
+      } else {
+          alert('Please install Metamask!');
+      }
+    })(); 
      
   },[]);
 
