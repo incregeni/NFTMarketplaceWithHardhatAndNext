@@ -2,7 +2,6 @@ import { NextPage } from 'next'
 import Link from 'next/link'
 import React, { useContext } from 'react'
 import { MarketContext } from '../../context'
-import { shortenAddress } from '../../utils'
 
 const styles = {
   menu: 'col-[4] flex items-center justify-around',

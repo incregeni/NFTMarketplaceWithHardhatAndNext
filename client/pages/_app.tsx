@@ -4,7 +4,7 @@ import {Layout} from '../components';
 import { MarketProvider } from '../context';
 
 const styles = {
-  container: `flex flex-col bg-blue-900`
+  container: `flex flex-col bg-gradient h-[100vh]`
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
