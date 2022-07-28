@@ -64,3 +64,7 @@ main().catch((error) => {
 
 // Market deployed to: 0x5FbDB2315678afecb367f032d93F642f64180aa3
 // NFT deployed to: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+
+//chain 80001
+//Market deployed to: 0x2D0b827Ca7ee5d173A45AeE7663ed90cD1Fbf156
+//NFT deployed to: 0x424C5495DF69a4d5448b777Af291a645fdaB777f
