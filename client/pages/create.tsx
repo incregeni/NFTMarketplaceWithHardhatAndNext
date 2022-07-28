@@ -5,7 +5,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { MarketContext } from '../context'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
-import { nftAddress } from '../utils'
 import { useRouter } from 'next/router'
 
 const options = {
@@ -86,7 +85,7 @@ console.log('EV ',event)
   const price = ethers.utils.parseUnits(form.price, 'ether')
   
   transaction = await marketContract.createMarketItem(
-      nftAddress, tokenId, price, { value: listingFee }
+    nftContract.address, tokenId, price, { value: listingFee }
   )
 
   await transaction.wait()
