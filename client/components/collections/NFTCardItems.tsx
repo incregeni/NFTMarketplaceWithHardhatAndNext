@@ -13,7 +13,7 @@ export const NFTCardItems = (props:{items:IItem[]}) => {
       )) ) :
       (
       <div>
-         <h3 className='text-white text-center'>You don't have nft</h3>
+        <h3 className='text-white text-center text-2xl'>NFT's not found</h3>
       </div>
       )
       }
