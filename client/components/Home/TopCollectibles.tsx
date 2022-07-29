@@ -1,31 +1,31 @@
 
-import React, { useEffect, useState } from 'react'
+
+import React, { useContext, useEffect, useState } from 'react'
 import { CollectiblesMenu, NFTCardItems } from '../../components'
-import { fetchMarketItems, getDefaultMarketContractProvider, getDefaultNFTContractProvider, getItems } from '../../context';
+import { fetchMarketItems, getItems, MarketContext } from '../../context';
 import { IItem } from '../../interfaces'
 import { Loader } from '../common';
 
-
 export const TopCollectibles = () => {
+  const { signer, marketContract, nftContract} = useContext(MarketContext);
   const [items, setItems] = useState<IItem[] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => { 
+  useEffect(() => {
+   if(!marketContract) return; 
+   if(!nftContract) return; 
    (async () => {
     try {
       setIsLoading(true);
-      const marketContract = await getDefaultMarketContractProvider();
-      console.log('CONTRACT ',marketContract)
-      const nftContract = await getDefaultNFTContractProvider();
       const [nfts] = await fetchMarketItems({marketContract: marketContract, offSet: 0, limit: 6});
       const genItems = await getItems(nftContract, nfts);
       setItems(genItems);
       setIsLoading(false);  
     } catch (error) {
-        console.error('Home-Collection #',error)
-        setIsLoading(false);
+      setIsLoading(false);  
     }
+    
    })()
-  },[]);
+  },[signer]);
 
   return (
       isLoading ? (

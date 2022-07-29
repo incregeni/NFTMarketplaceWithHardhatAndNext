@@ -4,8 +4,8 @@ export { MarketProvider } from "./marketProvider";
 export {
   getMarketContract,
   getNFTContract,
-  getDefaultMarketContractProvider,
-  getDefaultNFTContractProvider,
+  //getDefaultMarketContractProvider,
+  // getDefaultNFTContractProvider,
 } from "./contract";
 export { getSignerAndProvider } from "./walletConnection";
 export {
