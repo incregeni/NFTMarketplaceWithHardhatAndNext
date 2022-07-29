@@ -40,6 +40,7 @@ export const getNFTContract = async (
 };
 
 export const getDefaultMarketContractProvider = async (): Promise<Contract> => {
+  console.log(">> DEFAULT");
   const RPC = process.env.RPC;
   const provider = new ethers.providers.JsonRpcProvider(RPC);
   const { chainId } = await provider.getNetwork();
@@ -52,6 +53,7 @@ export const getDefaultMarketContractProvider = async (): Promise<Contract> => {
   const marketAbi = MARKET_CONTRACT[key].abi;
   const signer = provider.getSigner(process.env.SIGNER);
   const marketContract = new ethers.Contract(marketAddress, marketAbi, signer);
+  console.log("KEY ", key);
   return marketContract;
 };
 
