@@ -7,7 +7,7 @@ import { IItem } from '../../interfaces'
 import { Loader } from '../common';
 
 export const TopCollectibles = () => {
-  const { signer, marketContract, nftContract} = useContext(MarketContext);
+  const { signer, marketContract, nftContract, isConnected} = useContext(MarketContext);
   const [items, setItems] = useState<IItem[] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -15,6 +15,7 @@ export const TopCollectibles = () => {
    if(!nftContract) return; 
    (async () => {
     try {
+      console.log('CONN ',isConnected)
       setIsLoading(true);
       const [nfts] = await fetchMarketItems({marketContract: marketContract, offSet: 0, limit: 6});
       const genItems = await getItems(nftContract, nfts);
@@ -25,7 +26,7 @@ export const TopCollectibles = () => {
     }
     
    })()
-  },[signer]);
+  },[signer, isConnected]);
 
   return (
       isLoading ? (
