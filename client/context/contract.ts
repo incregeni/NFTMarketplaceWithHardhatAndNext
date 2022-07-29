@@ -43,12 +43,12 @@ export const getDefaultMarketContractProvider = async (): Promise<Contract> => {
   console.log(">> DEFAULT");
   const RPC = process.env.RPC;
   const provider = new ethers.providers.JsonRpcProvider(RPC);
-  const { chainId } = await provider.getNetwork();
-  if (chainId !== 31337 && chainId !== 80001) {
-    window.alert("Change your network to Mumbai Testnet or Local HardHat");
-    throw new Error("Change your network to Mumbai Testnet or Local HardHat");
-  }
-  const key = chainId.toString();
+  // const { chainId } = await provider.getNetwork();
+  // if (chainId !== 31337 && chainId !== 80001) {
+  //   window.alert("Change your network to Mumbai Testnet or Local HardHat");
+  //   throw new Error("Change your network to Mumbai Testnet or Local HardHat");
+  // }
+  const key = "80001";
   const marketAddress = MARKET_CONTRACT[key].address;
   const marketAbi = MARKET_CONTRACT[key].abi;
   const signer = provider.getSigner(process.env.SIGNER);
@@ -60,12 +60,12 @@ export const getDefaultMarketContractProvider = async (): Promise<Contract> => {
 export const getDefaultNFTContractProvider = async (): Promise<Contract> => {
   const RPC = process.env.RPC;
   const provider = new ethers.providers.JsonRpcProvider(RPC);
-  const { chainId } = await provider.getNetwork();
-  if (chainId !== 31337 && chainId !== 80001) {
-    window.alert("Change your network to Mumbai Testnet or Local HardHat");
-    throw new Error("Change your network to Mumbai Testnet or Local HardHat");
-  }
-  const key = chainId.toString();
+  // const { chainId } = await provider.getNetwork();
+  // if (chainId !== 31337 && chainId !== 80001) {
+  //   window.alert("Change your network to Mumbai Testnet or Local HardHat");
+  //   throw new Error("Change your network to Mumbai Testnet or Local HardHat");
+  // }
+  const key = "80001";
   const nftAddress = NFT_CONTRACT[key].address;
   const marketAbi = NFT_CONTRACT[key].abi;
   const signer = provider.getSigner(process.env.SIGNER);
