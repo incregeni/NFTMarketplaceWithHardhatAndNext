@@ -14,13 +14,14 @@ export const TopCollectibles = () => {
     try {
       setIsLoading(true);
       const marketContract = await getDefaultMarketContractProvider();
+      console.log('CONTRACT ',marketContract)
       const nftContract = await getDefaultNFTContractProvider();
       const [nfts] = await fetchMarketItems({marketContract: marketContract, offSet: 0, limit: 6});
       const genItems = await getItems(nftContract, nfts);
       setItems(genItems);
       setIsLoading(false);  
     } catch (error) {
-        console.error(error)
+        console.error('Home-Collection #',error)
         setIsLoading(false);
     }
    })()
