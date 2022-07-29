@@ -5,23 +5,16 @@ import {shortenAddress} from '../../utils'
 import { ethers } from "ethers"
 import Link from "next/link"
 import { MarketContext } from "../../context"
-import { toast } from "react-toastify"
 
 export const NFTCard:FC<IItem> =  (item) => {
-  const {isConnected} = useContext(MarketContext);
+  const {isConnected} = useContext(MarketContext)
   const {image, price, name, seller, itemId} = item
   const id = ethers.BigNumber.from(itemId).toNumber();
-  const notify = () => {  
-     toast.info("Please connect your wallet!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-    });
-  }
 
-  const Card = () => (
-    <div id={`no-connection-${id}`} className='bg-white h-[600px] w-[350px] flex flex-col rounded-2xl cursor-pointer hover:opacity-[0.9]'>
+
+  return (
+     <Link href={isConnected ? `/nft/${id}` : '#-${id}'}  >
+        <div id={`#-${id}`} className='bg-white h-[600px] w-[350px] flex flex-col rounded-2xl cursor-pointer hover:opacity-[0.9]'>
       <div className='w-[350px] h-[350px]'>
         <Image
           unoptimized
@@ -65,17 +58,8 @@ export const NFTCard:FC<IItem> =  (item) => {
       </svg>
      </i>
       </div>
-    </div>
-  );
-
-  return (
-   isConnected ? (
-     <Link href={`/nft/${id}`}>
-      <Card />
-    </Link> ) : 
-    (<div  onClick={notify}>
-       <Card/>
-     </div>)
+    </div> 
+     </Link> 
    )
 }
 
