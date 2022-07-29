@@ -49,17 +49,17 @@ export const MarketProvider = ({ children }: Props) => {
     });
   };
 
-  const isWalletConnected = async () => {
-    const cache = web3ModalRef.current?.cachedProvider;
-    if(!cache) return;
-    const proxy = await web3ModalRef.current?.connectTo(cache!)
-    const provider = new ethers.providers.Web3Provider(proxy);
-    const accounts =  await provider.listAccounts();
-    setIsConnected(true); 
-    setSigner(accounts[0]);
-    setWeb3Provider(provider);
-    providerEvents(web3ModalRef, proxy)
-  }
+  // const isWalletConnected = async () => {
+  //   const cache = web3ModalRef.current?.cachedProvider;
+  //   if(!cache) return;
+  //   const proxy = await web3ModalRef.current?.connectTo(cache!)
+  //   const provider = new ethers.providers.Web3Provider(proxy);
+  //   const accounts =  await provider.listAccounts();
+  //   setIsConnected(true); 
+  //   setSigner(accounts[0]);
+  //   setWeb3Provider(provider);
+  //   providerEvents(web3ModalRef, proxy)
+  // }
 
   const connectWallet = async () => {
     try {
@@ -99,7 +99,7 @@ export const MarketProvider = ({ children }: Props) => {
   const setInitialState = async ( { marketContract, nftContract }:InitialStateType) => {
     setMarketContract(marketContract);
     setNftContract(nftContract);
-    await isWalletConnected();   
+    //await isWalletConnected();   
   } 
 
   return (
