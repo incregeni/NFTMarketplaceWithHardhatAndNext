@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { Loader } from "../../../../components/common";
 import { generateItem, IItem, MarketContext } from "../../../../context";
+import { DATA_URL } from "../../../../utils";
 
 const NFTDetails:NextPage = () => {
   const {marketContract, nftContract, signer} = useContext(MarketContext);
@@ -57,6 +58,8 @@ const NFTDetails:NextPage = () => {
                  layout="responsive"
                  width={350}
                 height={350}
+                blurDataURL={DATA_URL}
+                placeholder="blur"
                />
               </div>
               <Link href={`/nft/${id}`}>

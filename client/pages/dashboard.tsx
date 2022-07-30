@@ -40,13 +40,13 @@ const Dashboard:NextPage = () => {
   const [title, setTitle] = useState('My Creations');
   
   useEffect(() =>{
-    if(!web3Provider || !signer) return;
+    if(!isConnected) return;
    (async () => {
-      const bal = await web3Provider?.getBalance(signer); 
+      const bal = !signer ? '0' : await web3Provider?.getBalance(signer); 
       if(bal)
         setBalance(parseFloat(ethers.utils.formatEther(bal)).toFixed(2))
    })()
-  },[balance, signer, web3Provider]);
+  },[balance, isConnected]);
 
   useEffect(()=> {
      getNFTs() 

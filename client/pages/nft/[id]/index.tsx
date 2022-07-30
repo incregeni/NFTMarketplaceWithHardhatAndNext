@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { Loader } from "../../../components/common";
 import { IItem, MarketContext, generateItem } from "../../../context";
 import { buyNFT } from "../../../context/marketContract";
+import { DATA_URL } from "../../../utils";
 
 const NFTItem:NextPage = () => {
   const {marketContract, nftContract, signer} = useContext(MarketContext);
@@ -60,6 +61,8 @@ const NFTItem:NextPage = () => {
             layout="responsive"
             width={400}
             height={400}
+            blurDataURL={DATA_URL}
+            placeholder="blur"
           />
         </div>
         <div className="self-start justify-center pt-[40px] pl-[50px]">

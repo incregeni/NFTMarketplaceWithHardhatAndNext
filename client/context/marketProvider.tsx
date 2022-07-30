@@ -1,5 +1,6 @@
 import { Contract, ethers, providers } from 'ethers';
 import { useEffect, useRef, useState } from 'react' 
+import { toast } from 'react-toastify';
 import Web3Modal from 'web3modal';
 import { MarketContext, getMarketContract, getNFTContract, getListingFee } from './index'
 import { getSignerAndProvider } from './walletConnection';
@@ -34,6 +35,8 @@ export const MarketProvider = ({ children }: Props) => {
     // Subscribe to chainId change
     provider.on("chainChanged", (chainId: number) => {
       console.log(chainId);
+      web3ModalRef.current?.clearCachedProvider();
+      setIsConnected(false);
     });
   
     // Subscribe to provider connection
@@ -70,7 +73,8 @@ export const MarketProvider = ({ children }: Props) => {
       setWeb3Provider(web3Provider);
       providerEvents(web3ModalRef, provider);
     } catch (error) {
-      console.log(" error", error);
+      console.error(" error", error);
+      toast.error('An error was ocurred when try to connect your wallet');
     }
   };
 
@@ -90,7 +94,7 @@ export const MarketProvider = ({ children }: Props) => {
         const nftContract = await getNFTContract(ethereum);
         setInitialState({ marketContract, nftContract });
       } else {
-          alert('Please install Metamask!');
+         toast.info('Please install metamask!')
       }
     })(); 
      

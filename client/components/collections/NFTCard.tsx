@@ -1,7 +1,7 @@
 import { FC, useContext } from "react";
 import Image from "next/image";
 import { IItem } from "../../interfaces";
-import { shortenAddress } from "../../utils";
+import { DATA_URL_DARK, shortenAddress } from "../../utils";
 import { ethers } from "ethers";
 import { MarketContext } from "../../context";
 import { useRouter } from "next/router";
@@ -39,6 +39,8 @@ export const NFTCard: FC<IItem> = (item) => {
           layout="responsive"
           width={350}
           height={350}
+          blurDataURL={DATA_URL_DARK}
+          placeholder="blur"
         />
       </div>
       <div className="text-[#444] h-[250px] w-[350px] p-4 relative">
