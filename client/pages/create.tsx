@@ -7,6 +7,7 @@ import { MarketContext } from "../context";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import { DATA_URL } from "../utils";
 
 const options = {
   url: "https://ipfs.infura.io:5001/api/v0",
@@ -20,7 +21,7 @@ interface NFTForm {
   description: string;
 }
 
-const WalletConnect: NextPage = () => {
+const WalletConnect = () => {
   return (
     <div>
       <h2>Please Connect your wallet</h2>
@@ -28,8 +29,8 @@ const WalletConnect: NextPage = () => {
   );
 };
 
-const Create: NextPage = () => {
-  const { signer, isConnected, nftContract, marketContract, getListingFee } =
+const Create = () => {
+  const { isConnected, nftContract, marketContract, getListingFee } =
     useContext(MarketContext);
   const [fileUrl, setFileUrl] = useState<string>("");
   const [form, setForm] = useState<NFTForm>({
@@ -58,12 +59,14 @@ const Create: NextPage = () => {
       setFileUrl(url);
     } catch (e) {
       console.log("Error uploading file: ", e);
+      toast.error(`Error uploading file:`);
     }
   }
 
   const createItem = async () => {
     const { name, description, price } = form;
     if (!name || !description || !price || !fileUrl) {
+      toast.info("All form entries are required");
       return;
     }
     const data = JSON.stringify({
@@ -77,38 +80,38 @@ const Create: NextPage = () => {
       const url = `https://ipfs.infura.io/ipfs/${added.path}`;
       createSale(url);
     } catch (error) {
-      console.log(`Error uploading file: `, error);
+      console.log(`error Create item `, error);
+      toast.error("Create item fail.");
     }
   };
 
   const createSale = async (url: string) => {
     if (!nftContract || !marketContract) return;
-    let transaction = await nftContract.createToken(url);
-    let tx = await transaction.wait();
+    try {
+      let transaction = await nftContract.createToken(url);
+      let tx = await transaction.wait();
+      let event = tx.events[0];
+      let value = event.args[2];
+      let tokenId = value.toNumber();
 
-    //console.log('NFT Transaction: ',tx)
-    //console.log('NFT Transaction events: ',tx.events[0])
-    let event = tx.events[0];
-    let value = event.args[2];
-    let tokenId = value.toNumber();
-    //console.log('EV ',event)
-    notify(`Transaction 1 of 2 completed`);
+      notify(`Transaction 1 of 2 completed`);
 
-    const price = ethers.utils.parseUnits(form.price, "ether");
+      const price = ethers.utils.parseUnits(form.price, "ether");
 
-    transaction = await marketContract.createMarketItem(
-      nftContract.address,
-      tokenId,
-      price,
-      { value: listingFee }
-    );
+      transaction = await marketContract.createMarketItem(
+        nftContract.address,
+        tokenId,
+        price,
+        { value: listingFee }
+      );
 
-    tx = await transaction.wait();
+      tx = await transaction.wait();
 
-    //console.log('MARKET Transaction: ',tx)
-    //console.log('MARKET Transaction events: ',tx.events[0])
-    notify(`Transaction 2 of 2 completed`);
-    router.push("/dashboard");
+      notify(`Transaction 2 of 2 completed`);
+      router.push("/dashboard");
+    } catch (error) {
+      toast.error("transaction fail");
+    }
   };
 
   useEffect(() => {
@@ -176,6 +179,8 @@ const Create: NextPage = () => {
                     layout="responsive"
                     width={300}
                     height={300}
+                    placeholder={"blur"}
+                    blurDataURL={DATA_URL}
                   />
                 </div>
               ) : (
