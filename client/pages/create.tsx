@@ -49,6 +49,10 @@ const Create = () => {
   async function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
     const file = e.target.files[0];
+    if(!file || !file.type.match(/image.*/)) {
+      toast.error('Please select image file')
+      return;
+    }
     try {
       const added = await client.add(file, {
         progress: (prog) =>
