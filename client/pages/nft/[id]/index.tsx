@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { Loader } from "../../../components/common";
 import { IItem, MarketContext, generateItem } from "../../../context";
 import { buyNFT } from "../../../context/marketContract";
@@ -26,11 +27,15 @@ const NFTItem:NextPage = () => {
     })();
   },[signer]);
 
+  const notify = (message: string) => {
+    toast.success(message);
+  };
+
   const buyNft = async () => {
     const price = ethers.utils.parseUnits(nft!.price, "ether")
     const res = await buyNFT({ marketContract: marketContract!, nftContract: nftContract!, itemId: nft!.tokenId, price });
-    console.log('RES ',res);
     if(res) {
+      notify('Transaction completed!')
       router.push('/dashboard');
     }
   }
