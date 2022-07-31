@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
@@ -8,6 +7,7 @@ import { create as ipfsHttpClient } from "ipfs-http-client";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { DATA_URL } from "../utils";
+import { TransactionProgress } from "../components/common";
 
 const options = {
   url: "https://ipfs.infura.io:5001/api/v0",
@@ -40,6 +40,8 @@ const Create = () => {
   });
   const [listingFee, setListingFee] = useState("0");
   const [uploadPercentage, setUploadPercentage] = useState(-1);
+  const [txWait, setTxWait] = useState(false);
+
   const router = useRouter();
 
   const notify = (message: string) => {
@@ -49,8 +51,8 @@ const Create = () => {
   async function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
     const file = e.target.files[0];
-    if(!file || !file.type.match(/image.*/)) {
-      toast.error('Please select image file')
+    if (!file || !file.type.match(/image.*/)) {
+      toast.error("Please select image file");
       return;
     }
     try {
@@ -59,7 +61,7 @@ const Create = () => {
           setUploadPercentage(Math.floor((prog / file.size) * 100)),
       });
       const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-      console.log("URL ", added);
+      
       setFileUrl(url);
     } catch (e) {
       console.log("Error uploading file: ", e);
@@ -92,6 +94,7 @@ const Create = () => {
   const createSale = async (url: string) => {
     if (!nftContract || !marketContract) return;
     try {
+      setTxWait(true);
       let transaction = await nftContract.createToken(url);
       let tx = await transaction.wait();
       let event = tx.events[0];
@@ -115,6 +118,7 @@ const Create = () => {
       router.push("/dashboard");
     } catch (error) {
       toast.error("transaction fail");
+      setTxWait(false);
     }
   };
 
@@ -163,12 +167,17 @@ const Create = () => {
                   className="my-4"
                   onChange={onChange}
                 />
-                <button
-                  onClick={createItem}
-                  className="font-bold mt-4 bg-gradient-to-r from-[#1199fa] to-[#11d0fa]  rounded-md text-white  p-4 shadow-lg"
-                >
-                  Create NFT
-                </button>
+                {!txWait ? (
+                  <button
+                    onClick={createItem}
+                    className="font-bold mt-4 bg-gradient-to-r from-[#1199fa] to-[#11d0fa]  rounded-md text-white  p-4 shadow-lg"
+                  >
+                    Create NFT
+                  </button>
+                ) : (
+                   <TransactionProgress />
+                )}
+
                 <h5 className="text-white mt-4">
                   * Listing Price: {ethers.utils.formatEther(listingFee)} eth
                 </h5>

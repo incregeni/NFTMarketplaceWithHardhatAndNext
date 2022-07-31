@@ -86,14 +86,13 @@ export const buyNFT = async ({
       }
     );
     const tx = await transaction.wait();
-    console.log("TX >>> ", tx);
+    // console.log("TX >>> ", tx);
     const event = tx.events[2];
-    console.log("EV ", event.args);
+    //console.log("EV ", event.args);
     const value = event.args[6];
     return value;
-    //return true;
   } catch (error) {
-    console.log("err tx ", error);
+    console.log("error tx ", error);
     return null;
   }
 };
