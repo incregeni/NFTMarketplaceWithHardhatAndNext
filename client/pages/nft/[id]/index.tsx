@@ -35,6 +35,7 @@ const NFTItem: NextPage = () => {
 
   const buyNft = async () => {
     setTxWait(true);
+    let toastTx = toast.loading("Please wait...");
     const price = ethers.utils.parseUnits(nft!.price, "ether");
     const res = await buyNFT({
       marketContract: marketContract!,
@@ -43,10 +44,21 @@ const NFTItem: NextPage = () => {
       price,
     });
     if (res) {
-      notify("Transaction completed!");
+      toast.update(toastTx, {
+        render: "Tx Ok",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
       router.push("/dashboard");
     } else {
       setTxWait(false);
+      toast.update(toastTx, {
+        render: "TX Fail",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 

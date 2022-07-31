@@ -44,10 +44,6 @@ const Create = () => {
 
   const router = useRouter();
 
-  const notify = (message: string) => {
-    toast.success(message);
-  };
-
   async function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
     const file = e.target.files[0];
@@ -61,7 +57,7 @@ const Create = () => {
           setUploadPercentage(Math.floor((prog / file.size) * 100)),
       });
       const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-      
+
       setFileUrl(url);
     } catch (e) {
       console.log("Error uploading file: ", e);
@@ -93,18 +89,25 @@ const Create = () => {
 
   const createSale = async (url: string) => {
     if (!nftContract || !marketContract) return;
+    let toastTx = toast.loading("Please wait...");
     try {
       setTxWait(true);
       let transaction = await nftContract.createToken(url);
+
       let tx = await transaction.wait();
+      toast.update(toastTx, {
+        render: "Tx Ok",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+
       let event = tx.events[0];
       let value = event.args[2];
       let tokenId = value.toNumber();
 
-      notify(`Transaction 1 of 2 completed`);
-
       const price = ethers.utils.parseUnits(form.price, "ether");
-
+      toastTx = toast.loading("Please wait...");
       transaction = await marketContract.createMarketItem(
         nftContract.address,
         tokenId,
@@ -113,11 +116,21 @@ const Create = () => {
       );
 
       tx = await transaction.wait();
+      toast.update(toastTx, {
+        render: "Tx Ok",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
 
-      notify(`Transaction 2 of 2 completed`);
       router.push("/dashboard");
     } catch (error) {
-      toast.error("transaction fail");
+      toast.update(toastTx, {
+        render: "Something went wrong",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
       setTxWait(false);
     }
   };
@@ -175,7 +188,7 @@ const Create = () => {
                     Create NFT
                   </button>
                 ) : (
-                   <TransactionProgress />
+                  <TransactionProgress />
                 )}
 
                 <h5 className="text-white mt-4">
