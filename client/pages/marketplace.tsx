@@ -8,7 +8,7 @@ const Marketplace:NextPage = () => {
   const { signer, marketContract, nftContract} = useContext(MarketContext);
   const [items, setItems] = useState<IItem[] | []>([]);
   const [total, setTotal] = useState(0);
-  const [limit, setLimit] = useState(9);
+  const [limit, setLimit] = useState(6);
   const [offSet, setOffSet] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   
