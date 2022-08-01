@@ -1,4 +1,5 @@
 import { Contract, providers } from "ethers";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import {
@@ -27,6 +28,18 @@ export const MarketProvider = ({ children }: Props) => {
     providers.Web3Provider | undefined
   >(undefined);
   const [signer, setSigner] = useState<string | undefined>(undefined);
+  const router = useRouter();
+  
+  const providerEvents = () => {
+    window.ethereum.on("accountsChanged", async () => {
+       setIsConnected(false)
+       setWeb3Provider(undefined);
+       setNftContract(null);
+       setMarketContract(null);
+      router.push('/');
+    });
+  
+  };
 
   const connectWallet = async () => {
     try {
@@ -73,6 +86,7 @@ export const MarketProvider = ({ children }: Props) => {
     setIsConnected(true);
     setMarketContract(marketContract);
     setNftContract(nftContract);
+    providerEvents();
   };
 
   return (
