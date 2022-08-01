@@ -1,21 +1,24 @@
 import { providers } from "ethers";
-import { MutableRefObject } from "react";
 import Web3Modal from "web3modal";
 
-export const getSignerAndProvider = async (
-  web3ModalRef: MutableRefObject<Web3Modal | null>
-): Promise<any> => {
-  if (web3ModalRef.current) {
-    const provider = await web3ModalRef.current.connect();
-    const web3Provider = new providers.Web3Provider(provider);
-    const { chainId } = await web3Provider.getNetwork();
-    if (chainId !== 31337 && chainId !== 80001) {
-      window.alert("Change your network to Mumbai Testnet or Local HardHat");
-      throw new Error("Change your network to Mumbai Testnet or Local HardHat");
+export const connect = async (): Promise<
+  providers.Web3Provider | undefined
+> => {
+  try {
+    const web3Modal = new Web3Modal({
+      cacheProvider: false,
+      providerOptions: {},
+      theme: "dark",
+    });
+    const web3ModalInstance = await web3Modal.connect();
+    const web3ModalProvider = new providers.Web3Provider(web3ModalInstance);
+    if (web3ModalProvider) {
+      return web3ModalProvider;
+    } else {
+      return undefined;
     }
-    const signer = web3Provider.getSigner();
-    return { provider, signer, web3Provider };
-  } else {
-    return null;
+  } catch (error) {
+    console.error("Wallet conn: ", error);
+    return undefined;
   }
 };
