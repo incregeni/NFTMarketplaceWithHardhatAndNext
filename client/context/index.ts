@@ -7,7 +7,7 @@ export {
   //getDefaultMarketContractProvider,
   // getDefaultNFTContractProvider,
 } from "./contract";
-export { getSignerAndProvider } from "./walletConnection";
+export { connect } from "./walletConnection";
 export {
   getListingFee,
   getItems,
