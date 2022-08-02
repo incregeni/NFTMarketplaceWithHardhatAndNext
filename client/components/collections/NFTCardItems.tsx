@@ -1,8 +1,8 @@
 import { IItem } from '../../interfaces'
 import { NFTCard } from './NFTCard'
 
-export const NFTCardItems = (props:{items:IItem[]}) => {
-  const {items} = props;
+export const NFTCardItems = (props: { items: IItem[], message?: string, isLoading?: boolean }) => {
+  const {items, message = "NFT's not found", isLoading = false }  = props;
 
   return (
     <div className='bg-gradient grid grid-cols-3 gap-12 py-8'>
@@ -12,8 +12,8 @@ export const NFTCardItems = (props:{items:IItem[]}) => {
        </div>
       )) ) :
       (
-      <div>
-        <h3 className='text-white text-center text-2xl'>NFT's not found</h3>
+      !isLoading && <div>
+        <h3 className='text-white text-center text-2xl'>{message}</h3>
       </div>
       )
       }

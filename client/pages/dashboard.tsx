@@ -16,14 +16,15 @@ const NFTButtonGroup:ButtonGroupItemType[] = [
 ]
 interface INFTComponent {
   NFTs: IItem[],
-  title: string
+  title: string,
+  isLoading: boolean
 }
 
-const NFTS:FC<INFTComponent> = ({ NFTs, title }) => {
+const NFTS:FC<INFTComponent> = ({ NFTs, title, isLoading }) => {
   return (
     <div>
       <h4 className='text-xl text-blue-500'>{title}</h4>
-       { <NFTCardItems items={NFTs ? NFTs : []}/> }
+       { <NFTCardItems items={NFTs ? NFTs : []} isLoading={isLoading} /> }
     </div>  
   )
 
@@ -135,7 +136,7 @@ const Dashboard:NextPage = () => {
         </div>
       </section>
       <div className='bg-gradient text-white flex items-center justify-center pt-5'>
-      { isLoading ? <Loader className='w-[200px] h-[200px]' size={300} />  : <NFTS NFTs={currentNFTItems} title={title}/>  }
+      { isLoading ? <Loader className='w-[200px] h-[200px]' size={300} />  : <NFTS NFTs={currentNFTItems} title={title} isLoading={isLoading}/>  }
       </div>
       </div>
       )}
