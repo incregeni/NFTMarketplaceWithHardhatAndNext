@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   domains: ["ipfs.infura.io", "ipfs.io", "xsgames.co", "joeschmoe.io"],
 };
 

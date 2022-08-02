@@ -29,13 +29,9 @@ const NFTItem: NextPage = () => {
     })();
   }, [signer]);
 
-  const notify = (message: string) => {
-    toast.success(message);
-  };
-
   const buyNft = async () => {
     setTxWait(true);
-    let toastTx = toast.loading("Please wait...");
+    let toastTx = toast.loading("Please wait...", { position: toast.POSITION.BOTTOM_RIGHT });
     const price = ethers.utils.parseUnits(nft!.price, "ether");
     const res = await buyNFT({
       marketContract: marketContract!,
@@ -49,6 +45,7 @@ const NFTItem: NextPage = () => {
         type: "success",
         isLoading: false,
         autoClose: 3000,
+        position: toast.POSITION.BOTTOM_RIGHT
       });
       router.push("/dashboard");
     } else {
@@ -58,6 +55,7 @@ const NFTItem: NextPage = () => {
         type: "error",
         isLoading: false,
         autoClose: 3000,
+        position: toast.POSITION.BOTTOM_RIGHT
       });
     }
   };
