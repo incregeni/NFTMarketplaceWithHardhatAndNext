@@ -106,8 +106,8 @@ export const MarketProvider = ({ children }: Props) => {
     setNFTMarketItems((prev:IItem[]) => {
       return  [...prev, ...genItems]
     });
-    setTotalNFTItems(total.toString());
-    setOffSetNFTItems(offset.toString());
+    setTotalNFTItems(parseInt(total.toString()));
+    setOffSetNFTItems(parseInt(offset.toString()));
   } 
   
   return (
