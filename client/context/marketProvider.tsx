@@ -7,6 +7,9 @@ import {
   getMarketContract,
   getNFTContract,
   getListingFee,
+  fetchMarketItems,
+  getItems,
+  IItem,
 } from "./index";
 import { connect } from "./walletConnection";
 interface Props {
@@ -28,6 +31,11 @@ export const MarketProvider = ({ children }: Props) => {
     providers.Web3Provider | undefined
   >(undefined);
   const [signer, setSigner] = useState<string | undefined>(undefined);
+  const [NFTMarketItems, setNFTMarketItems] = useState<IItem[] | []>([]);
+  const [totalNFTItems, setTotalNFTItems] = useState(0);
+  const [limitNFTItems, setLimitNFTItems] = useState(6);
+  const [offSetNFTItems, setOffSetNFTItems] = useState(0);
+
   const router = useRouter();
   
   const providerEvents = () => {
@@ -89,6 +97,19 @@ export const MarketProvider = ({ children }: Props) => {
     providerEvents();
   };
 
+  const getMarketPlaceItems = async () => {
+    if(!marketContract || !nftContract) return;
+    const [nfts, offset, total] = await fetchMarketItems({marketContract: marketContract, offSet: offSetNFTItems, limit: limitNFTItems });
+    console.log("TOTAL", total.toString())
+    console.log("OFFSET", offset.toString())
+    const genItems = await getItems(nftContract, nfts);
+    setNFTMarketItems((prev:IItem[]) => {
+      return  [...prev, ...genItems]
+    });
+    setTotalNFTItems(total.toString());
+    setOffSetNFTItems(offset.toString());
+  } 
+  
   return (
     <MarketContext.Provider
       value={{
@@ -97,6 +118,10 @@ export const MarketProvider = ({ children }: Props) => {
         signer,
         nftContract,
         marketContract,
+        NFTMarketItems,
+        totalNFTItems,
+        offSetNFTItems,
+        getMarketPlaceItems,
         getListingFee,
         connectWallet,
       }}

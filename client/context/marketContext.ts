@@ -8,6 +8,10 @@ export const contextDefaultValues: IMarketContext = {
   signer: undefined,
   nftContract: null,
   marketContract: null,
+  NFTMarketItems: [],
+  totalNFTItems: 0,
+  offSetNFTItems: 0,
+  getMarketPlaceItems() {},
   getListingFee(marketContract: Contract): Promise<string> {
     return new Promise(() => "");
   },

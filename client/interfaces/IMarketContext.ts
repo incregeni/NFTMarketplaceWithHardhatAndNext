@@ -7,6 +7,10 @@ export interface IMarketContext {
   signer: string | undefined;
   nftContract: Contract | null;
   marketContract: Contract | null;
+  NFTMarketItems: IItem[];
+  totalNFTItems: number;
+  offSetNFTItems: number;
+  getMarketPlaceItems: () => void;
   connectWallet: () => void;
   getListingFee: (marketContract: Contract) => Promise<string>;
 }

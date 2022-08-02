@@ -89,7 +89,7 @@ const Create = () => {
 
   const createSale = async (url: string) => {
     if (!nftContract || !marketContract) return;
-    let toastTx = toast.loading("Please wait...");
+    let toastTx = toast.loading("Please wait...", { position: toast.POSITION.BOTTOM_RIGHT });
     try {
       setTxWait(true);
       let transaction = await nftContract.createToken(url);
@@ -99,7 +99,8 @@ const Create = () => {
         render: "Tx Ok",
         type: "success",
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 3000,  
+        position: toast.POSITION.BOTTOM_RIGHT,
       });
 
       let event = tx.events[0];
@@ -107,7 +108,7 @@ const Create = () => {
       let tokenId = value.toNumber();
 
       const price = ethers.utils.parseUnits(form.price, "ether");
-      toastTx = toast.loading("Please wait...");
+      toastTx = toast.loading("Please wait...", { position: toast.POSITION.BOTTOM_RIGHT });
       transaction = await marketContract.createMarketItem(
         nftContract.address,
         tokenId,
@@ -121,6 +122,7 @@ const Create = () => {
         type: "success",
         isLoading: false,
         autoClose: 3000,
+        position: toast.POSITION.BOTTOM_RIGHT,
       });
 
       router.push("/dashboard");
@@ -130,6 +132,7 @@ const Create = () => {
         type: "error",
         isLoading: false,
         autoClose: 3000,
+        position: toast.POSITION.BOTTOM_RIGHT,
       });
       setTxWait(false);
     }
