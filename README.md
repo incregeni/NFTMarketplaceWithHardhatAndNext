@@ -1,46 +1,33 @@
-# Advanced Sample Hardhat Project
+<div id="top"></div>
 
-This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
-The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
+<br />
+<div align="center">
+  <a href="https://github.com/elPoeta/nft-marketplace">
+    <img src="images/logo.png" alt="Logo" width="210" height="35" style="border-radius:5px">
+  </a>
 
-Try running some of the following tasks:
+  <h3 align="center">NFT Marketplace</h3>
+</div>
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-npx hardhat help
-REPORT_GAS=true npx hardhat test
-npx hardhat coverage
-npx hardhat run scripts/deploy.ts
-TS_NODE_FILES=true npx ts-node scripts/deploy.ts
-npx eslint '**/*.{js,ts}'
-npx eslint '**/*.{js,ts}' --fix
-npx prettier '**/*.{json,sol,md}' --check
-npx prettier '**/*.{json,sol,md}' --write
-npx solhint 'contracts/**/*.sol'
-npx solhint 'contracts/**/*.sol' --fix
-```
+<!-- MARKDOWN LINKS & IMAGES -->
 
-# Etherscan verification
-
-To try out Etherscan verification, you first need to deploy a contract to an Ethereum network that's supported by Etherscan, such as Ropsten.
-
-In this project, copy the .env.example file to a file named .env, and then edit it to fill in the details. Enter your Etherscan API key, your Ropsten node URL (eg from Alchemy), and the private key of the account which will send the deployment transaction. With a valid .env file in place, first deploy your contract:
-
-```shell
-hardhat run --network ropsten scripts/deploy.ts
-```
-
-Then, copy the deployment address and paste it in to replace `DEPLOYED_CONTRACT_ADDRESS` in this command:
-
-```shell
-npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
-```
-
-# Performance optimizations
-
-For faster runs of your tests and scripts, consider skipping ts-node's type checking by setting the environment variable `TS_NODE_TRANSPILE_ONLY` to `1` in hardhat's environment. For more details see [the documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
+[contributors-shield]: https://img.shields.io/github/contributors/elPoeta/nft-marketplace.svg?style=for-the-badge
+[contributors-url]: https://github.com/elPoeta/nft-marketplace/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/elPoeta/nft-marketplace.svg?style=for-the-badge
+[forks-url]: https://github.com/elPoeta/nft-marketplace/network/members
+[stars-shield]: https://img.shields.io/github/stars/elPoeta/nft-marketplace.svg?style=for-the-badge
+[stars-url]: https://github.com/elPoeta/nft-marketplace/stargazers
+[issues-shield]: https://img.shields.io/github/issues/elPoeta/nft-marketplace.svg?style=for-the-badge
+[issues-url]: https://github.com/elPoeta/nft-marketplace/issues
+[license-shield]: https://img.shields.io/github/license/elPoeta/nft-marketplace.svg?style=for-the-badge
+[license-url]: https://github.com/elPoeta/nft-marketplace/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/leonardo-tosetto
+[product-screenshot]: images/logo.svg
