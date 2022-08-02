@@ -100,8 +100,6 @@ export const MarketProvider = ({ children }: Props) => {
   const getMarketPlaceItems = async () => {
     if(!marketContract || !nftContract) return;
     const [nfts, offset, total] = await fetchMarketItems({marketContract: marketContract, offSet: offSetNFTItems, limit: limitNFTItems });
-    console.log("TOTAL", total.toString())
-    console.log("OFFSET", offset.toString())
     const genItems = await getItems(nftContract, nfts);
     setNFTMarketItems((prev:IItem[]) => {
       return  [...prev, ...genItems]

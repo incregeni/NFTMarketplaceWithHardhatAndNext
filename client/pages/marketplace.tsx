@@ -22,7 +22,7 @@ const Marketplace:NextPage = () => {
     <section className="bg-gradient text-white py-5">
       <div className="w-[80%] mx-auto my-0">
          <h2 className="text-center text-4xl">Marketplace</h2>
-         <NFTCardItems items={NFTMarketItems} />
+         <NFTCardItems items={NFTMarketItems} isLoading={isLoading}/>
       </div>
       <div className="flex justify-center items-center">
       { isLoading ? <Loader className='w-[150px] h-[150px]' size={150} /> :
