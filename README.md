@@ -29,11 +29,12 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
-        <li><a href="#metamask">Metamask configuration</a></li>
+        <li><a href="#metamask-local">Metamask Local nectwork configuration</a></li>
+        <li><a href="#metamask-mumbai">Metamask Mumbai test nectwork configuration</a></li>
+        <li><a href="#Faucet">Polygon Faucet</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+     <li><a href="#demo">Demo</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
@@ -167,7 +168,7 @@ _Use yarn or npm to install dependencies_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### Metamask
+### Metamask-Local
 
 _Metamask hardhat network configuartion_
 
@@ -213,6 +214,65 @@ _Metamask hardhat network configuartion_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+### Metamask-Mumbai
+
+_Metamask mumbai test network configuartion_
+
+1. Open metamask extension
+2. Add mumbai test nework
+   1. click icon
+   2. click add network button
+   <div align="center">
+    <img src="images/metaaddred.png" alt="Logo" width="300" height="500" style="border-radius:5px">
+   </div>
+3. Add mumbai network parameters
+   1. Network Name: Mumbai Testnet
+   2. RPC URL: https://rpc-mumbai.maticvigil.com/
+   3. Chain ID: 80001
+   4. Currency Symbol: MATIC
+   5. Block explorer: https://polygonscan.com/
+   <div align="center">
+       <img src="images/metaaddmumbai.png" alt="Logo" width="300" height="500" style="border-radius:5px">
+   </div>
+4. Show test network
+   1. click icon
+   2. click settings
+   3. click advanced
+   4. switch ON show test networks
+   <div align="center" style="display:flex; gap:10px;">
+      <img src="images/metasettings.png" alt="Logo" width="300" height="500" style="border-radius:5px">
+      <img src="images/metaactivetestnet.png" alt="Logo" width="300" height="500" style="border-radius:5px">
+    </div>
+5. Select test network
+   1. click combo box
+   2. click Mumbai Testnet
+   <div align="center">
+     <img src="images/metaselmumbai.png" alt="Logo" width="300" height="500" style="border-radius:5px">
+   </div>
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+### Faucet
+
+##### Polygon faucet
+
+<a href="https://faucet.polygon.technology/" target="_blank">https://faucet.polygon.technology/</a>
+
+1. Select mumbai network
+2. Select MATIC token
+3. Paste your wallet address
+4. Submit and wait...
+<div align="center">
+ <img src="images/polygonfaucet.png" alt="Logo" width="900" height="300" style="border-radius:5px">
+</div>
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Demo
+
+#### **[https://poether-nft.vercel.app/](https://poether-nft.vercel.app/)**
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
