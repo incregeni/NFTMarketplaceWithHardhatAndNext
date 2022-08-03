@@ -171,6 +171,46 @@ _Use yarn or npm to install dependencies_
 
 _Metamask hardhat network configuartion_
 
+1. Open metamask extension
+2. Add local test nework
+   1. click icon
+   2. click add network button
+   <div align="center">
+    <img src="images/metaaddred.png" alt="Logo" width="300" height="500" style="border-radius:5px">
+   </div>
+3. Add local network parameters
+   1. Network Name: Hardhat-Localhost
+   2. RPC URL: http://127.0.0.1:8545
+   3. Chain ID: 31337
+   4. Currency Symbol: ETH
+   <div align="center">
+       <img src="images/metaaddlocal.png" alt="Logo" width="300" height="500" style="border-radius:5px">
+   </div>
+4. Show test network
+   1. click icon
+   2. click settings
+   3. click advanced
+   4. switch ON show test networks
+   <div align="center" style="display:flex; gap:10px;">
+      <img src="images/metasettings.png" alt="Logo" width="300" height="500" style="border-radius:5px">
+      <img src="images/metaactivetestnet.png" alt="Logo" width="300" height="500" style="border-radius:5px">
+    </div>
+5. Select test network
+   1. click combo box
+   2. click Hardhat-Localhost
+   <div align="center">
+     <img src="images/metaselectlocal.png" alt="Logo" width="300" height="500" style="border-radius:5px">
+   </div>
+6. Import private key
+   1. click icon
+   2. click Import Account
+   3. enter hardhat private key
+   4. click import
+   <div align="center" style="display:flex; gap:10px;">
+      <img src="images/metaselimport.png" alt="Logo" width="300" height="500" style="border-radius:5px">
+      <img src="images/metaimportprivkey.png" alt="Logo" width="300" height="500" style="border-radius:5px">
+    </div>
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## License
