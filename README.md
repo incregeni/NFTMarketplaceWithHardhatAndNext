@@ -173,6 +173,21 @@ _Metamask hardhat network configuartion_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Contact
+
+Leonardo Tosetto - leonardo.a.tosetto@gmail.com
+
+Project Link: [https://github.com/elPoeta/nft-marketplace](https://github.com/elPoeta/nft-marketplace)
+
+Demo: [https://poether-nft.vercel.app/](https://poether-nft.vercel.app/)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 <!-- MARKDOWN LINKS & IMAGES -->
 
 [contributors-shield]: https://img.shields.io/github/contributors/elPoeta/nft-marketplace.svg?style=for-the-badge
