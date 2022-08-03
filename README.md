@@ -29,6 +29,7 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#metamask">Metamask configuration</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -42,9 +43,13 @@
 
 ## About The Project
 
-###### Web3 Dapp. Buy, sell, and showcase NFTs, over Polygon ethereum network.
+<div align="center">
+
+##### Web3 Dapp. Buy, sell, and showcase NFTs, over Polygon ethereum network.
 
 [![Product Name Screen Shot][product-screenshot]](https://poether-nft.vercel.app/)
+
+</div>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -56,6 +61,115 @@
 - [![Tailwind][tailwind.css]][tailwind-url]
 - [![Solidity][solidity]][solidity-url]
 - [![Hardhat][hardhat]][hardhat-url]
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Getting Started
+
+To get a local copy up and running follow these simple example steps.
+
+### Prerequisites
+
+- ###### Enviroment
+  - node
+    <a href="https://nodejs.org/en/download/" target="_blank">https://nodejs.org/en/download/</a>
+- ###### Pacakage manager
+
+  - npm
+    <a href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm" target="_blank">https://docs.npmjs.com/downloading-and-installing-node-js-and-npm</a>
+    ###### or
+  - yarn
+    <a href="https://yarnpkg.com/cli/install" target="_blank">https://yarnpkg.com/cli/install</a>
+
+- ###### Browser
+  - Metamask extension
+    <a href="https://metamask.io/" target="_blank">https://metamask.io/</a>
+
+### Installation
+
+_Use yarn or npm to install dependencies_
+
+1. Clone the repo
+
+   ```sh
+   git clone https://github.com/elPoeta/nft-marketplace.git
+   ```
+
+2. Install NPM packages
+   ```sh
+     yarn install
+   ```
+   or
+   ```sh
+     npm install
+   ```
+3. Clean
+   ```sh
+   yarn hardhat clean
+   ```
+   or
+   ```sh
+   npx hardhat clean
+   ```
+4. Compile
+   ```sh
+   yarn hardhat compile
+   ```
+   or
+   ```sh
+   npx hardhat compile
+   ```
+5. Start local ethereum network
+   ```sh
+   yarn hardhat node
+   ```
+   or
+   ```sh
+   npx hardhat node
+   ```
+6. Deploy contract locally
+   ```sh
+   hardhat run --network localhost scripts/deploy.ts
+   ```
+7. Tests
+   ```sh
+   yarn hardhat test
+   ```
+   or
+   ```sh
+   npx hardhat test
+   ```
+8. Client
+   ```sh
+   cd client
+   ```
+9. Install NPM packages
+
+   ```sh
+   yarn install
+   ```
+
+   or
+
+   ```sh
+   npm install
+   ```
+
+10. Run
+    ```sh
+    yarn dev
+    ```
+    or
+    ```sh
+    npm run dev
+    ```
+11. Visit http://localhost:3000 to view your application.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+### Metamask
+
+_Metamask hardhat network configuartion_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
