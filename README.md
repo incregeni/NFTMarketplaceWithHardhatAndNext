@@ -37,6 +37,7 @@
      <li><a href="#demo">Demo</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -46,7 +47,9 @@
 
 <div align="center">
 
-##### Web3 Dapp. Buy, sell, and showcase NFTs, over Polygon ethereum network.
+#### Web3 Dapp. Buy, sell, and showcase NFTs, over Polygon ethereum network.
+
+##### Inspired by crypto.com/nft
 
 [![Product Name Screen Shot][product-screenshot]](https://poether-nft.vercel.app/)
 
@@ -266,6 +269,20 @@ _Metamask mumbai test network configuartion_
  <img src="images/polygonfaucet.png" alt="Logo" width="900" height="300" style="border-radius:5px">
 </div>
 
+##### Mumbai faucet
+
+You need connect your wallet to alchemy
+to receive 5 mumbai matic
+
+<a href="https://mumbaifaucet.com/" target="_blank">https://mumbaifaucet.com/</a>
+
+1. Login alchemy site
+2. Paste your wallet address
+3. Send and wait...
+<div align="center">
+ <img src="images/mumbaifaucet.png" alt="Logo" width="900" height="300" style="border-radius:5px">
+</div>
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Demo
@@ -273,6 +290,7 @@ _Metamask mumbai test network configuartion_
 #### **[https://poether-nft.vercel.app/](https://poether-nft.vercel.app/)**
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
@@ -288,6 +306,33 @@ Project Link: [https://github.com/elPoeta/nft-marketplace](https://github.com/el
 Demo: [https://poether-nft.vercel.app/](https://poether-nft.vercel.app/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+## Acknowledgments
+
+- [Node js](https://nodejs.org/en/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Solidity](https://soliditylang.org/)
+- [Hardhat](https://hardhat.org/)
+- [Polygon](https://polygon.technology/)
+- [Polygon Faucet](https://faucet.polygon.technology/)
+- [Mumbai Faucet](https://mumbaifaucet.com/)
+- [React](https://reactjs.org/)
+- [Next js](https://nextjs.org/)
+- [Vercel](https://vercel.com)
+- [Alchemy](https://www.alchemy.com/)
+- [Tailwind css](https://tailwindcss.com/)
+- [Metamask](https://metamask.io/)
+- [Hero icons](https://heroicons.com/)
+- [Img Shields](https://shields.io)
+- [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
+- [Choose an Open Source License](https://choosealicense.com)
+- [vscode](https://code.visualstudio.com/)
+- [vscode hardhat extension](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity)
+- [vscode react snippets extension](https://marketplace.visualstudio.com/items?itemName=dsznajder.es7-react-js-snippets)
+- [vscode Tailwind CSS IntelliSense extension](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 <!-- MARKDOWN LINKS & IMAGES -->
 
 [contributors-shield]: https://img.shields.io/github/contributors/elPoeta/nft-marketplace.svg?style=for-the-badge
