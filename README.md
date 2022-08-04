@@ -19,10 +19,8 @@
     <br />
     <a href="https://github.com/elPoeta/nft-marketplace"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="https://poether-nft.vercel.app/">View Demo</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://poether-nft.vercel.app/">View Demo</a>
     ·
  </p>
 </div>
