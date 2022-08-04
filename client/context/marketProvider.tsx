@@ -53,7 +53,7 @@ export const MarketProvider = ({ children }: Props) => {
     try {
       if (
         typeof window != "undefined" &&
-        typeof window.ethereum != "undefined"
+        typeof window.ethereum != "undefined" && window.ethereum.isMetaMask
       ) {
         const web3Provider = await connect();
         if (!web3Provider) {
