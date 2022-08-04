@@ -177,10 +177,10 @@ _Metamask hardhat network configuartion_
 
 1. Open metamask extension
 2. Add local test nework
-   1. click icon
+   1. click combo box
    2. click add network button
    <div align="center">
-    <img src="images/metaaddred.png" alt="Logo" width="300" height="500" style="border-radius:5px">
+    <img src="images/metanewnet.png" alt="Logo" width="300" height="500" style="border-radius:5px">
    </div>
 3. Add local network parameters
    1. Network Name: Hardhat-Localhost
@@ -223,10 +223,10 @@ _Metamask mumbai test network configuartion_
 
 1. Open metamask extension
 2. Add mumbai test nework
-   1. click icon
+   1. click combo box
    2. click add network button
    <div align="center">
-    <img src="images/metaaddred.png" alt="Logo" width="300" height="500" style="border-radius:5px">
+    <img src="images/metanewnet.png" alt="Logo" width="300" height="500" style="border-radius:5px">
    </div>
 3. Add mumbai network parameters
    1. Network Name: Mumbai Testnet
