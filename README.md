@@ -12,6 +12,19 @@
   <a href="https://github.com/elPoeta/nft-marketplace">
     <img src="images/logo.png" alt="Logo" width="300" height="300" style="border-radius:5px">
   </a>
+ <h3 align="center">NFT Marketplace</h3>
+
+  <p align="center">
+    An awesome Web3 DAPP!
+    <br />
+    <a href="https://github.com/elPoeta/nft-marketplace"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://poether-nft.vercel.app/">View Demo</a>
+    ·
+    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    ·
+ </p>
 </div>
 
 <!-- TABLE OF CONTENTS -->
