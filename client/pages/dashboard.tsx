@@ -8,6 +8,7 @@ import { NFTCardItems } from '../components'
 import { Loader } from '../components/common'
 import { ButtonGroup, ButtonGroupItemType } from '../components/common/buttonGroup'
 import { getNFTByOwner } from '../context/marketContract'
+import { toast } from 'react-toastify'
 
 const NFTButtonGroup:ButtonGroupItemType[] = [
   { id: 'creation-button-1', title: 'Creations', active: true },
@@ -55,26 +56,40 @@ const Dashboard:NextPage = () => {
   
   const getNFTs = async () => {
      if(!marketContract || !nftContract || !signer) return;
-     setIsLoading(true);
-     const itemsBySeller = await getNFTBySeller(marketContract!);
-     const items = await getItems(nftContract!, itemsBySeller);
-     setNFTItems(items);
-     setIsLoading(false);
-     setCurrentNFTItems(items);
+     try {
+      setIsLoading(true);
+      const itemsBySeller = await getNFTBySeller(marketContract!);
+      const items = await getItems(nftContract!, itemsBySeller);
+      setNFTItems(items);
+      setIsLoading(false);
+      setCurrentNFTItems(items); 
+     } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+       toast.error('There was an error'); 
+     }
+     
   }
 
   const getOwnerNFTs = async () => {
     if(!marketContract) return;
-    if(!shoppingNFTItems) {
-      setIsLoading(true);
-      const itemsByOwner = await getNFTByOwner(marketContract!);
-      const items = await getItems(nftContract!, itemsByOwner);
-      setShoppingNFTItems(items);
+    try {
+      if(!shoppingNFTItems) {
+        setIsLoading(true);
+        const itemsByOwner = await getNFTByOwner(marketContract!);
+        const items = await getItems(nftContract!, itemsByOwner);
+        setShoppingNFTItems(items);
+        setIsLoading(false);
+        setCurrentNFTItems(items);
+      } else {
+          setCurrentNFTItems(shoppingNFTItems);
+      }  
+    } catch (error) {
+      console.error(error);
       setIsLoading(false);
-      setCurrentNFTItems(items);
-    } else {
-        setCurrentNFTItems(shoppingNFTItems);
+      toast.error('There was an error');
     }
+    
  }
 
   const getMySales = () => {
