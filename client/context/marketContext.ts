@@ -8,7 +8,6 @@ export const contextDefaultValues: IMarketContext = {
   signer: undefined,
   nftContract: null,
   marketContract: null,
-  NFTMarketItems: [],
   NFTFilterItems: [],
   totalNFTItems: 0,
   offSetNFTItems: 0,

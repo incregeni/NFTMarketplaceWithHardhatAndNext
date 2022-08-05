@@ -7,7 +7,6 @@ export interface IMarketContext {
   signer: string | undefined;
   nftContract: Contract | null;
   marketContract: Contract | null;
-  NFTMarketItems: IItem[];
   NFTFilterItems: IItem[];
   totalNFTItems: number;
   offSetNFTItems: number;
