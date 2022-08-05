@@ -83,6 +83,8 @@ export const buyNFT = async ({
       itemId,
       {
         value: price,
+        gasPrice: ethers.utils.parseUnits("100", "gwei"),
+        gasLimit: 1000000,
       }
     );
     const tx = await transaction.wait();
