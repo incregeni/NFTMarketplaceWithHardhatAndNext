@@ -38,23 +38,23 @@ export const MarketProvider = ({ children }: Props) => {
   const [offSetNFTItems, setOffSetNFTItems] = useState(0);
 
   const router = useRouter();
-  
+
   const providerEvents = () => {
     window.ethereum.on("accountsChanged", async () => {
-       setIsConnected(false)
-       setWeb3Provider(undefined);
-       setNftContract(null);
-       setMarketContract(null);
-      router.push('/');
+      setIsConnected(false);
+      setWeb3Provider(undefined);
+      setNftContract(null);
+      setMarketContract(null);
+      router.push("/");
     });
-  
   };
 
   const connectWallet = async () => {
     try {
       if (
         typeof window != "undefined" &&
-        typeof window.ethereum != "undefined" && window.ethereum.isMetaMask
+        typeof window.ethereum != "undefined" &&
+        window.ethereum.isMetaMask
       ) {
         const web3Provider = await connect();
         if (!web3Provider) {
@@ -74,7 +74,12 @@ export const MarketProvider = ({ children }: Props) => {
         const accounts = await signer.provider.listAccounts();
         const marketContract = await getMarketContract(web3Provider, signer);
         const nftContract = await getNFTContract(web3Provider, signer);
-        setInitialState({ web3Provider, account: accounts[0], marketContract, nftContract });
+        setInitialState({
+          web3Provider,
+          account: accounts[0],
+          marketContract,
+          nftContract,
+        });
       } else {
         toast.info("Please install metamask!");
       }
@@ -88,7 +93,7 @@ export const MarketProvider = ({ children }: Props) => {
     marketContract,
     nftContract,
     account,
-    web3Provider
+    web3Provider,
   }: InitialStateType) => {
     setWeb3Provider(web3Provider);
     setSigner(account);
@@ -99,24 +104,30 @@ export const MarketProvider = ({ children }: Props) => {
   };
 
   const getMarketPlaceItems = async () => {
-    if(!marketContract || !nftContract) return;
-    const [nfts, offset, total] = await fetchMarketItems({marketContract: marketContract, offSet: offSetNFTItems, limit: limitNFTItems });
+    if (!marketContract || !nftContract) return;
+    const [nfts, offset, total] = await fetchMarketItems({
+      marketContract: marketContract,
+      offSet: offSetNFTItems,
+      limit: limitNFTItems,
+    });
     const genItems = await getItems(nftContract, nfts);
-    await setNFTMarketItems((prev:IItem[]) => {
-      return  [...prev, ...genItems]
+    await setNFTMarketItems((prev: IItem[]) => {
+      return [...prev, ...genItems];
     });
     setTotalNFTItems(parseInt(total.toString()));
     setOffSetNFTItems(parseInt(offset.toString()));
-  } 
-  
-  useEffect(() => {
-    setNFTFilterItems(prev =>  NFTMarketItems)
-  },[NFTMarketItems]);
+  };
 
-  const filterNFT = (searchText:string) => {
-    const filtered = NFTMarketItems.filter((nft:IItem) => nft.name.includes(searchText))
+  useEffect(() => {
+    setNFTFilterItems((prev) => NFTMarketItems);
+  }, [NFTMarketItems]);
+
+  const filterNFT = (searchText: string) => {
+    const filtered = NFTMarketItems.filter((nft: IItem) =>
+      nft.name.toLowerCase().includes(searchText.toLowerCase())
+    );
     setNFTFilterItems([...filtered]);
-  }
+  };
 
   return (
     <MarketContext.Provider
@@ -126,7 +137,6 @@ export const MarketProvider = ({ children }: Props) => {
         signer,
         nftContract,
         marketContract,
-        NFTMarketItems,
         NFTFilterItems,
         totalNFTItems,
         offSetNFTItems,
