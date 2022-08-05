@@ -5,7 +5,8 @@ import { MarketContext } from '../../context'
 
 const styles = {
   menu: 'col-[4] flex items-center justify-around',
-  menuItem: 'bg-gradient-to-r from-[#1199fa] to-[#11d0fa] p-2 rounded-md cursor-pointer'
+  menuItemButton: 'bg-gradient-to-r from-[#1199fa] to-[#11d0fa] p-2 rounded-md cursor-pointer',
+  menuItemLink: 'cursor-pointer hover:text-pink-600'
 }
 
 export const NavMenu:NextPage = () => {
@@ -14,14 +15,14 @@ export const NavMenu:NextPage = () => {
     <ul className={styles.menu}>
       { isConnected && 
         (<>
-           <li><Link href='/marketplace'><a className='cursor-pointer'>Marketplace</a></Link></li>
-           <li><Link href='/create'><a className={styles.menuItem}>Create</a></Link></li>     
+           <li><Link href='/explore'><a className={styles.menuItemLink}>Explore</a></Link></li>
+           <li><Link href='/create'><a className={styles.menuItemButton}>Create</a></Link></li>     
            <li><a>|</a></li>
          </>
         )}
       <li> 
-        { !isConnected ? <a className={styles.menuItem} onClick={connectWallet}>Connect</a> :
-          <Link href='/dashboard'><a className='cursor-pointer'>Dashboard</a></Link>
+        { !isConnected ? <a className={styles.menuItemButton} onClick={connectWallet}>Connect</a> :
+          <Link href='/dashboard'><a className={styles.menuItemLink}>Dashboard</a></Link>
         }
       </li>
     </ul>

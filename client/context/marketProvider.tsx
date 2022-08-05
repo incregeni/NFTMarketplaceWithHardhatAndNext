@@ -1,6 +1,6 @@
 import { Contract, providers } from "ethers";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {
   MarketContext,
@@ -32,6 +32,7 @@ export const MarketProvider = ({ children }: Props) => {
   >(undefined);
   const [signer, setSigner] = useState<string | undefined>(undefined);
   const [NFTMarketItems, setNFTMarketItems] = useState<IItem[] | []>([]);
+  const [NFTFilterItems, setNFTFilterItems] = useState<IItem[] | []>([]);
   const [totalNFTItems, setTotalNFTItems] = useState(0);
   const [limitNFTItems, setLimitNFTItems] = useState(6);
   const [offSetNFTItems, setOffSetNFTItems] = useState(0);
@@ -101,13 +102,22 @@ export const MarketProvider = ({ children }: Props) => {
     if(!marketContract || !nftContract) return;
     const [nfts, offset, total] = await fetchMarketItems({marketContract: marketContract, offSet: offSetNFTItems, limit: limitNFTItems });
     const genItems = await getItems(nftContract, nfts);
-    setNFTMarketItems((prev:IItem[]) => {
+    await setNFTMarketItems((prev:IItem[]) => {
       return  [...prev, ...genItems]
     });
     setTotalNFTItems(parseInt(total.toString()));
     setOffSetNFTItems(parseInt(offset.toString()));
   } 
   
+  useEffect(() => {
+    setNFTFilterItems(prev =>  NFTMarketItems)
+  },[NFTMarketItems]);
+
+  const filterNFT = (searchText:string) => {
+    const filtered = NFTMarketItems.filter((nft:IItem) => nft.name.includes(searchText))
+    setNFTFilterItems([...filtered]);
+  }
+
   return (
     <MarketContext.Provider
       value={{
@@ -117,8 +127,10 @@ export const MarketProvider = ({ children }: Props) => {
         nftContract,
         marketContract,
         NFTMarketItems,
+        NFTFilterItems,
         totalNFTItems,
         offSetNFTItems,
+        filterNFT,
         getMarketPlaceItems,
         getListingFee,
         connectWallet,
