@@ -36,6 +36,7 @@ export declare namespace NFTMarket {
     seller: PromiseOrValue<string>;
     owner: PromiseOrValue<string>;
     price: PromiseOrValue<BigNumberish>;
+    createAt: PromiseOrValue<BigNumberish>;
     sold: PromiseOrValue<boolean>;
   };
 
@@ -46,6 +47,7 @@ export declare namespace NFTMarket {
     string,
     string,
     BigNumber,
+    BigNumber,
     boolean
   ] & {
     itemId: BigNumber;
@@ -54,6 +56,7 @@ export declare namespace NFTMarket {
     seller: string;
     owner: string;
     price: BigNumber;
+    createAt: BigNumber;
     sold: boolean;
   };
 }
@@ -63,6 +66,7 @@ export interface NFTMarketInterface extends utils.Interface {
     "buyNFT(address,uint256)": FunctionFragment;
     "createMarketItem(address,uint256,uint256)": FunctionFragment;
     "fetchMarketItems(uint256,uint256)": FunctionFragment;
+    "fetchMarketItemsByTime(uint256,uint256)": FunctionFragment;
     "getItemById(uint256)": FunctionFragment;
     "getListingFee()": FunctionFragment;
     "getMarketItems()": FunctionFragment;
@@ -77,6 +81,7 @@ export interface NFTMarketInterface extends utils.Interface {
       | "buyNFT"
       | "createMarketItem"
       | "fetchMarketItems"
+      | "fetchMarketItemsByTime"
       | "getItemById"
       | "getListingFee"
       | "getMarketItems"
@@ -100,6 +105,10 @@ export interface NFTMarketInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "fetchMarketItems",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "fetchMarketItemsByTime",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -138,6 +147,10 @@ export interface NFTMarketInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "fetchMarketItemsByTime",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getItemById",
     data: BytesLike
   ): Result;
@@ -164,7 +177,7 @@ export interface NFTMarketInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "marketItemNFT(uint256,address,uint256,address,address,uint256,bool)": EventFragment;
+    "marketItemNFT(uint256,address,uint256,address,address,uint256,uint256,bool)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "marketItemNFT"): EventFragment;
@@ -177,10 +190,11 @@ export interface marketItemNFTEventObject {
   seller: string;
   owner: string;
   price: BigNumber;
+  createAt: BigNumber;
   sold: boolean;
 }
 export type marketItemNFTEvent = TypedEvent<
-  [BigNumber, string, BigNumber, string, string, BigNumber, boolean],
+  [BigNumber, string, BigNumber, string, string, BigNumber, BigNumber, boolean],
   marketItemNFTEventObject
 >;
 
@@ -237,6 +251,12 @@ export interface NFTMarket extends BaseContract {
       }
     >;
 
+    fetchMarketItemsByTime(
+      time: PromiseOrValue<BigNumberish>,
+      limit: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[NFTMarket.MarketItemStructOutput[]]>;
+
     getItemById(
       _id: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -287,6 +307,12 @@ export interface NFTMarket extends BaseContract {
       total: BigNumber;
     }
   >;
+
+  fetchMarketItemsByTime(
+    time: PromiseOrValue<BigNumberish>,
+    limit: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<NFTMarket.MarketItemStructOutput[]>;
 
   getItemById(
     _id: PromiseOrValue<BigNumberish>,
@@ -339,6 +365,12 @@ export interface NFTMarket extends BaseContract {
       }
     >;
 
+    fetchMarketItemsByTime(
+      time: PromiseOrValue<BigNumberish>,
+      limit: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<NFTMarket.MarketItemStructOutput[]>;
+
     getItemById(
       _id: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -367,13 +399,14 @@ export interface NFTMarket extends BaseContract {
   };
 
   filters: {
-    "marketItemNFT(uint256,address,uint256,address,address,uint256,bool)"(
+    "marketItemNFT(uint256,address,uint256,address,address,uint256,uint256,bool)"(
       itemId?: PromiseOrValue<BigNumberish> | null,
       nftContract?: PromiseOrValue<string> | null,
       tokenId?: PromiseOrValue<BigNumberish> | null,
       seller?: null,
       owner?: null,
       price?: null,
+      createAt?: null,
       sold?: null
     ): marketItemNFTEventFilter;
     marketItemNFT(
@@ -383,6 +416,7 @@ export interface NFTMarket extends BaseContract {
       seller?: null,
       owner?: null,
       price?: null,
+      createAt?: null,
       sold?: null
     ): marketItemNFTEventFilter;
   };
@@ -403,6 +437,12 @@ export interface NFTMarket extends BaseContract {
 
     fetchMarketItems(
       offset: PromiseOrValue<BigNumberish>,
+      limit: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    fetchMarketItemsByTime(
+      time: PromiseOrValue<BigNumberish>,
       limit: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -444,6 +484,12 @@ export interface NFTMarket extends BaseContract {
 
     fetchMarketItems(
       offset: PromiseOrValue<BigNumberish>,
+      limit: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    fetchMarketItemsByTime(
+      time: PromiseOrValue<BigNumberish>,
       limit: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

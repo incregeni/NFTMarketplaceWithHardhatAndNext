@@ -18,6 +18,7 @@ contract NFTMarket is ReentrancyGuard {
         address seller,
         address owner,
         uint256 price,
+        uint256 createAt,
         bool sold
     );
 
@@ -35,6 +36,7 @@ contract NFTMarket is ReentrancyGuard {
         address payable seller;
         address payable owner;
         uint256 price;
+        uint256 createAt;
         bool sold;
     }
 
@@ -60,6 +62,7 @@ contract NFTMarket is ReentrancyGuard {
 
         s_itemIds.increment();
         uint256 itemId = s_itemIds.current();
+        uint256 createAt = block.timestamp;
 
         s_MarketItems[itemId] = MarketItem({
             itemId: itemId,
@@ -68,6 +71,7 @@ contract NFTMarket is ReentrancyGuard {
             seller: payable(msg.sender),
             owner: payable(address(0)),
             price: price,
+            createAt: createAt,
             sold: false
         });
 
@@ -80,6 +84,7 @@ contract NFTMarket is ReentrancyGuard {
             msg.sender,
             address(0),
             price,
+            createAt,
             false
         );
     }
@@ -108,6 +113,7 @@ contract NFTMarket is ReentrancyGuard {
             s_MarketItems[itemId].seller,
             msg.sender,
             price,
+            s_MarketItems[itemId].createAt,
             true
         );
     }
@@ -242,5 +248,41 @@ contract NFTMarket is ReentrancyGuard {
             }
         }
         return (items, offset + limit, unsoldItemsCount);
+    }
+
+    function fetchMarketItemsByTime(uint256 time, uint256 limit)
+        public
+        view
+        returns (MarketItem[] memory)
+    {
+        uint256 itemsCount = s_itemIds.current();
+        uint256 unsoldItemsCount = itemsCount - s_itemsSold.current();
+        uint256 offset = unsoldItemsCount - 2;
+        if (limit == 0) {
+            limit = 1;
+        }
+
+        if (limit > unsoldItemsCount - offset) {
+            limit = unsoldItemsCount - offset;
+        }
+
+        MarketItem[] memory items = new MarketItem[](limit);
+
+        uint256 currentIndex = 0;
+        for (uint256 i = 0; i < itemsCount && currentIndex < limit; i++) {
+            if (!s_MarketItems[offset + i + 1].sold) {
+                uint256 currentItemId = s_MarketItems[offset + i + 1].itemId;
+                MarketItem storage marketItem = s_MarketItems[currentItemId];
+                if (
+                    time == 0 ||
+                    (marketItem.createAt <= block.timestamp &&
+                        marketItem.createAt >= time)
+                ) {
+                    items[currentIndex] = marketItem;
+                    currentIndex++;
+                }
+            }
+        }
+        return items;
     }
 }
