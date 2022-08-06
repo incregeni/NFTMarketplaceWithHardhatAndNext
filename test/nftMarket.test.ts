@@ -120,10 +120,53 @@ describe("NFTMarket", function () {
             tokenId: item.tokenId.toString(),
             seller: item.seller,
             owner: item.owner,
+            createAt: item.createAt,
             tokenUri,
           };
         })
       );
+      assert(items.length, "2");
+    });
+  });
+
+  describe("Get Market Items BY Time", function () {
+    it("should be list all items by time", async () => {
+      const listingFee = (await market.getListingFee()).toString();
+      const auctionPrice = ethers.utils.parseUnits("2", "ether");
+
+      await nft.createToken("https://www.mytokenlocation.com");
+      await nft.createToken("https://www.mytokenlocation.com");
+      await market.createMarketItem(nftContractAddress, 1, auctionPrice, {
+        value: listingFee,
+      });
+      await market.createMarketItem(nftContractAddress, 2, auctionPrice, {
+        value: listingFee,
+      });
+
+      const today = new Date();
+      const priorDate = Math.floor(
+        new Date(new Date().setDate(today.getDate() - 7)).getTime() / 1000
+      );
+
+      let items = await market
+        .connect(buyer)
+        .fetchMarketItemsByTime(priorDate, 2);
+
+      items = await Promise.all(
+        items.map(async (item: any) => {
+          const tokenUri = await nft.tokenURI(item.tokenId);
+
+          return {
+            price: item.price.toString(),
+            tokenId: item.tokenId.toString(),
+            seller: item.seller,
+            owner: item.owner,
+            createAt: item.createAt,
+            tokenUri,
+          };
+        })
+      );
+
       assert(items.length, "2");
     });
   });
