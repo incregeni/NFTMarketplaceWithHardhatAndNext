@@ -11,6 +11,7 @@ export interface IMarketContext {
   totalNFTItems: number;
   offSetNFTItems: number;
   filterNFT: (searchText: string) => void;
+  resetNFTtems: () => void;
   getMarketPlaceItems: () => void;
   connectWallet: () => void;
   getListingFee: (marketContract: Contract) => Promise<string>;

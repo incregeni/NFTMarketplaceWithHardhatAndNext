@@ -12,7 +12,7 @@ import { buyNFT } from "../../../context/marketContract";
 import { DATA_URL } from "../../../utils";
 
 const NFTItem: NextPage = () => {
-  const { marketContract, nftContract, signer } = useContext(MarketContext);
+  const { marketContract, nftContract, signer, resetNFTtems } = useContext(MarketContext);
   const [nft, setNft] = useState<IItem | undefined>(undefined);
   const [active, seActive] = useState(1);
   const [txWait, setTxWait] = useState(false);
@@ -47,6 +47,7 @@ const NFTItem: NextPage = () => {
         autoClose: 3000,
         position: toast.POSITION.BOTTOM_RIGHT
       });
+      resetNFTtems();
       router.push("/dashboard");
     } else {
       setTxWait(false);

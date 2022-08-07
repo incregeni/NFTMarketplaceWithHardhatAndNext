@@ -13,6 +13,7 @@ export const contextDefaultValues: IMarketContext = {
   offSetNFTItems: 0,
   getMarketPlaceItems() {},
   filterNFT(searchText: string) {},
+  resetNFTtems() {},
   getListingFee(marketContract: Contract): Promise<string> {
     return new Promise(() => "");
   },
