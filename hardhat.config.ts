@@ -35,8 +35,6 @@ const config: HardhatUserConfig = {
       chainId: 80001,
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
-      gasPrice: 20e9,
-      gas: 25e6,
     },
   },
 };

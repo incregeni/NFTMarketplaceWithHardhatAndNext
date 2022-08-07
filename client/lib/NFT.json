@@ -337,7 +337,7 @@
     ]
   },
   "80001": {
-    "address": "0x213ED6d6045d8E5859319241BbE30963A21a273c",
+    "address": "0x492Db2c6F8689081b67b74d8D2017DDa0fD02B95",
     "abi": [
       {
         "type": "constructor",
@@ -420,7 +420,6 @@
         "name": "approve",
         "constant": false,
         "payable": false,
-        "gas": 24000000,
         "inputs": [
           {
             "type": "address",
@@ -439,7 +438,6 @@
         "constant": true,
         "stateMutability": "view",
         "payable": false,
-        "gas": 24000000,
         "inputs": [
           {
             "type": "address",
@@ -457,7 +455,6 @@
         "name": "createToken",
         "constant": false,
         "payable": false,
-        "gas": 24000000,
         "inputs": [
           {
             "type": "string",
@@ -476,7 +473,6 @@
         "constant": true,
         "stateMutability": "view",
         "payable": false,
-        "gas": 24000000,
         "inputs": [
           {
             "type": "uint256",
@@ -495,7 +491,6 @@
         "constant": true,
         "stateMutability": "view",
         "payable": false,
-        "gas": 24000000,
         "inputs": [
           {
             "type": "address",
@@ -518,7 +513,6 @@
         "constant": true,
         "stateMutability": "view",
         "payable": false,
-        "gas": 24000000,
         "inputs": [],
         "outputs": [
           {
@@ -532,7 +526,6 @@
         "constant": true,
         "stateMutability": "view",
         "payable": false,
-        "gas": 24000000,
         "inputs": [
           {
             "type": "uint256",
@@ -550,7 +543,6 @@
         "name": "safeTransferFrom",
         "constant": false,
         "payable": false,
-        "gas": 24000000,
         "inputs": [
           {
             "type": "address",
@@ -572,7 +564,6 @@
         "name": "safeTransferFrom",
         "constant": false,
         "payable": false,
-        "gas": 24000000,
         "inputs": [
           {
             "type": "address",
@@ -598,7 +589,6 @@
         "name": "setApprovalForAll",
         "constant": false,
         "payable": false,
-        "gas": 24000000,
         "inputs": [
           {
             "type": "address",
@@ -617,7 +607,6 @@
         "constant": true,
         "stateMutability": "view",
         "payable": false,
-        "gas": 24000000,
         "inputs": [
           {
             "type": "bytes4",
@@ -636,7 +625,6 @@
         "constant": true,
         "stateMutability": "view",
         "payable": false,
-        "gas": 24000000,
         "inputs": [],
         "outputs": [
           {
@@ -650,7 +638,6 @@
         "constant": true,
         "stateMutability": "view",
         "payable": false,
-        "gas": 24000000,
         "inputs": [
           {
             "type": "uint256",
@@ -668,7 +655,6 @@
         "name": "transferFrom",
         "constant": false,
         "payable": false,
-        "gas": 24000000,
         "inputs": [
           {
             "type": "address",

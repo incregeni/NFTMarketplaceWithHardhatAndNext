@@ -118,6 +118,13 @@ export const MarketProvider = ({ children }: Props) => {
     setOffSetNFTItems(parseInt(offset.toString()));
   };
 
+  const resetNFTtems = async () => {
+     setNFTMarketItems([]);
+     setNFTFilterItems([])
+     setTotalNFTItems(0);
+     setOffSetNFTItems(0);
+  }
+
   useEffect(() => {
     setNFTFilterItems((prev) => NFTMarketItems);
   }, [NFTMarketItems]);
@@ -141,6 +148,7 @@ export const MarketProvider = ({ children }: Props) => {
         totalNFTItems,
         offSetNFTItems,
         filterNFT,
+        resetNFTtems,
         getMarketPlaceItems,
         getListingFee,
         connectWallet,
