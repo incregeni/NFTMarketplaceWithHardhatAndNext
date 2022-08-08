@@ -41,7 +41,6 @@
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
         <li><a href="#metamask-local">Metamask Local nectwork configuration</a></li>
-        <li><a href="#metamask-mumbai">Metamask Mumbai test nectwork configuration</a></li>
         <li><a href="#Faucet">Polygon Faucet</a></li>
       </ul>
     </li>
@@ -228,44 +227,6 @@ _Metamask hardhat network configuartion_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### Metamask-Mumbai
-
-_Metamask mumbai test network configuartion_
-
-1. Open metamask extension
-2. Add mumbai test nework
-   1. click combo box
-   2. click add network button
-   <div align="center">
-    <img src="images/metanewnet.png" alt="Logo" width="300" height="500" style="border-radius:5px">
-   </div>
-3. Add mumbai network parameters
-   1. Network Name: Mumbai Testnet
-   2. RPC URL: https://rpc-mumbai.maticvigil.com/
-   3. Chain ID: 80001
-   4. Currency Symbol: MATIC
-   5. Block explorer: https://polygonscan.com/
-   <div align="center">
-       <img src="images/metaaddmumbai.png" alt="Logo" width="300" height="500" style="border-radius:5px">
-   </div>
-4. Show test network
-   1. click icon
-   2. click settings
-   3. click advanced
-   4. switch ON show test networks
-   <div align="center" style="display:flex; gap:10px;">
-      <img src="images/metasettings.png" alt="Logo" width="300" height="500" style="border-radius:5px">
-      <img src="images/metaactivetestnet.png" alt="Logo" width="300" height="500" style="border-radius:5px">
-    </div>
-5. Select test network
-   1. click combo box
-   2. click Mumbai Testnet
-   <div align="center">
-     <img src="images/metaselmumbai.png" alt="Logo" width="300" height="500" style="border-radius:5px">
-   </div>
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 ### Faucet
 
 ##### Polygon faucet
@@ -279,22 +240,6 @@ _Metamask mumbai test network configuartion_
 <div align="center">
  <img src="images/polygonfaucet.png" alt="Logo" width="900" height="300" style="border-radius:5px">
 </div>
-
-##### Mumbai faucet
-
-You need connect your wallet to alchemy
-to receive 5 mumbai matic
-
-<a href="https://mumbaifaucet.com/" target="_blank">https://mumbaifaucet.com/</a>
-
-1. Login alchemy site
-2. Paste your wallet address
-3. Send and wait...
-<div align="center">
- <img src="images/mumbaifaucet.png" alt="Logo" width="900" height="300" style="border-radius:5px">
-</div>
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Demo
 
