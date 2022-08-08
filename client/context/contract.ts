@@ -2,7 +2,7 @@ import { Contract, ethers, providers } from "ethers";
 import { MARKET_CONTRACT, NFT_CONTRACT } from "../utils";
 
 export const getMarketContract = async (
-  provider: providers.Web3Provider,
+  provider: providers.Web3Provider | providers.JsonRpcProvider,
   signer: providers.JsonRpcSigner
 ): Promise<Contract> => {
   const { chainId } = await provider.getNetwork();
@@ -14,7 +14,7 @@ export const getMarketContract = async (
 };
 
 export const getNFTContract = async (
-  provider: providers.Web3Provider,
+  provider: providers.Web3Provider | providers.JsonRpcProvider,
   signer: providers.JsonRpcSigner
 ): Promise<Contract> => {
   const { chainId } = await provider.getNetwork();
