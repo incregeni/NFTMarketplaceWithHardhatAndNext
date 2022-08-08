@@ -16,8 +16,8 @@ export const TopCollectibles = () => {
     (async () => {
      try {
        setIsLoading(true);
-       const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL);
-       const signer = await provider.getSigner(process.env.SIGNER);
+       const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_VERCEL_RPC_URL);
+       const signer = await provider.getSigner(process.env.NEXT_PUBLIC_VERCEL_SIGNER);
        const marketContract = await getMarketContract(provider, signer);
        const nftContract = await getNFTContract(provider, signer)
        if(!marketContract) return; 
