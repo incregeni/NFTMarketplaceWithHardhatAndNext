@@ -1,4 +1,4 @@
-import { Contract, providers } from "ethers";
+import { Contract, ethers, providers } from "ethers";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -104,7 +104,12 @@ export const MarketProvider = ({ children }: Props) => {
   };
 
   const getMarketPlaceItems = async () => {
-    if (!marketContract || !nftContract) return;
+    const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_VERCEL_RPC_URL);
+    const signer = await provider.getSigner(process.env.NEXT_PUBLIC_VERCEL_SIGNER);
+    const marketContract = await getMarketContract(provider, signer);
+    const nftContract = await getNFTContract(provider, signer)
+    if(!marketContract) return; 
+    if(!nftContract) return; 
     const [nfts, offset, total] = await fetchMarketItems({
       marketContract: marketContract,
       offSet: offSetNFTItems,

@@ -337,7 +337,7 @@
     ]
   },
   "80001": {
-    "address": "0x94cD9002E37C0B5403d9768e1B5748a11328D895",
+    "address": "0x0CC2D44bee43e14339459c6defA20507F93BEc6f",
     "abi": [
       {
         "type": "constructor",
