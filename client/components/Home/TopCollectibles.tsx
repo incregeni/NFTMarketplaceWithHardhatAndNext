@@ -1,31 +1,38 @@
 
 
+import { ethers } from 'ethers';
 import React, { useContext, useEffect, useState } from 'react'
 import { CollectiblesMenu, NFTCardItems } from '../../components'
-import { fetchMarketItems, getItems, MarketContext } from '../../context';
+import { fetchMarketItems, getItems, getMarketContract, getNFTContract, MarketContext } from '../../context';
 import { IItem } from '../../interfaces'
 import { Loader } from '../common';
 
 export const TopCollectibles = () => {
-  const { signer, marketContract, nftContract} = useContext(MarketContext);
   const [items, setItems] = useState<IItem[] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
-   if(!marketContract) return; 
-   if(!nftContract) return; 
-   (async () => {
-    try {
-      setIsLoading(true);
-      const [nfts] = await fetchMarketItems({marketContract: marketContract, offSet: 0, limit: 6});
-      const genItems = await getItems(nftContract, nfts);
-      setItems(genItems);
-      setIsLoading(false);  
-    } catch (error) {
-      setIsLoading(false);  
-    }
-    
-   })()
-  },[signer]);
+
+    (async () => {
+     try {
+       setIsLoading(true);
+       const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL);
+       const signer = await provider.getSigner(process.env.SIGNER);
+       const marketContract = await getMarketContract(provider, signer);
+       const nftContract = await getNFTContract(provider, signer)
+       if(!marketContract) return; 
+       if(!nftContract) return; 
+       const [nfts] = await fetchMarketItems({marketContract: marketContract, offSet: 0, limit: 6});
+       const genItems = await getItems(nftContract, nfts);
+       setItems(genItems);
+       setIsLoading(false);  
+     } catch (error) {
+       setIsLoading(false);  
+     }
+     
+    })()
+   },[]);
+ 
 
   return (
       isLoading ? (
