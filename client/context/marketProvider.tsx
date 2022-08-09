@@ -45,6 +45,11 @@ export const MarketProvider = ({ children }: Props) => {
       setWeb3Provider(undefined);
       setNftContract(null);
       setMarketContract(null);
+      setSigner(undefined);
+      setNFTMarketItems([]);
+      setNFTFilterItems([]);
+      setTotalNFTItems(0);
+      setOffSetNFTItems(0);
       router.push("/");
     });
   };

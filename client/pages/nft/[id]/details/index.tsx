@@ -4,26 +4,28 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Loader } from "../../../../components/common";
-import { generateItem, IItem, MarketContext } from "../../../../context";
+import { generateItem, getMarketContract, getNFTContract, IItem } from "../../../../context";
 import { DATA_URL } from "../../../../utils";
 
 const NFTDetails:NextPage = () => {
-  const {marketContract, nftContract, signer} = useContext(MarketContext);
   const [nft, setNft] = useState<IItem | undefined>(undefined);
   const router = useRouter();
   const { id } = router.query;
 
   useEffect(() => {
-    if(!marketContract) return;
-    if(!nftContract) return;
-    (async () => {    
-      const item = await marketContract.getItemById(parseInt(id as string))
-      const newItem = await generateItem(item, nftContract);
-      setNft(newItem);
-    })();
-  },[signer]);
+   if(id) {
+     (async () => {    
+       const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_VERCEL_RPC_URL);
+       const marketContract = await getMarketContract(provider);
+       const nftContract = await getNFTContract(provider)
+       const item = await marketContract.getItemById(parseInt(id as string))
+       const newItem = await generateItem(item, nftContract);
+       setNft(newItem);
+     })();
+   }
+  },[id]);
   
   const getFormatDate = (unformatDate:string):string => {
     const date = new Date(parseInt(unformatDate) * 1000 );
@@ -33,7 +35,7 @@ const NFTDetails:NextPage = () => {
   return (
     <div className="bg-gradient text-white p-5">
       <Head>
-        <title>NFT Details {id}</title>
+        <title>NFT Details {id && id}</title>
         <meta name="description" content="NFT Details" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
