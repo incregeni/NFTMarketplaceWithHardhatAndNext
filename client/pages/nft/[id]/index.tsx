@@ -1,3 +1,4 @@
+import { ExternalLinkIcon } from "@heroicons/react/solid";
 import { ethers } from "ethers";
 import { NextPage } from "next";
 import Head from "next/head";
@@ -158,7 +159,9 @@ const NFTItem: NextPage = () => {
                         height={40}
                       />
                     </div>
-                    <h4 className="text-xl px-1">{nft.owner}</h4>
+                    <h4 className="text-xl px-1">
+                    <a className=" flex items-center hover:text-blue-500" target="_blank" href={`https://mumbai.polygonscan.com/address/${nft.owner}`}> <span>{nft.owner}</span> <ExternalLinkIcon className="w-5 h-5" /></a>
+                    </h4>
                   </div>
                 ) : (
                   <h3>Has no owner</h3>
@@ -177,7 +180,9 @@ const NFTItem: NextPage = () => {
                     height={40}
                   />
                 </div>
-                <h4 className="text-xl px-5">{nft.seller}</h4>
+                <h4 className="text-xl px-5">
+                  <a className=" flex items-center hover:text-blue-500" target="_blank" href={`https://mumbai.polygonscan.com/address/${nft.seller}`}> <span>{nft.seller}</span> <ExternalLinkIcon className="w-5 h-5" /></a>
+                </h4>
               </div>
             )}
           </div>
