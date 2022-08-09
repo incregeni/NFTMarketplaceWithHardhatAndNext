@@ -1,28 +1,18 @@
-import { FC, useContext } from "react";
+import { FC } from "react";
 import Image from "next/image";
 import { IItem } from "../../interfaces";
 import { DATA_URL_DARK, shortenAddress } from "../../utils";
 import { ethers } from "ethers";
-import { MarketContext } from "../../context";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
+
 
 export const NFTCard: FC<IItem> = (item) => {
-  const { isConnected } = useContext(MarketContext);
   const { image, price, name, seller, itemId } = item;
   const id = ethers.BigNumber.from(itemId).toNumber();
  const router = useRouter();
 
   const goTo = () => {
-     if(!isConnected) {
-      notify();
-      return;
-     }
      router.push(`/nft/${id}`);
-  }
-
-  const notify = () => {
-     toast.info("Please connect your wallet");
   }
 
   return (

@@ -12,22 +12,27 @@ import { buyNFT } from "../../../context/marketContract";
 import { DATA_URL } from "../../../utils";
 
 const NFTItem: NextPage = () => {
-  const { marketContract, nftContract, signer, web3Provider, resetNFTtems } = useContext(MarketContext);
+  const { signer, resetNFTtems } = useContext(MarketContext);
   const [nft, setNft] = useState<IItem | undefined>(undefined);
   const [active, seActive] = useState(1);
   const [txWait, setTxWait] = useState(false);
+  
   const router = useRouter();
   const { id } = router.query;
 
   useEffect(() => {
-    if (!marketContract) return;
-    if (!nftContract) return;
-    (async () => {
-      const item = await marketContract.getItemById(parseInt(id as string));
-      const newItem = await generateItem(item, nftContract);
-      setNft(newItem);
-    })();
-  }, [signer]);
+    if(id) {
+      (async () => {
+        const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_VERCEL_RPC_URL);
+        const marketContract = await getMarketContract(provider);
+        const nftContract = await getNFTContract(provider)
+        const item = await marketContract.getItemById(parseInt(id as string));
+        const newItem = await generateItem(item, nftContract);
+        setNft(newItem);
+      })();
+    }
+    
+  }, [id]);
 
   const getFormatDate = (unformatDate:string):string => {
     const date = new Date(parseInt(unformatDate) * 1000 );
@@ -35,6 +40,12 @@ const NFTItem: NextPage = () => {
   } 
 
   const buyNft = async () => {
+    if(!signer) {
+      toast.info("Please connect your wallet!", {
+        autoClose: 3000
+      });
+      return;
+    }
     setTxWait(true);
     let toastTx = toast.loading("Please wait...", { position: toast.POSITION.BOTTOM_RIGHT });
     const price = ethers.utils.parseUnits(nft!.price, "ether");
@@ -73,7 +84,7 @@ const NFTItem: NextPage = () => {
   return (
     <div className="bg-gradient text-white p-5">
       <Head>
-        <title>NFT {id}</title>
+        <title>NFT {id && id}</title>
         <meta name="description" content="NFT" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
