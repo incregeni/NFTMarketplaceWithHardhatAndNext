@@ -7,12 +7,12 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Loader, TransactionProgress } from "../../../components/common";
-import { IItem, MarketContext, generateItem } from "../../../context";
+import { IItem, MarketContext, generateItem, getMarketContract, getNFTContract } from "../../../context";
 import { buyNFT } from "../../../context/marketContract";
 import { DATA_URL } from "../../../utils";
 
 const NFTItem: NextPage = () => {
-  const { marketContract, nftContract, signer, resetNFTtems } = useContext(MarketContext);
+  const { marketContract, nftContract, signer, web3Provider, resetNFTtems } = useContext(MarketContext);
   const [nft, setNft] = useState<IItem | undefined>(undefined);
   const [active, seActive] = useState(1);
   const [txWait, setTxWait] = useState(false);
@@ -29,13 +29,22 @@ const NFTItem: NextPage = () => {
     })();
   }, [signer]);
 
+  const getFormatDate = (unformatDate:string):string => {
+    const date = new Date(parseInt(unformatDate) * 1000 );
+    return `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`;
+  } 
+
   const buyNft = async () => {
     setTxWait(true);
     let toastTx = toast.loading("Please wait...", { position: toast.POSITION.BOTTOM_RIGHT });
     const price = ethers.utils.parseUnits(nft!.price, "ether");
+    const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_VERCEL_RPC_URL);
+    const sign = await provider.getSigner(signer);
+    const mContract = await getMarketContract(provider, sign);
+    const nContract = await getNFTContract(provider, sign);
     const res = await buyNFT({
-      marketContract: marketContract!,
-      nftContract: nftContract!,
+      marketContract: mContract!,
+      nftContract: nContract!,
       itemId: nft!.tokenId,
       price,
     });
@@ -102,6 +111,7 @@ const NFTItem: NextPage = () => {
             </div>
             <h2 className="text-3xl py-3">{nft.name}</h2>
             <h2 className="text-4xl py-3">$ {nft.price} eth</h2>
+            <h4 className="text-lg py-3">{getFormatDate(nft.createAt)}</h4>
             <div className="flex items-center justify-start pt-5">
               <ul className="flex flex-row gap-5 text-lg">
                 <li

@@ -105,9 +105,8 @@ export const MarketProvider = ({ children }: Props) => {
 
   const getMarketPlaceItems = async () => {
     const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_VERCEL_RPC_URL);
-    const signer = await provider.getSigner(process.env.NEXT_PUBLIC_VERCEL_SIGNER);
-    const marketContract = await getMarketContract(provider, signer);
-    const nftContract = await getNFTContract(provider, signer)
+    const marketContract = await getMarketContract(provider);
+    const nftContract = await getNFTContract(provider)
     if(!marketContract) return; 
     if(!nftContract) return; 
     const [nfts, offset, total] = await fetchMarketItems({

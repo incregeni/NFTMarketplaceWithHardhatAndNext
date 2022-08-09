@@ -8,6 +8,7 @@ export interface IItem {
   image: string;
   name: string;
   description: string;
+  createAt: string;
 }
 
 export interface INFTToken {
