@@ -104,8 +104,12 @@ const Create = () => {
       });
 
       let event = tx.events[0];
+      console.log('EVENT',event)
       let value = event.args[2];
+      console.log('VALUE',value)
+
       let tokenId = value.toNumber();
+      console.log('TOKEN-ID',tokenId)
 
       const price = ethers.utils.parseUnits(form.price, "ether");
       toastTx = toast.loading("Please wait...", { position: toast.POSITION.BOTTOM_RIGHT });

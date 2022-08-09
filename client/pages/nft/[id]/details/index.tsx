@@ -25,6 +25,11 @@ const NFTDetails:NextPage = () => {
     })();
   },[signer]);
   
+  const getFormatDate = (unformatDate:string):string => {
+    const date = new Date(parseInt(unformatDate) * 1000 );
+    return `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`;
+  } 
+
   return (
     <div className="bg-gradient text-white p-5">
       <Head>
@@ -41,6 +46,7 @@ const NFTDetails:NextPage = () => {
              <h4 className="py-3"><span className="bold text-pink-600 text-lg">Item-ID:</span> {ethers.BigNumber.from(nft.itemId).toNumber()}</h4>
              <h4 className="py-3"><span className="bold text-pink-600 text-lg">Name:</span> {nft.name}</h4> 
              <h4 className="py-3"><span className="bold text-pink-600 text-lg">Creator:</span> {nft.seller}</h4> 
+             <h4 className="py-3"><span className="bold text-pink-600 text-lg">Created At:</span> {getFormatDate(nft.createAt)}</h4> 
              <h4 className="py-3"><span className="bold text-pink-600 text-lg">Description:</span> {nft.description}</h4> 
              <h4 className="py-3"><span className="bold text-pink-600 text-lg">Owner:</span> {nft.owner}</h4>
              <h4 className="py-3"><span className="bold text-pink-600 text-lg">Price:</span> {nft.price} eth</h4> 

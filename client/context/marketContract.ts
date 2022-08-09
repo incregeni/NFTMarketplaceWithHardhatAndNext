@@ -59,6 +59,7 @@ export const generateItem = async (
     image,
     description,
     name,
+    createAt: item.createAt.toString(),
   };
 };
 
@@ -83,18 +84,15 @@ export const buyNFT = async ({
       itemId,
       {
         value: price,
-        // gasPrice: ethers.utils.parseUnits("100", "gwei"),
-        //gasLimit: 1000000,
       }
     );
-    //  gasPrice: 30000000000,
-    //gasLimit: 2000000,
+
     const tx = await transaction.wait();
-    // console.log("TX >>> ", tx);
+    console.log("TX >>> ", tx);
     const event = tx.events[2];
-    //console.log("EV ", event.args);
-    const value = event.args[7];
-    return value;
+    console.log("EV ", event.args);
+    //const value = event.args[7];
+    return true;
   } catch (error) {
     console.log("error tx ", error);
     return null;
