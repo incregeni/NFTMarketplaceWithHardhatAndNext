@@ -1,4 +1,4 @@
-import { ExternalLinkIcon } from "@heroicons/react/solid";
+import { ExternalLinkIcon, XIcon } from "@heroicons/react/solid";
 import { ethers } from "ethers";
 import { NextPage } from "next";
 import Head from "next/head";
@@ -16,6 +16,7 @@ const NFTItem: NextPage = () => {
   const { signer, resetNFTtems } = useContext(MarketContext);
   const [nft, setNft] = useState<IItem | undefined>(undefined);
   const [active, seActive] = useState(1);
+  const [fullImage, setFullImage] = useState(false); 
   const [txWait, setTxWait] = useState(false);
   
   const router = useRouter();
@@ -93,7 +94,7 @@ const NFTItem: NextPage = () => {
         <Loader className="w-[500px] h-[500px] mx-auto my-0 py-5" size={500} />
       ) : (
         <section className="w-[70%] mx-auto my-0 grid grid-cols-[400px_1fr] items-center justify-center">
-          <div className="w-[400px] h-[400px]">
+          <div className="w-[400px] h-[400px] cursor-pointer hover:opacity-80" onClick={() => setFullImage(true)}>
             <Image
               unoptimized
               src={nft!.image}
@@ -205,6 +206,23 @@ const NFTItem: NextPage = () => {
                 <TransactionProgress />
               ))}
           </div>
+          { fullImage &&
+          <div className="w-[100%] h-[100%] bg-[#000000a8] absolute top-0 left-0">
+          <div className="w-[800px] h-[800px] absolute translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%]">
+            <XIcon className="w-10 h-10 absolute right-[-50px] top-0 z-50 cursor-pointer hover:fill-pink-600" onClick={() => setFullImage(false)}/>
+            <Image
+              unoptimized
+              src={nft!.image}
+              alt="Picture of the author"
+              className="rounded-2xl mt-4"
+              layout="responsive"
+              width={800}
+              height={800}
+              blurDataURL={DATA_URL}
+              placeholder="blur"
+            />
+          </div>
+          </div>}
         </section>
       )}
     </div>
