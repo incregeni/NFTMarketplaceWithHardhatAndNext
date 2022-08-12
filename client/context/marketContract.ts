@@ -46,7 +46,9 @@ export const generateItem = async (
   nftContract: Contract
 ): Promise<IItem> => {
   const tokenUri = await nftContract.tokenURI(item.tokenId);
-  const meta = await axios.get(tokenUri);
+  const [path, file] = tokenUri.slice(7).split("/");
+  const ipfsUri = `https://${path}.ipfs.dweb.link/${file}`;
+  const meta = await axios.get(ipfsUri);
   const price = ethers.utils.formatUnits(item.price.toString(), "ether");
   const { name, description, image }: IMetaData = meta.data;
   return {
@@ -56,7 +58,7 @@ export const generateItem = async (
     seller: item.seller,
     owner: item.owner,
     sold: item.sold,
-    image,
+    image: `https://ipfs.io/ipfs/${image.slice(7)}`,
     description,
     name,
     createAt: item.createAt.toString(),
@@ -89,9 +91,6 @@ export const buyNFT = async ({
 
     const tx = await transaction.wait();
     console.log("TX >>> ", tx);
-    const event = tx.events[2];
-    console.log("EV ", event.args);
-    //const value = event.args[7];
     return true;
   } catch (error) {
     console.log("error tx ", error);
