@@ -13,7 +13,7 @@ import { buyNFT } from "../../../context/marketContract";
 import { DATA_URL } from "../../../utils";
 
 const NFTItem: NextPage = () => {
-  const { signer, resetNFTtems } = useContext(MarketContext);
+  const { signer, resetNFTtems, marketContract, nftContract } = useContext(MarketContext);
   const [nft, setNft] = useState<IItem | undefined>(undefined);
   const [active, seActive] = useState(1);
   const [fullImage, setFullImage] = useState(false); 
@@ -51,13 +51,10 @@ const NFTItem: NextPage = () => {
     setTxWait(true);
     let toastTx = toast.loading("Please wait...", { position: toast.POSITION.BOTTOM_RIGHT });
     const price = ethers.utils.parseUnits(nft!.price, "ether");
-    const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_VERCEL_RPC_URL);
-    const sign = await provider.getSigner(signer);
-    const mContract = await getMarketContract(provider, sign);
-    const nContract = await getNFTContract(provider, sign);
+    if(!marketContract || !nftContract) return;
     const res = await buyNFT({
-      marketContract: mContract!,
-      nftContract: nContract!,
+      marketContract,
+      nftContract,
       itemId: nft!.tokenId,
       price,
     });

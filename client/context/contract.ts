@@ -36,3 +36,5 @@ export const getNFTContract = async (
   const nftContract = new ethers.Contract(nftAddress, nftAbi, signerOrProvider);
   return nftContract;
 };
+
+//https://matic-testnet-archive-rpc.bwarelabs.com

@@ -3,18 +3,15 @@ import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { MarketContext } from "../context";
-import { create as ipfsHttpClient } from "ipfs-http-client";
+import { NFTStorage, File } from "nft.storage";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { DATA_URL } from "../utils";
 import { TransactionProgress } from "../components/common";
 
-const options = {
-  url: "https://ipfs.infura.io:5001/api/v0",
-};
-
-const client = ipfsHttpClient(options);
-
+const client = new NFTStorage({
+  token: process.env.NEXT_PUBLIC_VERCEL_NFT_STORAGE_TOKEN!,
+});
 interface NFTForm {
   price: string;
   name: string;
@@ -39,29 +36,41 @@ const Create = () => {
     description: "",
   });
   const [listingFee, setListingFee] = useState("0");
-  const [uploadPercentage, setUploadPercentage] = useState(-1);
+  const [uploading, setUploading] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);  
   const [txWait, setTxWait] = useState(false);
 
   const router = useRouter();
 
   async function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
+    const { name, description } = form;
+    if (!name || !description) {
+      toast.info("name and description required");
+      return;
+    }
     const file = e.target.files[0];
     if (!file || !file.type.match(/image.*/)) {
       toast.error("Please select image file");
       return;
     }
     try {
-      const added = await client.add(file, {
-        progress: (prog) =>
-          setUploadPercentage(Math.floor((prog / file.size) * 100)),
+      setUploading(true)
+      const imageFile = new File([file], `${file.name}.${file.type}`, {
+        type: `image/${file.type}`,
       });
-      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-
-      setFileUrl(url);
+      const metadata = await client.store({
+        name,
+        description,
+        image: imageFile,
+      });
+      setFileUrl(metadata.url);
+      setImageUrl(metadata.data.image.href);
+      setUploading(false);
     } catch (e) {
       console.log("Error uploading file: ", e);
       toast.error(`Error uploading file:`);
+      setUploading(false);
     }
   }
 
@@ -71,48 +80,45 @@ const Create = () => {
       toast.info("All form entries are required");
       return;
     }
-    const data = JSON.stringify({
-      name,
-      description,
-      image: fileUrl,
-    });
 
     try {
-      const added = await client.add(data);
-      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-      createSale(url);
+      createSale();
     } catch (error) {
       console.log(`error Create item `, error);
       toast.error("Create item fail.");
     }
   };
 
-  const createSale = async (url: string) => {
+  const createSale = async () => {
     if (!nftContract || !marketContract) return;
-    let toastTx = toast.loading("Please wait...", { position: toast.POSITION.BOTTOM_RIGHT });
+    let toastTx = toast.loading("Please wait...", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
     try {
       setTxWait(true);
-      let transaction = await nftContract.createToken(url);
+      let transaction = await nftContract.createToken(fileUrl);
 
       let tx = await transaction.wait();
       toast.update(toastTx, {
         render: "Tx Ok",
         type: "success",
         isLoading: false,
-        autoClose: 3000,  
+        autoClose: 3000,
         position: toast.POSITION.BOTTOM_RIGHT,
       });
 
       let event = tx.events[0];
-      console.log('EVENT',event)
+      console.log("EVENT", event);
       let value = event.args[2];
-      console.log('VALUE',value)
+      console.log("VALUE", value);
 
       let tokenId = value.toNumber();
-      console.log('TOKEN-ID',tokenId)
+      console.log("TOKEN-ID", tokenId);
 
       const price = ethers.utils.parseUnits(form.price, "ether");
-      toastTx = toast.loading("Please wait...", { position: toast.POSITION.BOTTOM_RIGHT });
+      toastTx = toast.loading("Please wait...", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
       transaction = await marketContract.createMarketItem(
         nftContract.address,
         tokenId,
@@ -202,10 +208,10 @@ const Create = () => {
                   * Listing Price: {ethers.utils.formatEther(listingFee)} eth
                 </h5>
               </div>
-              {fileUrl ? (
+              {imageUrl ? (
                 <div className="w-[300px] h-[300px]">
                   <Image
-                    src={fileUrl}
+                    src={`https://ipfs.io/ipfs/${imageUrl.slice(7)}`}
                     unoptimized
                     alt="Picture of the author"
                     className="rounded mt-4"
@@ -221,10 +227,8 @@ const Create = () => {
                   <div className="flex items-center justify-center w-[300px] h-[300px] rounded-md border-2 border-blue-500">
                     <h4 className="text-2xl">Not Image</h4>
                   </div>
-                  {uploadPercentage > -1 && (
-                    <p className="py-3 text-center">
-                      {uploadPercentage} % uploaded
-                    </p>
+                  {uploading && (
+                    <p className="py-3 text-center">Uploading...</p>
                   )}
                 </div>
               )}
