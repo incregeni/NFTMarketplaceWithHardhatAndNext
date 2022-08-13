@@ -187,12 +187,12 @@ const Create = () => {
                   type="number"
                   onChange={(e) => setForm({ ...form, price: e.target.value })}
                 />
-                <input
+                { (!imageUrl || uploading ) && <input
                   type="file"
                   name="Asset"
                   className="my-4"
                   onChange={onChange}
-                />
+                />}
                 {!txWait ? (
                   <button
                     onClick={createItem}
