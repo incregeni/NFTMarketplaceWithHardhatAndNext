@@ -5,13 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ExternalLinkIcon } from '@heroicons/react/solid'
+import { ExternalLinkIcon, XIcon } from '@heroicons/react/solid'
 import { Loader } from "../../../../components/common";
 import { generateItem, getMarketContract, getNFTContract, IItem } from "../../../../context";
 import { DATA_URL } from "../../../../utils";
 
 const NFTDetails:NextPage = () => {
   const [nft, setNft] = useState<IItem | undefined>(undefined);
+  const [fullImage, setFullImage] = useState(false); 
   const router = useRouter();
   const { id } = router.query;
 
@@ -67,7 +68,7 @@ const NFTDetails:NextPage = () => {
              <h4 className="py-3"><span className="bold text-pink-600 text-lg">NFT Url:</span> <a className="text-blue-500" target="_blank" href={nft.image}>{nft.image}</a></h4> 
            </div>
            <div className="flex flex-col ">
-             <div className="w-[350px] h-[350px]">
+             <div className="w-[350px] h-[350px] " onClick={() => setFullImage(true)}>
                <Image
                  unoptimized
                  src={nft!.image}
@@ -87,6 +88,23 @@ const NFTDetails:NextPage = () => {
           </Link>
             </div>
          </div>
+         { fullImage &&
+          <div className="w-[100%] h-[100%] bg-[#000000a8] absolute top-0 left-0">
+          <div className="w-[800px] h-[800px] absolute translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%]">
+            <XIcon className="w-10 h-10 absolute right-[-50px] top-0 z-50 cursor-pointer hover:fill-pink-600" onClick={() => setFullImage(false)}/>
+            <Image
+              unoptimized
+              src={nft!.image}
+              alt="Picture of the author"
+              className="rounded-2xl mt-4"
+              layout="responsive"
+              width={800}
+              height={800}
+              blurDataURL={DATA_URL}
+              placeholder="blur"
+            />
+          </div>
+          </div>}
       </section>) 
     }  
     </div>
