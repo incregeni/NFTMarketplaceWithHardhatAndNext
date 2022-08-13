@@ -11,6 +11,7 @@ import {
   getItems,
   IItem,
 } from "./index";
+import { getMarketItems } from "./marketContract";
 import { connect } from "./walletConnection";
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -114,17 +115,25 @@ export const MarketProvider = ({ children }: Props) => {
     const nftContract = await getNFTContract(provider)
     if(!marketContract) return; 
     if(!nftContract) return; 
-    const [nfts, offset, total] = await fetchMarketItems({
-      marketContract: marketContract,
-      offSet: offSetNFTItems,
-      limit: limitNFTItems,
+    // const [nfts, offset, total] = await fetchMarketItems({
+    //   marketContract: marketContract,
+    //   offSet: offSetNFTItems,
+    //   limit: limitNFTItems,
+    // });
+    // const genItems = await getItems(nftContract, nfts);
+    // await setNFTMarketItems((prev: IItem[]) => {
+    //   return [...prev, ...genItems];
+    // });
+    // setTotalNFTItems(parseInt(total.toString()));
+    // setOffSetNFTItems(parseInt(offset.toString()));
+    const nfts = await getMarketItems({
+      marketContract: marketContract
     });
     const genItems = await getItems(nftContract, nfts);
     await setNFTMarketItems((prev: IItem[]) => {
       return [...prev, ...genItems];
     });
-    setTotalNFTItems(parseInt(total.toString()));
-    setOffSetNFTItems(parseInt(offset.toString()));
+
   };
 
   const resetNFTtems = async () => {
