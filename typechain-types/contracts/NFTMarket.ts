@@ -65,7 +65,7 @@ export interface NFTMarketInterface extends utils.Interface {
   functions: {
     "buyNFT(address,uint256)": FunctionFragment;
     "createMarketItem(address,uint256,uint256)": FunctionFragment;
-    "fetchMarketItems(uint256,uint256)": FunctionFragment;
+    "fetchMarketItems(uint256,uint256,uint256)": FunctionFragment;
     "fetchMarketItemsByTime(uint256,uint256)": FunctionFragment;
     "getItemById(uint256)": FunctionFragment;
     "getListingFee()": FunctionFragment;
@@ -73,6 +73,7 @@ export interface NFTMarketInterface extends utils.Interface {
     "getNFTByOwner()": FunctionFragment;
     "getNFTBySeller()": FunctionFragment;
     "getOwner()": FunctionFragment;
+    "getTotalItems()": FunctionFragment;
     "setListingFee(uint256)": FunctionFragment;
   };
 
@@ -88,6 +89,7 @@ export interface NFTMarketInterface extends utils.Interface {
       | "getNFTByOwner"
       | "getNFTBySeller"
       | "getOwner"
+      | "getTotalItems"
       | "setListingFee"
   ): FunctionFragment;
 
@@ -105,7 +107,11 @@ export interface NFTMarketInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "fetchMarketItems",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "fetchMarketItemsByTime",
@@ -132,6 +138,10 @@ export interface NFTMarketInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "getOwner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getTotalItems",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "setListingFee",
     values: [PromiseOrValue<BigNumberish>]
@@ -171,6 +181,10 @@ export interface NFTMarketInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getOwner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getTotalItems",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setListingFee",
     data: BytesLike
@@ -243,11 +257,12 @@ export interface NFTMarket extends BaseContract {
     fetchMarketItems(
       offset: PromiseOrValue<BigNumberish>,
       limit: PromiseOrValue<BigNumberish>,
+      sold: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
       [NFTMarket.MarketItemStructOutput[], BigNumber, BigNumber] & {
         nextOffset: BigNumber;
-        total: BigNumber;
+        totalSolded: BigNumber;
       }
     >;
 
@@ -278,6 +293,10 @@ export interface NFTMarket extends BaseContract {
 
     getOwner(overrides?: CallOverrides): Promise<[string]>;
 
+    getTotalItems(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { total: BigNumber }>;
+
     setListingFee(
       _price: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -300,11 +319,12 @@ export interface NFTMarket extends BaseContract {
   fetchMarketItems(
     offset: PromiseOrValue<BigNumberish>,
     limit: PromiseOrValue<BigNumberish>,
+    sold: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<
     [NFTMarket.MarketItemStructOutput[], BigNumber, BigNumber] & {
       nextOffset: BigNumber;
-      total: BigNumber;
+      totalSolded: BigNumber;
     }
   >;
 
@@ -335,6 +355,8 @@ export interface NFTMarket extends BaseContract {
 
   getOwner(overrides?: CallOverrides): Promise<string>;
 
+  getTotalItems(overrides?: CallOverrides): Promise<BigNumber>;
+
   setListingFee(
     _price: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -357,11 +379,12 @@ export interface NFTMarket extends BaseContract {
     fetchMarketItems(
       offset: PromiseOrValue<BigNumberish>,
       limit: PromiseOrValue<BigNumberish>,
+      sold: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
       [NFTMarket.MarketItemStructOutput[], BigNumber, BigNumber] & {
         nextOffset: BigNumber;
-        total: BigNumber;
+        totalSolded: BigNumber;
       }
     >;
 
@@ -391,6 +414,8 @@ export interface NFTMarket extends BaseContract {
     ): Promise<NFTMarket.MarketItemStructOutput[]>;
 
     getOwner(overrides?: CallOverrides): Promise<string>;
+
+    getTotalItems(overrides?: CallOverrides): Promise<BigNumber>;
 
     setListingFee(
       _price: PromiseOrValue<BigNumberish>,
@@ -438,6 +463,7 @@ export interface NFTMarket extends BaseContract {
     fetchMarketItems(
       offset: PromiseOrValue<BigNumberish>,
       limit: PromiseOrValue<BigNumberish>,
+      sold: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -462,6 +488,8 @@ export interface NFTMarket extends BaseContract {
 
     getOwner(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getTotalItems(overrides?: CallOverrides): Promise<BigNumber>;
+
     setListingFee(
       _price: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -485,6 +513,7 @@ export interface NFTMarket extends BaseContract {
     fetchMarketItems(
       offset: PromiseOrValue<BigNumberish>,
       limit: PromiseOrValue<BigNumberish>,
+      sold: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -508,6 +537,8 @@ export interface NFTMarket extends BaseContract {
     getNFTBySeller(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getOwner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getTotalItems(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     setListingFee(
       _price: PromiseOrValue<BigNumberish>,
