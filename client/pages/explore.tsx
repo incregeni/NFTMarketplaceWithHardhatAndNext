@@ -2,20 +2,24 @@ import { NextPage } from "next";
 import { useContext, useEffect, useState } from "react";
 import { NFTCardItems } from "../components";
 import { Loader } from "../components/common";
-import { MarketContext } from "../context";
+import { getTotalItems, MarketContext } from "../context";
 
 const Marketplace:NextPage = () => {
   const { NFTFilterItems, totalNFTItems, offSetNFTItems, getMarketPlaceItems} = useContext(MarketContext);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   useEffect(() => { 
     showMore();
   },[]);
-  
+
+
   const showMore = async () => {
-    setIsLoading(true);
-    await getMarketPlaceItems();
-    setIsLoading(false);
+
+    if(totalNFTItems === 0 || totalNFTItems > offSetNFTItems) {
+      setIsLoading(true);
+      await getMarketPlaceItems();
+      setIsLoading(false);
+    }
   }
 
   return (

@@ -10,4 +10,5 @@ export {
   getSoldNFT,
   generateItem,
   fetchMarketItems,
+  getTotalItems,
 } from "./marketContract";
