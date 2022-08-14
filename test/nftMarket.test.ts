@@ -109,7 +109,7 @@ describe("NFTMarket", function () {
         value: listingFee,
       });
 
-      let [items] = await market.connect(buyer).fetchMarketItems(0, 2);
+      let [items] = await market.connect(buyer).fetchMarketItems(0, 2, 0);
 
       items = await Promise.all(
         items.map(async (item: any) => {

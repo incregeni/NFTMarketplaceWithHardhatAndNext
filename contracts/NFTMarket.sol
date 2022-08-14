@@ -216,38 +216,54 @@ contract NFTMarket is ReentrancyGuard {
         return s_MarketItems[_id];
     }
 
-    function fetchMarketItems(uint256 offset, uint256 limit)
+    function getTotalItems() public view returns (uint256 total) {
+        uint256 itemsCount = s_itemIds.current();
+        uint256 unsoldItemsCount = itemsCount - s_itemsSold.current();
+        return unsoldItemsCount;
+    }
+
+    function fetchMarketItems(
+        uint256 offset,
+        uint256 limit,
+        uint256 sold
+    )
         public
         view
         returns (
             MarketItem[] memory,
             uint256 nextOffset,
-            uint256 total
+            uint256 totalSolded
         )
     {
         uint256 itemsCount = s_itemIds.current();
         uint256 unsoldItemsCount = itemsCount - s_itemsSold.current();
 
-        if (limit == 0) {
-            limit = 1;
-        }
-
         if (limit > unsoldItemsCount - offset) {
             limit = unsoldItemsCount - offset;
+        }
+
+        if (limit == 0) {
+            limit = 1;
         }
 
         MarketItem[] memory items = new MarketItem[](limit);
 
         uint256 currentIndex = 0;
+        uint256 index = 0;
+        uint256 solded = 0;
+
         for (uint256 i = 0; i < itemsCount && currentIndex < limit; i++) {
-            if (!s_MarketItems[offset + i + 1].sold) {
-                uint256 currentItemId = s_MarketItems[offset + i + 1].itemId;
+            index = offset + i + sold + 1;
+            if (!s_MarketItems[index].sold) {
+                uint256 currentItemId = s_MarketItems[index].itemId;
                 MarketItem storage marketItem = s_MarketItems[currentItemId];
                 items[currentIndex] = marketItem;
                 currentIndex++;
+            } else {
+                solded++;
             }
         }
-        return (items, offset + limit, unsoldItemsCount);
+        return (items, offset + limit, solded);
     }
 
     function fetchMarketItemsByTime(uint256 time, uint256 limit)
