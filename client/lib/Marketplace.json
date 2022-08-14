@@ -493,7 +493,7 @@
     ]
   },
   "80001": {
-    "address": "0x885F53F7537FEA263E073C9cCC44961ac1AC92a5",
+    "address": "0xf99b0dc50532e5C2C5eb85F81942efa967F22b51",
     "abi": [
       {
         "type": "constructor",
@@ -645,6 +645,10 @@
           {
             "type": "uint256",
             "name": "limit"
+          },
+          {
+            "type": "uint256",
+            "name": "sold"
           }
         ],
         "outputs": [
@@ -691,7 +695,7 @@
           },
           {
             "type": "uint256",
-            "name": "total"
+            "name": "totalSolded"
           }
         ]
       },
@@ -967,6 +971,20 @@
         "outputs": [
           {
             "type": "address"
+          }
+        ]
+      },
+      {
+        "type": "function",
+        "name": "getTotalItems",
+        "constant": true,
+        "stateMutability": "view",
+        "payable": false,
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "uint256",
+            "name": "total"
           }
         ]
       },

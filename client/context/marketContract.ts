@@ -17,16 +17,25 @@ export const getNFTByOwner = async (marketContract: Contract) => {
   return await marketContract.getNFTByOwner();
 };
 
+export const getTotalItems = async (
+  marketContract: Contract
+): Promise<number> => {
+  const total = await marketContract.getTotalItems();
+  return parseInt(total.toString());
+};
+
 export const fetchMarketItems = async ({
   marketContract,
   offSet,
   limit,
+  solded,
 }: {
   marketContract: Contract;
   offSet: number;
   limit: number;
+  solded: number;
 }) => {
-  return await marketContract.fetchMarketItems(offSet, limit);
+  return await marketContract.fetchMarketItems(offSet, limit, solded);
 };
 
 export const getMarketItems = async ({

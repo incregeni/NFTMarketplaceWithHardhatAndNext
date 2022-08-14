@@ -17,12 +17,11 @@ export const TopCollectibles = () => {
      try {
        setIsLoading(true);
        const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_VERCEL_RPC_URL);
-       //const signer = await provider.getSigner(process.env.NEXT_PUBLIC_VERCEL_SIGNER);
        const marketContract = await getMarketContract(provider);
        const nftContract = await getNFTContract(provider)
        if(!marketContract) return; 
        if(!nftContract) return; 
-       const [nfts] = await fetchMarketItems({marketContract: marketContract, offSet: 0, limit: 6});
+       const [nfts] = await fetchMarketItems({marketContract: marketContract, offSet: 0, limit: 6, solded: 0 });
        const genItems = await getItems(nftContract, nfts);
        setItems(genItems);
        setIsLoading(false);  
