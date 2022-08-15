@@ -7,7 +7,6 @@ import {
   getMarketContract,
   getNFTContract,
   getListingFee,
-  fetchMarketItems,
   getItems,
   IItem,
 } from "./index";
@@ -35,9 +34,8 @@ export const MarketProvider = ({ children }: Props) => {
   const [NFTMarketItems, setNFTMarketItems] = useState<IItem[] | []>([]);
   const [NFTFilterItems, setNFTFilterItems] = useState<IItem[] | []>([]);
   const [totalNFTItems, setTotalNFTItems] = useState(0);
-  const [limitNFTItems, setLimitNFTItems] = useState(6);
   const [offSetNFTItems, setOffSetNFTItems] = useState(0);
-  const [soldedNFTItems, setSoldedNFTItems] = useState(0);
+
 
   const router = useRouter();
 
@@ -117,26 +115,12 @@ export const MarketProvider = ({ children }: Props) => {
     if(!marketContract) return; 
     if(!nftContract) return; 
     const total = await getTotalItems(marketContract);
-    const [nfts, offset, solded] = await fetchMarketItems({
-      marketContract: marketContract,
-      offSet: offSetNFTItems,
-      limit: limitNFTItems,
-      solded: soldedNFTItems
+    if(total <=  NFTMarketItems.length) return;
+    const nfts = await getMarketItems({
+      marketContract: marketContract
     });
     const genItems = await getItems(nftContract, nfts);
-    await setNFTMarketItems((prev: IItem[]) => {
-      return [...prev, ...genItems];
-    });
-    setTotalNFTItems(total);
-    setSoldedNFTItems(parseInt(solded.toString()));
-    setOffSetNFTItems(parseInt(offset.toString()));
-    // const nfts = await getMarketItems({
-    //   marketContract: marketContract
-    // });
-    // const genItems = await getItems(nftContract, nfts);
-    // await setNFTMarketItems((prev: IItem[]) => {
-    //   return [...prev, ...genItems];
-    // });
+    await setNFTMarketItems((prev: IItem[]) => genItems );
 
   };
 
@@ -144,7 +128,6 @@ export const MarketProvider = ({ children }: Props) => {
      setNFTMarketItems([]);
      setNFTFilterItems([])
      setTotalNFTItems(0);
-     setSoldedNFTItems(0);
      setOffSetNFTItems(0);
   }
 
