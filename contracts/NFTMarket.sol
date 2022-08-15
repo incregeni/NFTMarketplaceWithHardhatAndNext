@@ -5,6 +5,8 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
+import "hardhat/console.sol";
+
 error NFTMarket__Price(string message);
 error NFTMarket__ListingFee(uint256 requiered, string message);
 error NFTMarket__SetListingFee(string message);
@@ -238,12 +240,12 @@ contract NFTMarket is ReentrancyGuard {
         uint256 itemsCount = s_itemIds.current();
         uint256 unsoldItemsCount = itemsCount - s_itemsSold.current();
 
-        if (limit > unsoldItemsCount - offset) {
-            limit = unsoldItemsCount - offset;
-        }
-
         if (limit == 0) {
             limit = 1;
+        }
+
+        if (limit > unsoldItemsCount - offset) {
+            limit = unsoldItemsCount - offset;
         }
 
         MarketItem[] memory items = new MarketItem[](limit);
@@ -254,15 +256,24 @@ contract NFTMarket is ReentrancyGuard {
 
         for (uint256 i = 0; i < itemsCount && currentIndex < limit; i++) {
             index = offset + i + sold + 1;
-            if (!s_MarketItems[index].sold) {
-                uint256 currentItemId = s_MarketItems[index].itemId;
-                MarketItem storage marketItem = s_MarketItems[currentItemId];
-                items[currentIndex] = marketItem;
-                currentIndex++;
-            } else {
-                solded++;
+            if (index <= itemsCount) {
+                if (!s_MarketItems[index].sold) {
+                    uint256 currentItemId = s_MarketItems[index].itemId;
+                    MarketItem storage marketItem = s_MarketItems[
+                        currentItemId
+                    ];
+                    items[currentIndex] = marketItem;
+                    currentIndex++;
+                } else {
+                    solded++;
+                }
             }
         }
+
+        if ((offset + sold + 1) > itemsCount) {
+            solded = sold;
+        }
+
         return (items, offset + limit, solded);
     }
 

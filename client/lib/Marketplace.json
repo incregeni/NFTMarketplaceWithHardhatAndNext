@@ -152,6 +152,10 @@
           {
             "type": "uint256",
             "name": "limit"
+          },
+          {
+            "type": "uint256",
+            "name": "sold"
           }
         ],
         "outputs": [
@@ -198,7 +202,7 @@
           },
           {
             "type": "uint256",
-            "name": "total"
+            "name": "totalSolded"
           }
         ]
       },
@@ -479,6 +483,20 @@
       },
       {
         "type": "function",
+        "name": "getTotalItems",
+        "constant": true,
+        "stateMutability": "view",
+        "payable": false,
+        "inputs": [],
+        "outputs": [
+          {
+            "type": "uint256",
+            "name": "total"
+          }
+        ]
+      },
+      {
+        "type": "function",
         "name": "setListingFee",
         "constant": false,
         "payable": false,
@@ -493,7 +511,7 @@
     ]
   },
   "80001": {
-    "address": "0xf99b0dc50532e5C2C5eb85F81942efa967F22b51",
+    "address": "0x900FBb08faB3CBf9cEA3d84d357DA900875684eC",
     "abi": [
       {
         "type": "constructor",

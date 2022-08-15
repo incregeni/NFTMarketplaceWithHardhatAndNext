@@ -2,6 +2,19 @@ import axios from "axios";
 import { BigNumber, Contract, ethers } from "ethers";
 import { IItem, IMetaData } from "../interfaces";
 
+const defaultItem = {
+  itemId: "",
+  price: "",
+  tokenId: "0",
+  seller: "",
+  owner: "",
+  sold: "",
+  image: "",
+  description: "",
+  name: "",
+  createAt: "",
+};
+
 export const getListingFee = async (
   marketContract: Contract
 ): Promise<string> => {
@@ -55,13 +68,17 @@ export const getItems = async (
       return await generateItem(i, nftContract);
     })
   );
-  return items;
+
+  return items.filter((item: IItem) => item.tokenId.toString() !== "0");
 };
 
 export const generateItem = async (
   item: IItem,
   nftContract: Contract
 ): Promise<IItem> => {
+  if (item.tokenId.toString() === "0") {
+    return defaultItem;
+  }
   const tokenUri = await nftContract.tokenURI(item.tokenId);
   const [path, file] = tokenUri.slice(7).split("/");
   const ipfsUri = `https://${path}.ipfs.dweb.link/${file}`;
