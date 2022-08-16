@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ethers } from "ethers";
 import { MarketContext } from "../context";
 import { NFTStorage, File } from "nft.storage";
@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { DATA_URL } from "../utils";
 import { TransactionProgress } from "../components/common";
+import { UploadIcon } from "@heroicons/react/solid";
 
 const client = new NFTStorage({
   token: process.env.NEXT_PUBLIC_VERCEL_NFT_STORAGE_TOKEN!,
@@ -40,7 +41,13 @@ const Create = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);  
   const [txWait, setTxWait] = useState(false);
 
+  const fileInput  = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  
+  const triggerOnChange = () => {
+    if(!fileInput.current) return;
+    fileInput.current.click();
+  }
 
   async function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
@@ -187,12 +194,21 @@ const Create = () => {
                   type="number"
                   onChange={(e) => setForm({ ...form, price: e.target.value })}
                 />
-                { (!imageUrl || uploading ) && <input
+                <input
                   type="file"
                   name="Asset"
-                  className="my-4"
+                  className="hidden"
+                  ref={fileInput}
                   onChange={onChange}
-                />}
+                />
+                { (!imageUrl || uploading ) && (
+                  <div className="my-4">
+                    <button className="p-2 bg-gradient-to-tr from-rose-400 to-rose-600 text-white rounded-md flex flex-row justify-between items-center" onClick={triggerOnChange}>
+                      <UploadIcon className="fill-white w-5 h-5"/>
+                      <span>Upload Image</span>
+                    </button>
+                  </div>
+                )}
                 {!txWait ? (
                   <button
                     onClick={createItem}
