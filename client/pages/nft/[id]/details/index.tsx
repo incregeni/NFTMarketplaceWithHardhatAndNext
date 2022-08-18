@@ -68,7 +68,7 @@ const NFTDetails:NextPage = () => {
              <h4 className="py-3"><span className="bold text-pink-600 text-lg">NFT Url:</span> <a className="text-blue-500" target="_blank" href={nft.image}>{nft.image}</a></h4> 
            </div>
            <div className="flex flex-col ">
-             <div className="w-[350px] h-[350px] " onClick={() => setFullImage(true)}>
+             <div className="w-[350px] h-[350px] cursor-pointer hover:opacity-80" onClick={() => setFullImage(true)}>
                <Image
                  unoptimized
                  src={nft!.image}
